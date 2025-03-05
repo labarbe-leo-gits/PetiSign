@@ -25,9 +25,16 @@
     width: 16px;
 }
 
+#after_search{
+    margin-top: 2.5%;
+}
+
 @media screen and (max-width: 480px) {
     .filters{
         font-size: 14px;
+    }
+    #after_search{
+        margin-top: 20px;
     }
 }
 
