@@ -12,7 +12,7 @@ include_once 'header.php'
     </div>
 
 
-    <hr>
+    <hr id="main_hr">
 
     <div class="container">
 
