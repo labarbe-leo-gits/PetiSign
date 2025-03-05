@@ -37,7 +37,7 @@ if(isset($_GET['query'])){
     </form>
 </div>
 
-<hr>
+<hr id="after_search">
 <?php
 if($insertVal == "" or $insertVal == " "){
     echo '';

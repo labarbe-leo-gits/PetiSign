@@ -184,5 +184,11 @@
 }
 
 #after_search{
-    margin-top: 3vh;
+    margin-top: 2.5%;
+}
+
+@media screen and (max-width: 480px) {
+    #after_search{
+        margin-top: 2vh;
+    }
 }
