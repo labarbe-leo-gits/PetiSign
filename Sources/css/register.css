@@ -1,0 +1,43 @@
+
+body{
+    height: 130vh;
+}
+
+body::after{
+    height: 130vh;
+}
+
+#register_separator{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#register_separator_2{
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+#register_form{
+    margin-top: 3vh;
+}
+
+.captcha_text{
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+#captchahigh {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+#captchahigh::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.1em;
+    width: 100%;
+    height: 0.5em;
+    z-index: -1;
+}

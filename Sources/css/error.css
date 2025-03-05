@@ -1,0 +1,52 @@
+.container{
+    align-items: center;
+    gap: 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20vh;
+}
+
+h1{
+    font-weight: bold;
+}
+
+.left > img{
+    width: 5vw;
+    filter: invert(21%) sepia(13%) saturate(2008%) hue-rotate(149deg) brightness(94%) contrast(92%);
+}
+
+#back_to_menu{
+    width: 30%;
+    height: fit-content;
+    padding: 15px;
+}
+
+#error_hr{
+    margin-bottom: 35px
+}
+
+.buttons{
+    text-align: center;
+}
+
+@media screen and (max-width: 480px) {
+    #back_to_menu{
+        width: 80vw;
+    }
+
+    .container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left > img{
+        width: 60px;
+    }
+    .right{
+        text-align: center;
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+
+}

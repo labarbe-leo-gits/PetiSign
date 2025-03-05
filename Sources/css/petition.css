@@ -1,0 +1,68 @@
+.pet_sep{
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+
+
+.sample_pet{
+    margin-top: 150px;
+    width: 30%;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    margin-bottom: 60px;
+}
+
+.header{
+    position: relative;
+}
+
+.header > img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.header > .category{
+    color: white;
+    background-color: #4F6DFF;
+    width: fit-content;
+    padding: 10px 30px;
+    border-radius: 100px;
+    top: 144px;
+    left: 20px;
+    position: absolute;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.category:hover{
+    background-color: #2d4be1;
+}
+
+.content > .title{
+    text-align: center;
+}
+
+.content{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px black;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.sample_container{
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+

@@ -1,0 +1,213 @@
+.new_pet {
+    height: fit-content;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    background-color: #1A414E;
+    color: white;
+    border-radius: 100px;
+    padding: 10px 15px;
+    text-decoration: none;
+    gap: 5px;
+    margin: auto;
+    margin-top: 10px;
+    font-size: 18px;
+    margin-bottom: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.new_pet:hover {
+    background-color: #173642;
+}
+
+#mysigns::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.1em;
+    width: 100%;
+    height: 0.5em;
+    z-index: -1;
+}
+
+.title {
+    text-align: center;
+    margin-top: 1vh;
+}
+
+.pet_sep {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.sample_pet {
+    width: 100%;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.header {
+    position: relative;
+}
+
+.header > img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.header > .category {
+    color: white;
+    background-color: #4F6DFF;
+    width: fit-content;
+    padding: 10px 30px;
+    border-radius: 100px;
+    top: 144px;
+    left: 20px;
+    position: absolute;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header > .category:hover {
+    background-color: #2d4be1;
+}
+
+.footer_link {
+    text-align: center;
+    border-top: solid 1px black;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.content > .title {
+    text-align: center;
+}
+
+.content {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px black;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.pet_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media screen and (max-width: 480px) {
+    .pet_container {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.filters {
+    height: fit-content;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    background-color: #1A414E;
+    color: white;
+    border-radius: 100px;
+    padding: 5px 15px;
+    text-decoration: none;
+    gap: 5px;
+    margin: auto;
+    margin-top: 10px;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+#filter {
+    width: 16px;
+}
+
+hr {
+    margin-bottom: 30px;
+}
+
+#add {
+    width: 24px;
+    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+}
+
+.mypet {
+    padding: 10px 15%;
+    margin-top: 0px;
+    background-color: #4F6DFF;
+    color: white;
+    width: fit-content;
+    padding: 10px 15%;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.mypet:hover {
+    background-color: #2d4be1;
+}
+
+.action_btn {
+    width: fit-content;
+    padding: 10px 30px;
+    background-color: #4F6DFF;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile {
+    display: none;
+}
+
+.desktop {
+    display: block;
+}
+
+.action_btn > img {
+    width: 15px;
+    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+}
+
+.action_btn:hover {
+    background-color: #2d4be1;
+}
+
+@media screen and (max-width: 480px) {
+    .filters {
+        font-size: 14px;
+    }
+    .action_btn {
+        padding: 10px 20px;
+    }
+    .desktop {
+        display: none;
+    }
+    .mobile {
+        display: block;
+    }
+}

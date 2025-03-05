@@ -1,0 +1,32 @@
+.querytitle{
+    text-align: center;
+    margin-top: -2%;
+}
+
+.filters {
+    height: fit-content;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    background-color: #1A414E;
+    color: white;
+    border-radius: 100px;
+    padding: 5px 15px;
+    text-decoration: none;
+    gap: 5px;
+    margin: auto;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+#filter{
+    width: 16px;
+}
+
+@media screen and (max-width: 480px) {
+    .filters{
+        font-size: 14px;
+    }
+}

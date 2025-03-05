@@ -1,0 +1,14 @@
+{
+    "400": "Le serveur n'a pas pu comprendre la requête en raison d'une syntaxe invalide.",
+    "401": "Le client doit s'authentifier pour obtenir la réponse demandée.",
+    "403": "Le client n'a pas les droits d'accès au contenu.",
+    "404": "Le serveur ne peut pas trouver la ressource demandée.",
+    "405": "La méthode de requête est connue par le serveur mais n'est pas prise en charge par la ressource cible.",
+    "408": "Le serveur souhaite fermer cette connexion inutilisée.",
+    "500": "Le serveur a rencontré une situation qu'il ne sait pas gérer.",
+    "502": "Le serveur, agissant en tant que passerelle ou proxy, a reçu une réponse invalide du serveur en amont.",
+    "503": "Le serveur n'est pas prêt à traiter la requête, souvent en raison d'une maintenance ou d'une surcharge.",
+    "504": "Le serveur, agissant en tant que passerelle ou proxy, n'a pas reçu de réponse du serveur en amont dans le délai imparti.",
+    "505": "La version du protocole HTTP utilisée dans la requête n'est pas prise en charge par le serveur.",
+    " ":"Une erreur inconnue est survenue."
+}

@@ -1,0 +1,123 @@
+.highlighted-text {
+    color: #1E3A47;
+    position: relative;
+    display: inline-block;
+}
+
+.highlighted-text::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 1.6em;
+    width: 100%;
+    height: 0.8em;
+    background-color: #E0BD78;
+    z-index: -1;
+}
+
+#page_title::before {
+    bottom: 0.1em;
+    height: 0.5em;
+}
+
+.right_panel{
+    height: fit-content;
+}
+
+.title{
+    text-align: center;
+}
+
+table{
+    width: 95%;
+}
+
+table, th, td{
+    border: 1px solid #1E3A47;
+    border-collapse: collapse;
+
+}
+
+td{
+    text-align: center;
+}
+
+td{
+    padding: 10px 10px;
+    width: fit-content;
+}
+
+.id{
+    text-align: center;
+}
+
+th{
+    padding: 10px 5vw;
+    width: fit-content;
+}
+
+
+tr:nth-child(even) {background: #F0EFE7}
+tr:nth-child(odd) {background: #FFFFFF}
+tr:first-child{background-color: #E0BD78;}
+
+.actions{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.void{
+    text-decoration: none;
+}
+
+.action > img{
+    width: 20px;
+    background-color: #E0BD78;
+    border-radius: 6px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.action > img:hover{
+    background-color: #b69960;
+}
+
+.captcha_database_action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #1E3A47;
+    background-color: #E0BD78;
+    width: fit-content;
+    border-radius: 100px;
+    padding: 10px 30px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.captcha_database_action:hover{
+    background-color: #b69960;
+}
+
+.captcha_database_action > img{
+    width: 24px;
+    filter: invert(20%) sepia(43%) saturate(573%) hue-rotate(153deg) brightness(85%) contrast(91%);
+}
+
+.database_actions_container{
+    display: flex;
+    gap: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableau{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
