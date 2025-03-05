@@ -20,6 +20,11 @@
     height: 0.5em;
 }
 
+#subtitle::before {
+    bottom: 0.1em;
+    height: 0.5em;
+}
+
 .right_panel{
     height: fit-content;
 }

@@ -53,6 +53,29 @@ include_once 'header.php';
             </tr>
         </table>
     </div>
+    <div class="title">
+        <h2 class="highlighted-text" id="subtitle">Utilisateurs connectés en temps réel</h2>
+    </div>
+    <div class="tableau">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nom d'utilisateur</th>
+            </tr>
+            <tr>
+                <td class="id">0</td>
+                <td class="content">SuperKiwi</td>
+            </tr>
+            <tr>
+                <td class="id">1</td>
+                <td class="content">FDupont</td>
+            </tr>
+            <tr>
+                <td class="id">2</td>
+                <td class="content">DetrauxL</td>
+            </tr>
+        </table>
+    </div>
 </div>
 </div>
 
