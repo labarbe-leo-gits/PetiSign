@@ -3,5 +3,5 @@ PétiSign est une site de Pétitions en ligne. Il s'agit d'un projet annuel à l
 
 ## Contributions
 
-[@LouisDetraux]('https://github.com/Louiss1904')\
-[@ThomasFauvart]('https://github.com/ThomasFdev')
+[@LouisDetraux](https://github.com/Louiss1904)\
+[@ThomasFauvart](https://github.com/ThomasFdev)
