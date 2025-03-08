@@ -1,0 +1,5 @@
+CREATE TABLE CAPTCHA(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    question TEXT,
+    answer VARCHAR(30)
+);

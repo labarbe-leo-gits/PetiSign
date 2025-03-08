@@ -47,5 +47,6 @@
                 <button class="custom-button" id="exit_btn" onclick="window.location.href = '../index.php'">Retourner sur PétiSign</button>
             </div>
         </div>
+    <?php include_once '../database/database.php' ?>
 
     

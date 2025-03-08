@@ -11,7 +11,7 @@ include_once 'header.php'
         <form method="post" class="login" action="Processus/captcha.php">
             <div class="entries">
                 <div class="entries">
-                    <input name="question" id="question" type="text" required placeholder=" ">
+                    <input name="question" id="question" type="text" required placeholder=" " maxlength="60">
                     <label for="question">Question</label>
                 </div>
                 <div class="space"></div>

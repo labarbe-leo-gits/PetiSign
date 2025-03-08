@@ -22,26 +22,35 @@ include_once 'header.php';
                 <th>Réponse</th>
                 <th>Actions</th>
             </tr>
-            <tr>
-                <td class="id">0</td>
-                <td class="content">Quelle est la capitale du Zimbabwe ?</td>
-                <td class="content">Harare</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt=""></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt=""></a>
-                </td>
-            </tr>
-            <tr>
-                <td class="id">1</td>
-                <td class="content">Combien font 2 + 7 ?</td>
-                <td class="content">9</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt=""></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt=""></a>
-                </td>
-            </tr>
+            <?php
+            try{
+                $stmt = $pdo->prepare("SELECT * FROM CAPTCHA");
+                $stmt->execute();
+                $captchas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($captchas as $captcha){
+                    echo "<tr>";
+                    echo "<td class='id'>".$captcha['id']."</td>";
+                    echo "<td class='content'>".$captcha['question']."</td>";
+                    echo "<td class='content'>".$captcha['answer']."</td>";
+                    echo "<td class='actions'>";
+                    echo "<a href='modify_captcha_form.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='Processus/delete_captcha.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } catch (PDOException $e) {
+                    echo "<tr>";
+                    echo "<td class='id'>N/A</td>";
+                    echo "<td class='content'>Error</td>";
+                    echo "<td class='content'>".$e."</td>";
+                    echo "<td class='actions'>";
+                    echo "</td>";
+                    echo "</tr>";
+
+            }
+            ?>
         </table>
     </div>
 </div>
