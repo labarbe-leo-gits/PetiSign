@@ -1,5 +1,13 @@
 <?php
-include_once 'header.php'
+include_once 'header.php';
+include_once 'database/database.php';
+
+$stmt = $pdo->prepare("SELECT * FROM CAPTCHA ORDER BY RAND() LIMIT 1");
+$stmt->execute();
+$captcha = $stmt->fetch();
+
+$id = $captcha['id'];
+
 ?>
 
 <link rel="stylesheet" href="css/login_register.css">
@@ -8,7 +16,7 @@ include_once 'header.php'
 <div class="login_form" id="register_form">
     <h1 id="loginhigh" class="highlighted-text">Inscription</h1>
     <hr id="loginhr">
-    <form method="post" class="login" action="register.php"> <!-- à changer action -->
+    <form method="post" class="login" action="Processus/register_user.php">
         <div class="entries">
             <div class="entries">
                 <input name="mail" id="mail" type="email" required placeholder=" ">
@@ -34,12 +42,13 @@ include_once 'header.php'
                 <h2 id="captchahigh" class="highlighted-text">Captcha</h2>
             </div>
             <div class="entries">
-                <p class="captcha_text">Quelle est la capitale de la Chine ?</p>
+                <p class="captcha_text"><?=$captcha['question'];?></p>
             </div>
             <div class="entries">
                 <input name="answer" id="answer" type="text" required placeholder=" ">
                 <label for="answer">Réponse</label>
             </div>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
         </div>
         <button class="custom-button" id="loginbtn" type="submit">S'inscrire</button>
     </form>

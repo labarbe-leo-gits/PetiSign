@@ -1,5 +1,15 @@
 <?php
 include_once 'header.php';
+include_once '../database/database.php';
+
+try{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM USER");
+    $stmt->execute();
+    $users = $stmt->fetchColumn();
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_index.css">
@@ -11,7 +21,7 @@ include_once 'header.php';
         <hr id="stats_sep_bo">
         <div class="stat">
             <h4>Nombre d'utilisateurs :</h4>
-            <p>0</p>
+            <p><?=$users?></p>
         </div>
         <div class="stat">
             <h4>Nombre de pétitions :</h4>

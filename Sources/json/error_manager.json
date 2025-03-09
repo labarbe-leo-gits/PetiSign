@@ -10,5 +10,6 @@
     "503": "Le serveur n'est pas prêt à traiter la requête, souvent en raison d'une maintenance ou d'une surcharge.",
     "504": "Le serveur, agissant en tant que passerelle ou proxy, n'a pas reçu de réponse du serveur en amont dans le délai imparti.",
     "505": "La version du protocole HTTP utilisée dans la requête n'est pas prise en charge par le serveur.",
+    "808" : "Le paramètre n'existe pas.",
     " ":"Une erreur inconnue est survenue."
 }
