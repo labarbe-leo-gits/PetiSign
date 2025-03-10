@@ -4,24 +4,29 @@ include_once '../../database/database.php';
 
 $id = $_GET['id'];
 
-$questionStmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
-$questionStmt->bindParam(':id', $id, PDO::PARAM_INT);
-$questionStmt->execute();
-$question = $questionStmt->fetchColumn();
+$usernamestmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+$usernamestmt->bindParam(':id', $id, PDO::PARAM_INT);
+$usernamestmt->execute();
+$username = $usernamestmt->fetchColumn();
 
-$answerStmt = $pdo->prepare("SELECT answer FROM CAPTCHA WHERE id = :id");
-$answerStmt->bindParam(':id', $id, PDO::PARAM_INT);
-$answerStmt->execute();
-$answer = $answerStmt->fetchColumn();
+$is_adminstmt = $pdo->prepare("SELECT is_admin FROM USER WHERE id = :id");
+$is_adminstmt->bindParam(':id', $id, PDO::PARAM_INT);
+$is_adminstmt->execute();
+$is_admin = $is_adminstmt->fetchColumn();
 
-if ($question === false || $answer === false) {
+$is_benevolestmt = $pdo->prepare("SELECT is_benevole FROM USER WHERE id = :id");
+$is_benevolestmt->bindParam(':id', $id, PDO::PARAM_INT);
+$is_benevolestmt->execute();
+$is_benevole = $is_benevolestmt->fetchColumn();
+
+if ($username === false || $is_admin === false || $is_benevole === false) {
     echo "Error: Unable to fetch data for ID $id";
     exit();
 }
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_addcaptcha.css">
-<link rel="stylesheet" href="../../css/role_selector.css">
+<link rel="stylesheet" href="../css/role_selector.css">
 
 <div class="right_panel">
     <div class="captcha_form" id="captcha_form">
@@ -30,23 +35,24 @@ if ($question === false || $answer === false) {
         <form method="post" class="login" action="Processus/modify_user.php">
             <div class="entries">
                 <div class="entries">
-                    <input name="question" id="question" type="text" required value="<?= htmlspecialchars($question, ENT_QUOTES, 'UTF-8') ?>" maxlength="255">
-                    <label for="question">Nom d'utilisateur</label>
+                    <input name="username" id="username" type="text" required value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>" maxlength="255">
+                    <label for="username">Nom d'utilisateur</label>
                 </div>
                 <div class="space"></div>
                 <div class="entries">
+                    <p class="role_selector_text">Administrateur</p>
                     <select class="role_selector" name="administrator" id="administrator">
-                        <option value="0" <?php if ($administrator == 0) echo 'selected'; ?>>Non</option>
-                        <option value="1" <?php if ($administrator == 1) echo 'selected'; ?>>Oui</option>
+                        <option value="0" <?php if ($is_admin == 0) echo 'selected'; ?>>Non</option>
+                        <option value="1" <?php if ($is_admin == 1) echo 'selected'; ?>>Oui</option>
                     </select>
-                    <label>Administrateur</label>
                 </div>
+                <div class="space"></div>
                 <div class="entries">
+                    <p class="role_selector_text">Bénévole</p>
                     <select class="role_selector" name="benevole" id="benevole">
-                        <option value="0" <?php if ($administrator == 0) echo 'selected'; ?>>Non</option>
-                        <option value="1" <?php if ($administrator == 1) echo 'selected'; ?>>Oui</option>
+                        <option value="0" <?php if ($is_benevole == 0) echo 'selected'; ?>>Non</option>
+                        <option value="1" <?php if ($is_benevole == 1) echo 'selected'; ?>>Oui</option>
                     </select>
-                    <label>Bénévole</label>
                 </div>
             </div>
             <input type="hidden" name="id" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">

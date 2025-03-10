@@ -4,7 +4,6 @@
       --dark: #121212;
       --medium: #282828;
       --accent: #404040;
-
     }
     body {
       transition: background-color 0.3s ease, color 0.3s ease;

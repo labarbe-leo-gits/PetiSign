@@ -43,6 +43,11 @@
                 <div class="space">●</div>
                 <a href="newsletter.php" class="navigation_menu_item">Newsletter</a>
             </div>
+            <div class="item">
+                <img class="back_office_nav_img" src="../../Resources/img/ui_icons/log.png" alt="">
+                <div class="space">●</div>
+                <a href="logs.php" class="navigation_menu_item">Logs</a>
+            </div>
             <div class="item" id="exit_btn_container">
                 <button class="custom-button" id="exit_btn" onclick="window.location.href = '../index.php'">Retourner sur PétiSign</button>
             </div>
