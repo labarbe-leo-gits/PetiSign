@@ -11,13 +11,13 @@ include_once 'header.php'
         <form method="post" class="login" action="Processus/team.php">
             <div class="entries">
                 <div class="entries">
-                    <input name="question" id="question" type="text" required placeholder=" ">
-                    <label for="question">Nom</label>
+                    <input name="name" id="name" type="text" required placeholder=" ">
+                    <label for="name">Nom</label>
                 </div>
                 <div class="space"></div>
                 <div class="entries">
-                    <input name="answer" id="answer" type="text" required placeholder=" ">
-                    <label for="answer">Secteur</label>
+                    <input name="sector" id="sector" type="text" required placeholder=" ">
+                    <label for="sector">Secteur</label>
                 </div>
             </div>
             <button class="custom-button" id="add_btn" type="submit">Ajouter</button>

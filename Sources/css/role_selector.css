@@ -6,6 +6,7 @@
     border-radius: 8px;
     padding: 15px;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .role_selector_text{
