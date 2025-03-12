@@ -21,7 +21,7 @@
             <div class="item">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/database.png" alt="">
                 <div class="space">●</div>
-                <a href="" class="navigation_menu_item">Gestion de la Base de Données (BDD)</a>
+                <a href="database_gestion.php" class="navigation_menu_item">Gestion de la Base de Données (BDD)</a>
             </div>
             <div class="item">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/unlogged_user.png" alt="">
