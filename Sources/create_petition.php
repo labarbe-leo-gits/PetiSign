@@ -1,5 +1,6 @@
 <?php
 include_once 'header.php';
+include_once 'database/database.php'
 ?>
 
 <link rel="stylesheet" href="css/create_petition.css">
@@ -10,6 +11,21 @@ include_once 'header.php';
     <form method="post" action="create_petition_process.php">
         <p class="category_text">Catégorie</p>
         <select name="category" id="category" default="Catégorie" required>
+            <option value=""></option>
+            <?php
+            try{
+                $stmt = $pdo->prepare("SELECT * FROM CATEGORY");
+                $stmt->execute();
+                $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($categories as $category){
+                    echo "<option value=" . $category['id'] . ">" . $category['name'] . "</option>";
+                }
+            }
+            catch(PDOException $e){
+                echo "error";
+            }
+            ?>
         </select>
         <div class="entries">
             <div class="entries">

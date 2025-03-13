@@ -14,7 +14,7 @@ include_once 'header.php';
         <h3 class="highlighted-text" id="page_title">Catégories</h3>
     </div>
     <div class="database_actions_container">
-        <a class="captcha_database_action" href="add_captcha.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Nouveau Captcha"> Nouvelle Catégorie</a>
+        <a class="captcha_database_action" href="add_category.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Nouveau Captcha"> Nouvelle Catégorie</a>
     </div>
     <div class="tableau">
         <table>
@@ -34,9 +34,9 @@ include_once 'header.php';
                     echo "<td class='id'>".$captcha['id']."</td>";
                     echo "<td class='content'>".$captcha['name']."</td>";
                     echo "<td class='actions'>";
-                    echo "<a href='modify_captcha_form.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
+                    echo "<a href='modify_category_form.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='Processus/delete_captcha.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "<a href='Processus/delete_category.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                     echo "</td>";
                     echo "</tr>";
                 }
