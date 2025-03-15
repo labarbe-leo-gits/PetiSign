@@ -56,7 +56,7 @@ else{
             <p class="dot navcontent">&#x25CF;</p>
             <a href="my_petitions.php" class="navcontent">Mes Pétitions</a>
             <p class="dot navcontent">&#x25CF;</p>
-            <a class="navcontent pfp_img" href="login.php"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
+            <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
             <!--<a id="navcontent" href="#user_list">UserMenu</a>-->
             <a class="men" id="excep" href="javascript:show_popup()"><img class="mobile_menu" src="../Resources/img/ui_icons/menu.png" alt=""></a>
         </div>
@@ -65,6 +65,11 @@ else{
         <div class="mobile_menu_popup">
             <h2 class="highlighted-text" id="navhigh">Menu de Navigation</h2>
             <hr id="menu_separator">
+            <?php
+            if($is_admin != null){
+                echo '<div class="menu_item"><a href="BackOffice">Back Office</a></div>';
+            }
+            ?>
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
             <div class="menu_item"><a href="my_signatures.php">Mes Signatures</a></div>
             <div class="menu_item"><a href="my_petitions.php">Mes Pétitions</a></div>

@@ -12,6 +12,17 @@ try{
     $get_user->bindParam(':mail', $mail);
     $get_user->execute();
     $user = $get_user->fetchColumn();
+
+    $get_description = $pdo->prepare('SELECT description FROM USER WHERE email = :mail');
+    $get_description->bindParam(':mail', $mail);
+    $get_description->execute();
+    $description = $get_description->fetchColumn();
+
+    $get_birthdate = $pdo->prepare('SELECT birthdate FROM USER WHERE email = :mail');
+    $get_birthdate->bindParam(':mail', $mail);
+    $get_birthdate->execute();
+    $birthdate = $get_birthdate->fetchColumn();
+
 }catch (PDOException $e){
     echo 'Erreur : '.$e->getMessage();
 }
@@ -29,7 +40,7 @@ try{
         <div class="space"></div>
             <img src="../Resources/img/ui_icons/unlogged_user.png" alt="Avatar">
         <h2 id="nomdp"><?=$user?></h2>
-        <p id="description_profile">Vous n'avez pas de description. Ajoutez en une puis enregistrer</p>
+        <p id="description_profile"><?=$description?></p>
     </div>
     <!-- utile ? -->
     <div class="login_form" id="register_form">
@@ -40,13 +51,13 @@ try{
             <div class="entries">
                 <div class="space"></div>
                 <div class="entries">
-                    <input class="editable" disabled name="mail" id="mail" type="email" placeholder=" " required> <!-- MODIFIER -->
+                    <input class="editable" disabled name="mail" id="mail" type="email" placeholder=" " value="<?= htmlspecialchars($mail, ENT_QUOTES, 'UTF-8') ?>" required> <!-- MODIFIER -->
                     <label for="mail">Adresse mail</label>
                 </div>
 
                 <div class="space"></div>
                 <div class="entries">
-                    <input class="editable" disabled name="username" id="username" type="text" placeholder=" " required> <!-- MODIFIER -->
+                    <input class="editable" disabled name="username" id="username" type="text" placeholder=" " value="<?= htmlspecialchars($user, ENT_QUOTES, 'UTF-8') ?>" required> <!-- MODIFIER -->
                     <label for="username">Nom d'utilisateur</label>
                 </div>
 
@@ -68,13 +79,13 @@ try{
 
                 <div class="space"></div>
                 <div class="entries">
-                    <input class="editable" disabled name="anniv" id="anniv" type="date" required> <!-- MODIFIER -->
+                    <input class="editable" disabled name="anniv" id="anniv" type="date" value="<?= htmlspecialchars($birthdate, ENT_QUOTES, 'UTF-8') ?>" required> <!-- MODIFIER -->
                     <label for="anniv">Date de naissance</label>
                 </div>
 
                 <div class="space"></div>
                 <div class="entries">
-                    <textarea class="editable" disabled name="description" id="description"></textarea>
+                    <textarea class="editable" disabled name="description" id="description"><?=$description?></textarea>
                     <label for="description">Description</label>
                 </div>
             </div>
