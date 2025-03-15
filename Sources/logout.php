@@ -7,4 +7,6 @@ function logout() {
     exit();
 }
 
+logout();
+
 ?>

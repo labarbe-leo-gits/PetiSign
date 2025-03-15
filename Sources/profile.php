@@ -1,5 +1,21 @@
 <?php
 include_once 'header.php';
+include_once 'database/database.php';
+
+if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
+    exit();
+}
+
+try{
+    $get_user = $pdo->prepare('SELECT username FROM USER WHERE email = :mail');
+    $get_user->bindParam(':mail', $mail);
+    $get_user->execute();
+    $user = $get_user->fetchColumn();
+}catch (PDOException $e){
+    echo 'Erreur : '.$e->getMessage();
+}
+
 ?>
 
 <link rel="stylesheet" href="css/login_register.css">
@@ -12,7 +28,7 @@ include_once 'header.php';
         <h2 id="loginhigh" class="highlighted-text">Aperçu</h2>
         <div class="space"></div>
             <img src="../Resources/img/ui_icons/unlogged_user.png" alt="Avatar">
-        <h2 id="nomdp">Nom d'utilisateur</h2>
+        <h2 id="nomdp"><?=$user?></h2>
         <p id="description_profile">Vous n'avez pas de description. Ajoutez en une puis enregistrer</p>
     </div>
     <!-- utile ? -->

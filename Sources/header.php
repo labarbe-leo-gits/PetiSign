@@ -1,3 +1,22 @@
+
+<?php
+session_start();
+if(isset($_SESSION['mail'])){
+    $mail = $_SESSION['mail'];
+    
+    
+
+    $is_admin = $_SESSION['is_admin'];
+    $is_benevole = $_SESSION['is_benevole'];
+
+}
+else{
+    $mail = null;
+    $is_admin = null;
+    $is_benevole = null;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +43,13 @@
             <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.digitaloceanspaces.com/Contact-Page/sun.svg" decoding="async" alt="sun" width="15" height="15">
         </button>
         <div class="links">
+            <?php
+            if($is_admin != null){
+                echo '<a href="BackOffice" class="navcontent
+                ">Back Office</a>';
+                echo '<p class="dot navcontent">&#x25CF;</p>';
+            }
+            ?>
             <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
             <p class="dot navcontent">&#x25CF;</p>
             <a href="my_signatures.php" class="navcontent">Mes Signatures</a>
