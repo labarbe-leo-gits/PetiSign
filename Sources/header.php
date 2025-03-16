@@ -71,8 +71,8 @@ else{
             }
             ?>
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
-            <div class="menu_item"><a href="my_signatures.php">Mes Signatures</a></div>
-            <div class="menu_item"><a href="my_petitions.php">Mes Pétitions</a></div>
-            <div class="menu_item"><a href="login.php">Mon Compte</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>">Mes Signatures</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>">Mes Pétitions</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>

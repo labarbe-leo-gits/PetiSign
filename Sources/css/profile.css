@@ -1,11 +1,7 @@
-html, body {
-  overflow: hidden;
-  height: ;
-}
+
 .profile-container {
   display: flex ;
-  width: 100%;
-  height: 91vh;
+  width: 100vw;
 }
 
 .profil_gauche {
@@ -19,6 +15,17 @@ html, body {
   text-align: center;
 }
 
+@media (max-width: 480px) {
+  .profile-container {
+    flex-direction: column;
+  }
+  .profil_gauche {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: none;
+  }
+}
+
 .profil_gauche img {
   width: 120px;
   height: auto;
@@ -29,6 +36,10 @@ html, body {
 .profile_gauche h2 {
   font-size: 24px;
   margin-bottom: 10px;
+}
+
+.editable{
+  cursor: not-allowed;
 }
 
 .profile_gauche p {
@@ -80,7 +91,7 @@ textarea:focus + label, textarea:not(:placeholder-shown) + label {
   background-color: white;
 }
 
-labels {
+label {
   position: absolute;
   top: 20px;
   left: 10px;
@@ -104,6 +115,3 @@ labels {
   margin-top: 3vh;
 }
 
-body::after {
-  height: 120vh;
-}

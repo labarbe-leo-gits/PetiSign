@@ -23,6 +23,11 @@ try{
     $get_birthdate->execute();
     $birthdate = $get_birthdate->fetchColumn();
 
+    $get_gender = $pdo->prepare('SELECT gender FROM USER WHERE email = :mail');
+    $get_gender->bindParam(':mail', $mail);
+    $get_gender->execute();
+    $gender = $get_gender->fetchColumn();
+
 }catch (PDOException $e){
     echo 'Erreur : '.$e->getMessage();
 }
@@ -64,19 +69,13 @@ try{
                 <div class="space"></div>
                 <div class="entries">
                     <select class="editable" disabled name="gender" id="gender" onchange="updateLabel(this)">
-                        <option value="homme">Homme</option>
-                        <option value="femme">Femme</option>
-                        <option value="autre">Autre</option>
+                        <option value="homme" <?php if ($gender == "Homme") echo 'selected'; ?>>Homme</option>
+                        <option value="femme" <?php if ($gender == "Femme") echo 'selected'; ?>>Femme</option>
+                        <option value="autre" <?php if ($gender == "Autre") echo 'selected'; ?>>Autre</option>
+                        <option value="unknown" <?php if ($gender == "Non Renseigné") echo 'selected'; ?>>Non Renseigné</option>
                     </select>
                     <label for="gender" class="labels">Genre</label>
                 </div>
-
-                <div class="space"></div>
-                <div class="entries">
-                    <input class="editable" disabled name="password" id="password" type="password" placeholder=" " required> <!-- MODIFIER -->
-                    <label for="password">Mot de passe</label>
-                </div>
-
                 <div class="space"></div>
                 <div class="entries">
                     <input class="editable" disabled name="anniv" id="anniv" type="date" value="<?= htmlspecialchars($birthdate, ENT_QUOTES, 'UTF-8') ?>" required> <!-- MODIFIER -->
@@ -92,6 +91,7 @@ try{
 
             <button type="button" id="loginbtn" class="custom-button">Modifier</button>
         </form>
+        <button type="button" id="loginbtn" class="custom-button" onclick="window.location.href='logout.php';">Déconnexion</button>
     </div>
 </div>
 

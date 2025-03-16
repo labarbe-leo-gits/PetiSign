@@ -6,8 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const emailField = document.getElementById('mail');
     const profileUsername = document.getElementById('nomdp');
     const profileDescription = document.getElementById('description_profile');
-
     let emailError = document.createElement('p');
+    const gender_field = document.getElementById('gender');
+    const date_field = document.getElementById('anniv');
     emailError.style.color = 'red';
     emailError.style.fontSize = '0.8em';
     emailError.style.display = 'none';
@@ -36,8 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         inputs.forEach(input => {
             input.disabled = !input.disabled;
+            input.style.cursor = input.disabled ? 'not-allowed' : 'text';
         });
-
+        gender_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        date_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
     });
 

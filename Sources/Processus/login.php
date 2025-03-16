@@ -12,7 +12,6 @@ $stmt->execute();
 $hashedPassword = $stmt->fetchColumn();
 
 if ($hashedPassword && password_verify($password, $hashedPassword)) {
-    // retrieves username from database and echo hello [user]
     $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
     $stmt->bindParam(':mail', $username);
     $stmt->execute();
