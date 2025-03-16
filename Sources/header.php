@@ -52,9 +52,9 @@ else{
             ?>
             <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
             <p class="dot navcontent">&#x25CF;</p>
-            <a href="my_signatures.php" class="navcontent">Mes Signatures</a>
+            <a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>" class="navcontent">Mes Signatures</a>
             <p class="dot navcontent">&#x25CF;</p>
-            <a href="my_petitions.php" class="navcontent">Mes Pétitions</a>
+            <a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>" class="navcontent">Mes Pétitions</a>
             <p class="dot navcontent">&#x25CF;</p>
             <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
             <!--<a id="navcontent" href="#user_list">UserMenu</a>-->

@@ -15,7 +15,7 @@ if(isset($_SESSION['mail'])){
 
 }
 else{
-    header('Location: ../error.php?code=403');
+    header('Location: ../login.php');
 }
 ?>
 

@@ -1,5 +1,12 @@
 <?php
 include_once 'header.php';
+include_once 'database/database.php';
+
+if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
+    exit();
+}
+
 ?>
 
 <link rel="stylesheet" href="css/mysigns.css">
