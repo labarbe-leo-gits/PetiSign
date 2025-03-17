@@ -58,18 +58,17 @@ CREATE TABLE CATEGORY(
 
 CREATE TABLE PETITION (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    title VARCHAR(50),
+    title VARCHAR(60),
     description TEXT,
-    category ENUM('Animaux', 'Environnement', 'Santé', 'Éducation', 'Justice', 'Autre') DEFAULT 'Autre', -- Les catégories seront gérées en B.O --
+    category TEXT, -- Les catégories seront gérées en B.O --
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     signature_goal INT,
-    id_user INT,
+    image_id INT,
     user INTEGER REFERENCES USER(id)
 );
 
 CREATE TABLE SIGNATURE (
     id_user INT,
-    id_petition INT,
     PRIMARY KEY (id_user, id_petition),
     id_petition INT REFERENCES PETITION(id)
 );
