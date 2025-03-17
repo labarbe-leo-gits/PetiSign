@@ -159,3 +159,17 @@ input:not(:placeholder-shown) + label {
     margin-top: 25px;
     font-size: 18px;
 }
+
+.form_hr{
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+.img_btn{
+    margin-top: 0px;
+}
+
+.cancel{
+    margin-top: 10px;
+    font-size: 18px;
+}

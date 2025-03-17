@@ -49,9 +49,15 @@ include_once 'database/database.php'
                 <input name="objectif" id="objectif" type="number" min="10" required placeholder=" ">
                 <label for="objectif">Objectif de Signatures</label>
             </div>
+            <hr class="form_hr">
+            <div class="entries">
+                <button type="button" class="custom-button validate img_btn">Sélectionner une image</button>
+            </div>
         </div>
+        <hr class="form_hr">
         <button type="submit" class="custom-button validate">Valider</button>
     </form>
+    <button type="button" class="custom-button cancel" onclick="window.location.href='my_petitions.php';">Annuler</button>
 </div>
 
 <script src="js/count_characters.js"></script>

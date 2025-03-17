@@ -14,7 +14,7 @@ if(!isset($_SESSION['mail'])){
 <div class="title">
     <h1 class="highlighted-text" id="mysigns">Mes Pétitions</h1>
     <hr>
-    <a class="new_pet" href=""> <img src="../Resources/img/ui_icons/plus.png" id="add" alt="Filtres">  Nouvelle Pétition</a>
+    <a class="new_pet" href="create_petition.php"> <img src="../Resources/img/ui_icons/plus.png" id="add" alt="Filtres">  Nouvelle Pétition</a>
 </div>
 
 <?php
