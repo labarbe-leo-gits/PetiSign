@@ -40,6 +40,12 @@ if ($username === false || $is_admin === false || $is_benevole === false) {
                 </div>
                 <div class="space"></div>
                 <div class="entries">
+                    <input name="new_pswd" id="new_pswd" type="password">
+                    <label for="new_pswd">Nouveau mot de passe</label>
+                    <p class="input_subtext">* Laissez vide pour ne rien changer</p>
+                </div>
+                <div class="space"></div>
+                <div class="entries">
                     <p class="role_selector_text">Administrateur</p>
                     <select class="role_selector" name="administrator" id="administrator">
                         <option value="0" <?php if ($is_admin == 0) echo 'selected'; ?>>Non</option>

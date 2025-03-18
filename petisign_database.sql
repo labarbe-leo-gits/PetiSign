@@ -7,7 +7,7 @@ CREATE TABLE CAPTCHA(
 CREATE TABLE USER (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     username VARCHAR(30) UNIQUE,
-    password TEXT NOT NULL, --VOIR POUR NE PAS GARDER LE MDP EN CLAIR--
+    password TEXT NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     gender ENUM('Homme', 'Femme', 'Autre', 'Non Renseigné') DEFAULT 'Non Renseigné',
     birthdate DATE DEFAULT '2000-01-01',
@@ -60,7 +60,7 @@ CREATE TABLE PETITION (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     title VARCHAR(60),
     description TEXT,
-    category TEXT, -- Les catégories seront gérées en B.O --
+    category INT REFERENCES CATEGORY(id),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     signature_goal INT,
     image_id INT,

@@ -4,8 +4,7 @@ include_once 'header.php';
 
 <style>
     .container {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
+        display: flex;
         width: fit-content;
         margin-top: 5vh;
         margin-left: 1vw;
@@ -98,25 +97,47 @@ include_once 'header.php';
         width: 80%;
         margin-top: 5px;
     }
+
+    .img_btn {
+        width: 20vw;
+        height: 20vh;
+        padding:0;
+        border: none;
+        align-items: center;
+        justify-content: center;
+        background: none;
+    }
+
+    .img_btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    .img_container {
+        margin-left:15px;
+        margin-right:15px;
+        margin-bottom:15px;
+    }
 </style>
 
 <button class="custom-button" id="showhide" onclick="show_popup()">Noter PétiSign</button>
 
 <div class="container popup">
-    <div class="left">
-        <img id="trancho" src="../Resources/img/trancho/trancho.png" alt="Kevin Trancho">
-    </div>
-    <div class="right">
-        <h1>Noter PétiSign</h1>
-        <h2>Quelle est la probabilité que vous recommendiez PétiSign à un ami ?</h2>
-        <button class="selectable" id="0" value="0">0</button>
+    <div class="img_container">
+        <h2>Cliquez sur une image ci-dessous pour la sélectionner</h2>
         <?php
-            for($i=1;$i<10;$i++){
-                print "<button id='$i' value='0.$i' class='loop selectable'>0.$i</button>";
+        $dir = '../Resources/img/petition_selection/';
+        $files = scandir($dir);
+        foreach ($files as $file) {
+            if ($file != '.' && $file != '..') {
+                $fileName = pathinfo($file, PATHINFO_FILENAME);
+                print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
             }
+        }
         ?>
-        <button id="10" class="selectable" value="1">1</button>
-        <div class="send"><button>Envoyer</button></div>
+         
+        <div class="send"><button>Valider</button></div>
     </div>
 </div>
 

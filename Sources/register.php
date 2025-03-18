@@ -50,7 +50,7 @@ $id = $captcha['id'];
             </div>
             <input type="hidden" name="id" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
         </div>
-        <button class="custom-button" id="loginbtn" type="submit">S'inscrire</button>
+        <button class="custom-button loginbtn" type="submit">S'inscrire</button>
     </form>
     <hr id="loginhr2">
     <p class="smallTxt">Déjà membre ? <a href="login.php">Se connecter</a></p>

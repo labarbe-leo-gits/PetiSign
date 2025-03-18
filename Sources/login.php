@@ -20,7 +20,7 @@ include_once 'header.php'
                 <label for="password">Mot de passe</label>
             </div>
         </div>
-        <button class="custom-button" id="loginbtn" type="submit">Se Connecter</button>
+        <button class="custom-button loginbtn" type="submit">Se Connecter</button>
     </form>
     <hr id="loginhr2">
     <p class="smallTxt">Pas encore membre ? <a href="register.php">S'inscrire</a></p>

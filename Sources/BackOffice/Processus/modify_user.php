@@ -7,6 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $admin = filter_input(INPUT_POST, 'administrator', FILTER_SANITIZE_NUMBER_INT);
     $benevole = filter_input(INPUT_POST, 'benevole', FILTER_SANITIZE_NUMBER_INT);
+    $new_pswd = filter_input(INPUT_POST, 'new_pswd', FILTER_SANITIZE_STRING);
+
+    if ($new_pswd != "" or $new_pswd != null) {
+        $new_pswd = password_hash($new_pswd, PASSWORD_DEFAULT);
+        try {
+            $stmt = $pdo->prepare("UPDATE USER SET password = :password WHERE id = :id");
+            $stmt->bindParam(':password', $new_pswd);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->POSTMessage();
+        }
+    }
 
     if (isset($id, $username, $admin, $benevole)) {
         try {

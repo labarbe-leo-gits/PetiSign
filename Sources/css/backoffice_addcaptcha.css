@@ -125,3 +125,11 @@ body {
 .right_panel .space {
     margin: 20px;
 }
+
+.input_subtext{
+    color: #1A414E;
+    font-size: 14px;
+    font-style: italic;
+    text-align: left;
+    margin-top: 0px;
+}

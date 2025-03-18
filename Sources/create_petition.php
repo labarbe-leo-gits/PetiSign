@@ -14,7 +14,7 @@ include_once 'database/database.php'
             <option value=""></option>
             <?php
             try{
-                $stmt = $pdo->prepare("SELECT * FROM CATEGORY");
+                $stmt = $pdo->prepare("SELECT * FROM CATEGORY ORDER BY name ASC");
                 $stmt->execute();
                 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

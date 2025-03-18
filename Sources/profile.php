@@ -88,10 +88,12 @@ try{
                     <label for="description">Description</label>
                 </div>
             </div>
-
-            <button type="button" id="loginbtn" class="custom-button">Modifier</button>
+            
+            <button type="button" onclick="window.location.href='password_form.php'" class="custom-button loginbtn">Changer mon mot de passe</button>
+            <button type="button" id="loginbtn" class="custom-button loginbtn">Modifier</button>
         </form>
-        <button type="button" id="loginbtn" class="custom-button" onclick="window.location.href='logout.php';">Déconnexion</button>
+        <hr id="btn_hr">
+        <button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
     </div>
 </div>
 
