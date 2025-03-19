@@ -8,32 +8,32 @@ if(!isset($_SESSION['mail'])){
     header('Location: login.php');
     exit();
 }
+try{
+    $user_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
+    $user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+    $user_id_stmt->execute();
+    $user_id = $user_id_stmt->fetchColumn();
+}catch(PDOException $e){
+    echo $e->getMessage();
+}
 
-$old = filter_input(INPUT_POST, 'old', FILTER_SANITIZE_STRING);
-$new = filter_input(INPUT_POST, 'new', FILTER_SANITIZE_STRING);
-$new_conf = filter_input(INPUT_POST, 'new_conf', FILTER_SANITIZE_STRING);
-$mail = $_SESSION['mail'];
+$email_adress = filter_input(INPUT_POST, 'mail', FILTER_VALIDATE_EMAIL);
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+$gender = filter_input(INPUT_POST,'gender', FILTER_SANITIZE_STRING);
+$birthdate = filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_STRING);
+$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 
-if ($new != $new_conf) {
-    header("Location: ../password_form.php");
+if($email_adress == null && $username == null && $gender == null && $birthdate == null && $description == null){
+    header('Location: profile.php');
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT password FROM USER WHERE email = :mail");
-$stmt->bindParam(':mail', $mail);
+$stmt = $pdo->prepare('UPDATE USER SET email = :email, username = :username, gender = :gender, birthdate = :birthdate, description = :description WHERE id = :id');
+$stmt->bindParam(':email', $email_adress);
+$stmt->bindParam(':id', $user_id);
 $stmt->execute();
-$hashedPassword = $stmt->fetchColumn();
 
-if (password_verify($old, $hashedPassword)) {
-    $newHashedPassword = password_hash($new, PASSWORD_DEFAULT);
-    $stmt = $pdo->prepare("UPDATE USER SET password = :new WHERE email = :mail");
-    $stmt->bindParam(':new', $newHashedPassword);
-    $stmt->bindParam(':mail', $mail);
-    $stmt->execute();
-    header("Location: ../profile.php");
-    exit();
-} else {
-    header("Location: ../password_form.php");
-    exit();
-}
+
+
+
 ?>

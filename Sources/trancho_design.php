@@ -157,14 +157,17 @@ include_once 'header.php';
         <?php
         $dir = '../Resources/img/petition_selection/';
         $files = scandir($dir);
+        $files = array_filter($files, function($file) {
+            return $file != '.' && $file != '..';
+        });
+        natsort($files);
+
         foreach ($files as $file) {
-            if ($file != '.' && $file != '..') {
-                $fileName = pathinfo($file, PATHINFO_FILENAME);
-                print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
-            }
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
+            print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
         }
         ?>
-         <hr id="bottom_hr">
+        <hr id="bottom_hr">
         <div class="send"><button>Valider</button></div>
     </div>
 </div>

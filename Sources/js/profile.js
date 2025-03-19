@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-
     button.addEventListener('click', function() {
         let isDisabled = inputs[0].disabled;
 
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             profileUsername.textContent = usernameField.value || 'Nom d\'utilisateur';
-            profileDescription.textContent = descriptionField.value.trim()!=='' ? descriptionField.value : " Vous n'avez pas de desciption. Ajoutez-en une !";
+            profileDescription.textContent = descriptionField.value.trim() !== '' ? descriptionField.value : " Vous n'avez pas de desciption. Ajoutez-en une !";
         }
 
         inputs.forEach(input => {
@@ -42,19 +41,25 @@ document.addEventListener("DOMContentLoaded", function() {
         gender_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         date_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
+
+        if (button.textContent === 'Enregistrer' && isDisabled) {
+            button.addEventListener('click', function() {
+                window.location.href = 'Processus/profile_updater.php';
+            });
+        }
     });
 
     descriptionField.addEventListener('input', function() {
-        profileDescription.textContent = descriptionField.value.trim()!=='' ? descriptionField.value : " Vous n'avez pas de desciption. Ajoutez-en une !";
-});
-usernameField.addEventListener('input', function() {
-    profileUsername.textContent = usernameField.value || 'Nom d\'utilisateur';
-});
-emailField.addEventListener('input', function() {
-    if (!isValidEmail(emailField.value)) {
-        emailError.style.display = 'block';
-    } else {
-        emailError.style.display = 'none';
-    }
-});
+        profileDescription.textContent = descriptionField.value.trim() !== '' ? descriptionField.value : " Vous n'avez pas de desciption. Ajoutez-en une !";
+    });
+    usernameField.addEventListener('input', function() {
+        profileUsername.textContent = usernameField.value || 'Nom d\'utilisateur';
+    });
+    emailField.addEventListener('input', function() {
+        if (!isValidEmail(emailField.value)) {
+            emailError.style.display = 'block';
+        } else {
+            emailError.style.display = 'none';
+        }
+    });
 });
