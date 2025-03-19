@@ -40,7 +40,7 @@ if ($username === false || $is_admin === false || $is_benevole === false) {
                 </div>
                 <div class="space"></div>
                 <div class="entries">
-                    <input name="new_pswd" id="new_pswd" type="password">
+                    <input name="new_pswd" id="new_pswd" type="password" placeholder="">
                     <label for="new_pswd">Nouveau mot de passe</label>
                     <p class="input_subtext">* Laissez vide pour ne rien changer</p>
                 </div>

@@ -45,6 +45,8 @@ include_once 'header.php';
     }
     .send {
         text-align: center;
+        margin-left: 5px;
+        margin-right: 5px;
     }
     .send > button {
         width: 100%;
@@ -52,6 +54,18 @@ include_once 'header.php';
     .active {
         background-color: #FED78B;
         color: #1A414E;
+        border: 2px solid #eba707;
+    }
+
+    .active > img {
+        filter: none;
+        box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        transition: filter 0.3s ease, box-shadow 0.3s ease;
+    }
+    .inactive > img {
+        filter: grayscale(1) brightness(0.8) contrast(0.9);
+        transition: filter 0.3s ease, box-shadow 0.3s ease;
     }
     .active:hover {
         background-color: #E0BD78;
@@ -76,7 +90,7 @@ include_once 'header.php';
         justify-content: center;
         align-items: center;
     }
-    .blank_space{
+    .blank_space {
         margin: 5px;
     }
     .given_note {
@@ -86,14 +100,14 @@ include_once 'header.php';
         height: 100%;
         margin-top: 10vh;
     }
-    hr{
+    hr {
         text-align: center;
         margin-bottom: 35px;
     }
-    .exit{
+    .exit {
         text-align: center;
     }
-    .exit > button{
+    .exit > button {
         width: 80%;
         margin-top: 5px;
     }
@@ -101,31 +115,45 @@ include_once 'header.php';
     .img_btn {
         width: 20vw;
         height: 20vh;
-        padding:0;
+        padding: 0;
         border: none;
         align-items: center;
         justify-content: center;
         background: none;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .img_btn img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 5px;
+        border-radius: 10px;
+        transition: filter 0.3s ease, box-shadow 0.3s ease;
     }
     .img_container {
-        margin-left:15px;
-        margin-right:15px;
-        margin-bottom:15px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    #bottom_hr {
+        margin-top: 25px;
+    }
+    #top_hr {
+        margin-bottom: 25px;
     }
 </style>
 
 <button class="custom-button" id="showhide" onclick="show_popup()">Noter PétiSign</button>
+<input type="text" id="note" value="no file">
 
 <div class="container popup">
     <div class="img_container">
         <h2>Cliquez sur une image ci-dessous pour la sélectionner</h2>
+        <hr id="top_hr">
         <?php
         $dir = '../Resources/img/petition_selection/';
         $files = scandir($dir);
@@ -136,7 +164,7 @@ include_once 'header.php';
             }
         }
         ?>
-         
+         <hr id="bottom_hr">
         <div class="send"><button>Valider</button></div>
     </div>
 </div>
@@ -160,11 +188,21 @@ include_once 'header.php';
         }, 10);
         document.getElementById('showhide').onclick = hide_popup;
     }
-</script>
 
-<script>
+    function updateFilters() {
+        let buttons = document.querySelectorAll('.selectable');
+        let activeButton = document.querySelector('.active');
+        buttons.forEach(button => {
+            if (activeButton && !button.classList.contains('active')) {
+                button.classList.add('inactive');
+            } else {
+                button.classList.remove('inactive');
+            }
+        });
+    }
+
     let buttons = document.querySelectorAll('.selectable');
-    let active = document.querySelector('.active');
+    let active = null;
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             if (active) {
@@ -172,36 +210,25 @@ include_once 'header.php';
             }
             if(active == button){
                 active = null;
+                updateFilters();
                 return;
             }
             button.classList.add('active');
             active = button;
+            updateFilters();
         });
     });
     document.querySelector('.send > button').addEventListener('click', () => {
         try{
             let note = document.querySelector('.active').value;
+            let input = document.getElementById('note');
+            input.value = note;
             if(note){
                 console.log(note);
-                active.classList.remove('active');
-                document.querySelector('.right').innerHTML = `
-                <div class='note_container'>
-                    <div class='validated_header'>
-                        <img class='validated' src='../Resources/img/ui_icons/validate.png' />
-                        <p class='blank_space'>&nbsp;</p>
-                        <h1>Merci pour votre note !</h1>
-                    </div>
-                    <hr>
-                    <div class='given_note'>
-                        <h2>Vous avez noté PétiSign ${note}/1</h2>
-                    </div>
-                </div>
-                `;
-                return;
             }
         }
         catch(e){
-            console.log('Veuillez choisir une note');
+            console.log(e);
         }
         
     });

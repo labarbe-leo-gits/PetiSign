@@ -4,6 +4,7 @@ include_once 'database/database.php'
 ?>
 
 <link rel="stylesheet" href="css/create_petition.css">
+<link rel="stylesheet" href="css/img_selector.css">
 
 <div class="page_container">
     <h1 class="highlighted-text">Nouvelle Pétition</h1>
@@ -51,13 +52,33 @@ include_once 'database/database.php'
             </div>
             <hr class="form_hr">
             <div class="entries">
-                <button type="button" class="custom-button validate img_btn">Sélectionner une image</button>
+                <button type="button" class="custom-button validate" id="showhide">Sélectionner une image</button>
+                <input type="hidden" id="img_id" value="N/A">
             </div>
         </div>
         <hr class="form_hr">
+        <button type="button" class="custom-button cancel" onclick="window.location.href='my_petitions.php';">Annuler</button>
         <button type="submit" class="custom-button validate">Valider</button>
     </form>
-    <button type="button" class="custom-button cancel" onclick="window.location.href='my_petitions.php';">Annuler</button>
+</div>
+
+<div class="container popup">
+    <div class="img_container">
+        <h2>Cliquez sur une image ci-dessous pour la sélectionner</h2>
+        <hr id="top_hr">
+        <?php
+        $dir = '../Resources/img/petition_selection/';
+        $files = scandir($dir);
+        foreach ($files as $file) {
+            if ($file != '.' && $file != '..') {
+                $fileName = pathinfo($file, PATHINFO_FILENAME);
+                print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
+            }
+        }
+        ?>
+         <hr id="bottom_hr">
+        <div class="send"><button>Valider</button></div>
+    </div>
 </div>
 
 <script src="js/count_characters.js"></script>
