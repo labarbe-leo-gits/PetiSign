@@ -6,6 +6,11 @@ try{
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM USER");
     $stmt->execute();
     $users = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM PETITION");
+    $stmt->execute();
+    $petitions = $stmt->fetchColumn();
+
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -25,7 +30,7 @@ try{
         </div>
         <div class="stat">
             <h4>Nombre de pétitions :</h4>
-            <p> 0</p>
+            <p><?=$petitions?></p>
         </div>
         <div class="stat">
             <h4>Somme total des dons récoltés :</h4>

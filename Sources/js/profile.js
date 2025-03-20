@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const emailField = document.getElementById('mail');
     const profileUsername = document.getElementById('nomdp');
     const profileDescription = document.getElementById('description_profile');
+    const save_btn = document.getElementById('save_btn');
     let emailError = document.createElement('p');
     const gender_field = document.getElementById('gender');
     const date_field = document.getElementById('anniv');
@@ -42,11 +43,12 @@ document.addEventListener("DOMContentLoaded", function() {
         date_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
 
-        if (button.textContent === 'Enregistrer' && isDisabled) {
-            button.addEventListener('click', function() {
-                window.location.href = 'Processus/profile_updater.php';
-            });
+        if(button.textContent === 'Enregistrer') {
+            save_btn.style.display = 'block';
+            button.style.display = 'none';
         }
+
+        
     });
 
     descriptionField.addEventListener('input', function() {

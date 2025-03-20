@@ -119,3 +119,14 @@ label {
   margin-top: 2.5vh;
   margin-bottom: 0px;
 }
+
+#save_btn{
+  display: none;
+}
+.input_subtext{
+  color: #1A414E;
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+  margin-top: 0px;
+}
