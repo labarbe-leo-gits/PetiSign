@@ -12,7 +12,7 @@ function detectColorScheme() {
 	if (localStorage.getItem('theme')) {
 		theme = localStorage.getItem('theme');
 	}
-	else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
 		theme = 'dark';
 	}
 	theme === 'dark' ? enableDarkMode() : disableDarkMode();

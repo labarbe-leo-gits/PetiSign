@@ -1,4 +1,10 @@
 <?php
+
+if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
+    exit();
+}
+
 include_once 'header.php';
 include_once 'database/database.php'
 ?>
@@ -52,7 +58,7 @@ include_once 'database/database.php'
             </div>
             <hr class="form_hr">
             <div class="entries">
-                <button type="button" class="custom-button validate" id="showhide">Sélectionner une image</button>
+                <button type="button" class="custom-button validate" id="showhide" onclick="show_popup()">Sélectionner une image</button>
                 <input type="hidden" id="img_id" value="N/A">
             </div>
         </div>
@@ -62,6 +68,8 @@ include_once 'database/database.php'
     </form>
 </div>
 
+<div class="filter">&nbsp;</div>
+
 <div class="container popup">
     <div class="img_container">
         <h2>Cliquez sur une image ci-dessous pour la sélectionner</h2>
@@ -69,19 +77,24 @@ include_once 'database/database.php'
         <?php
         $dir = '../Resources/img/petition_selection/';
         $files = scandir($dir);
+        $files = array_filter($files, function($file) {
+            return $file != '.' && $file != '..';
+        });
+        natsort($files);
+
         foreach ($files as $file) {
-            if ($file != '.' && $file != '..') {
-                $fileName = pathinfo($file, PATHINFO_FILENAME);
-                print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
-            }
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
+            print "<button class='selectable img_btn' id='$fileName' value='$fileName'><img src='$dir$file' alt=''></button>";
         }
         ?>
-         <hr id="bottom_hr">
+        <hr id="bottom_hr">
         <div class="send"><button>Valider</button></div>
+        <div class="img_cancel"><button onclick="hide_popup()">Annuler</button></div>
     </div>
 </div>
 
 <script src="js/count_characters.js"></script>
+<script src="js/img_selector.js"></script>
 
 <?php
 include_once 'footer.php';

@@ -8,6 +8,7 @@ include_once 'header.php';
         width: fit-content;
         margin-top: 5vh;
         margin-left: 1vw;
+        margin-right: 1vw;
         border-radius: 10px;
         box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
         background-color: #f8f8f8;

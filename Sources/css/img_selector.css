@@ -1,38 +1,81 @@
 .container {
     display: flex;
     width: fit-content;
-    margin-top: 5vh;
-    margin-left: 1vw;
+    height: 80vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow: hidden;
+    margin: auto;
     border-radius: 10px;
     box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
     background-color: #f8f8f8;
 }
+
+.img_container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
 .right {
     width: fit-content;
     height: 100%;
     margin: auto;
     margin-top: 8%;
 }
+
 .loop {
     margin: 5px;
 }
+
 .left {
     width: fit-content;
 }
+
 .left > img {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     height: 100%;
 }
 
+button {
+    width: 5vw;
+    height: 8vh;
+    background-color: #1A414E;
+    border-radius: 10px;
+    border: 0px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #173642;
+}
+
 .send {
     text-align: center;
-    margin-left: 5px;
-    margin-right: 5px;
 }
+
 .send > button {
-    width: 100%;
+    width: 60vw;
 }
+
+.img_cancel > button{
+    width: 50vw;
+    margin-top: 5px;
+}
+
 .active {
     background-color: #FED78B;
     color: #1A414E;
@@ -45,50 +88,64 @@
     border-radius: 15px;
     transition: filter 0.3s ease, box-shadow 0.3s ease;
 }
+
 .inactive > img {
     filter: grayscale(1) brightness(0.8) contrast(0.9);
     transition: filter 0.3s ease, box-shadow 0.3s ease;
 }
+
 .active:hover {
     background-color: #E0BD78;
 }
+
 .popup {
     display: none;
     opacity: 0;
     transform: translateY(-20px);
+    margin-left: 10px;
+    margin-right: 10px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .popup.show {
     display: grid;
     opacity: 1;
     transform: translateY(0);
 }
+
 .validated {
     width: 30px;
     filter: invert(20%) sepia(16%) saturate(1711%) hue-rotate(149deg) brightness(93%) contrast(90%);
 }
+
 .validated_header {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .blank_space {
     margin: 5px;
 }
+
 .given_note {
     text-align: center;
 }
+
 .note_container {
     height: 100%;
     margin-top: 10vh;
 }
+
 hr {
     text-align: center;
     margin-bottom: 35px;
 }
+
 .exit {
     text-align: center;
 }
+
 .exit > button {
     width: 80%;
     margin-top: 5px;
@@ -113,17 +170,11 @@ hr {
     border-radius: 10px;
     transition: filter 0.3s ease, box-shadow 0.3s ease;
 }
-.img_container {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 15px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+
 #bottom_hr {
     margin-top: 25px;
 }
+
 #top_hr {
     margin-bottom: 25px;
 }
