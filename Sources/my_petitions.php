@@ -7,6 +7,16 @@ if(!isset($_SESSION['mail'])){
     exit();
 }
 
+$get_user_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
+$get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+$get_user_id_stmt->execute();
+$user_id = $get_user_id_stmt->fetchColumn();
+
+$get_user_petitions_stmt = $pdo->prepare('SELECT * FROM PETITION WHERE user = :user_id');
+$get_user_petitions_stmt->bindParam(':user_id', $user_id);
+$get_user_petitions_stmt->execute();
+$petitions = $get_user_petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <link rel="stylesheet" href="css/mypet.css">
@@ -18,11 +28,42 @@ if(!isset($_SESSION['mail'])){
 </div>
 
 <?php
-$card_num = 5
+$card_num = 0;
 ?>
 
 <div class="pet_container">
     <?php
+
+    foreach($petitions as $petition){
+
+        $get_category_name_stmt = $pdo->prepare('SELECT name FROM CATEGORY WHERE id = :category_id');
+        $get_category_name_stmt->bindParam(':category_id', $petition['category']);
+        $get_category_name_stmt->execute();
+        $category_name = $get_category_name_stmt->fetchColumn();
+
+        print '
+        <div class="sample_pet">
+            <div class="header">
+                <img src="../Resources/img/petition_selection/' . $petition['image_id'] .'.jpg" alt="Image de couverture pétition">
+                <p class="category">' . $category_name . '</p>
+            </div>
+            <div class="content">
+                <h2 class="title">' . $petition['title'] . '</h2>
+                <hr class="pet_sep">
+                <p class="description">' . $petition['description'] . '</p>
+            </div>
+            <div class="footer">
+                <p class="sign">XXX / ' . $petition['signature_goal'] . ' Signatures</p>
+            </div>
+            <div class="footer_link">
+                <a href="view_petition.php?id=' . $petition['id'] . '" class="mypet desktop">Voir la Pétition</a>
+                <a href="" class="mypet mobile">Voir</a>
+                <a href="" class="action_btn"><img src="../Resources/img/ui_icons/crayon.png" alt="Modifier la Pétition"></a>
+                <a href="Processus/delete_petition.php?id=' . $petition['id'] . '" class="action_btn"><img src="../Resources/img/ui_icons/trash.png" alt="Supprimer la Pétition"></a>
+            </div>
+        </div>';
+    }
+
     for($i=0;$i<$card_num;$i++){
         print '
         <div class="sample_pet">

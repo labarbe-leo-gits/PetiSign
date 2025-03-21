@@ -1,12 +1,19 @@
 <?php
 
+session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: login.php');
+    header("Location: login.php");
     exit();
 }
 
 include_once 'header.php';
-include_once 'database/database.php'
+include_once 'database/database.php';
+
+$user_id_stmt = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+$user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+$user_id_stmt->execute();
+$user_id = $user_id_stmt->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="css/create_petition.css">
@@ -15,7 +22,7 @@ include_once 'database/database.php'
 <div class="page_container">
     <h1 class="highlighted-text">Nouvelle Pétition</h1>
     <hr>
-    <form method="post" action="create_petition_process.php">
+    <form method="post" action="Processus/create_petition.php">
         <p class="category_text">Catégorie</p>
         <select name="category" id="category" default="Catégorie" required>
             <option value=""></option>
@@ -59,7 +66,8 @@ include_once 'database/database.php'
             <hr class="form_hr">
             <div class="entries">
                 <button type="button" class="custom-button validate" id="showhide" onclick="show_popup()">Sélectionner une image</button>
-                <input type="hidden" id="img_id" value="N/A">
+                <input type="hidden" name="img_id" id="img_id" value="N/A">
+                <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>">
             </div>
         </div>
         <hr class="form_hr">
