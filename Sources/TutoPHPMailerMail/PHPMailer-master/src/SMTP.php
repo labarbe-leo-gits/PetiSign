@@ -35,7 +35,7 @@ class SMTP
      *
      * @var string
      */
-    const VERSION = '6.9.3';
+    const VERSION = '6.9.1';
 
     /**
      * SMTP line break constant.
@@ -62,7 +62,7 @@ class SMTP
      * The maximum line length allowed by RFC 5321 section 4.5.3.1.6,
      * *excluding* a trailing CRLF break.
      *
-     * @see https://www.rfc-editor.org/rfc/rfc5321#section-4.5.3.1.6
+     * @see https://tools.ietf.org/html/rfc5321#section-4.5.3.1.6
      *
      * @var int
      */
@@ -72,7 +72,7 @@ class SMTP
      * The maximum line length allowed for replies in RFC 5321 section 4.5.3.1.5,
      * *including* a trailing CRLF line break.
      *
-     * @see https://www.rfc-editor.org/rfc/rfc5321#section-4.5.3.1.5
+     * @see https://tools.ietf.org/html/rfc5321#section-4.5.3.1.5
      *
      * @var int
      */
@@ -373,7 +373,7 @@ class SMTP
         }
         //Anything other than a 220 response means something went wrong
         //RFC 5321 says the server will wait for us to send a QUIT in response to a 554 error
-        //https://www.rfc-editor.org/rfc/rfc5321#section-3.1
+        //https://tools.ietf.org/html/rfc5321#section-3.1
         if ($responseCode === 554) {
             $this->quit();
         }
@@ -406,9 +406,7 @@ class SMTP
         $errstr = '';
         if ($streamok) {
             $socket_context = stream_context_create($options);
-            set_error_handler(function () {
-                call_user_func_array([$this, 'errorHandler'], func_get_args());
-            });
+            set_error_handler([$this, 'errorHandler']);
             $connection = stream_socket_client(
                 $host . ':' . $port,
                 $errno,
@@ -423,9 +421,7 @@ class SMTP
                 'Connection: stream_socket_client not available, falling back to fsockopen',
                 self::DEBUG_CONNECTION
             );
-            set_error_handler(function () {
-                call_user_func_array([$this, 'errorHandler'], func_get_args());
-            });
+            set_error_handler([$this, 'errorHandler']);
             $connection = fsockopen(
                 $host,
                 $port,
@@ -489,9 +485,7 @@ class SMTP
         }
 
         //Begin encrypted connection
-            set_error_handler(function () {
-                call_user_func_array([$this, 'errorHandler'], func_get_args());
-            });
+        set_error_handler([$this, 'errorHandler']);
         $crypto_ok = stream_socket_enable_crypto(
             $this->smtp_conn,
             true,
@@ -582,7 +576,7 @@ class SMTP
                 }
                 //Send encoded username and password
                 if (
-                    //Format from https://www.rfc-editor.org/rfc/rfc4616#section-2
+                    //Format from https://tools.ietf.org/html/rfc4616#section-2
                     //We skip the first field (it's forgery), so the string starts with a null byte
                     !$this->sendCommand(
                         'User & Password',
@@ -795,7 +789,7 @@ class SMTP
             //Send the lines to the server
             foreach ($lines_out as $line_out) {
                 //Dot-stuffing as per RFC5321 section 4.5.2
-                //https://www.rfc-editor.org/rfc/rfc5321#section-4.5.2
+                //https://tools.ietf.org/html/rfc5321#section-4.5.2
                 if (!empty($line_out) && $line_out[0] === '.') {
                     $line_out = '.' . $line_out;
                 }
@@ -1170,9 +1164,7 @@ class SMTP
         } else {
             $this->edebug('CLIENT -> SERVER: ' . $data, self::DEBUG_CLIENT);
         }
-        set_error_handler(function () {
-            call_user_func_array([$this, 'errorHandler'], func_get_args());
-        });
+        set_error_handler([$this, 'errorHandler']);
         $result = fwrite($this->smtp_conn, $data);
         restore_error_handler();
 
@@ -1275,9 +1267,7 @@ class SMTP
         while (is_resource($this->smtp_conn) && !feof($this->smtp_conn)) {
             //Must pass vars in here as params are by reference
             //solution for signals inspired by https://github.com/symfony/symfony/pull/6540
-            set_error_handler(function () {
-                call_user_func_array([$this, 'errorHandler'], func_get_args());
-            });
+            set_error_handler([$this, 'errorHandler']);
             $n = stream_select($selR, $selW, $selW, $this->Timelimit);
             restore_error_handler();
 

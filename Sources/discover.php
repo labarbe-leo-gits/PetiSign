@@ -56,7 +56,7 @@ $number_of_cards = 5;
     </div>
 </div>
 
-<div class="trending" id="first_after_title"> <!-- le container est scrollable. Il faudra automatiser les cards avec php mais c'est fonctionnel :) -->
+<div class="trending spacing" id="first_after_title"> <!-- le container est scrollable. Il faudra automatiser les cards avec php mais c'est fonctionnel :) -->
     <div class="textheader categories_header">
         <div class="header_left">
             <h2 class="highlighted-text trendinghigh">Animaux</h2>
