@@ -5,6 +5,13 @@ if(!isset($_GET['id']) || empty($_GET['id'])){
     exit();
 }
 
+if(isset($_SESSION['mail'])){
+    $is_admin = $pdo->prepare('SELECT is_admin FROM USER WHERE mail = :mail');
+    $is_admin->bindParam(':mail', $_SESSION['mail']);
+    $is_admin->execute();
+    $is_admin = $is_admin->fetchColumn();
+}
+
 include_once 'header.php';
 include_once 'database/database.php';
 
@@ -82,6 +89,21 @@ $pet_image_id = $pet_image_id_stmt->fetchColumn();
 
         <div class="description">
             <p><?=$pet_description?></p>
+        </div>
+
+        <div class="test">
+            <a href="" class="quick">
+                <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                &nbsp;Signaler un abus
+            </a>
+
+            <?php
+            if($is_admin == 1){
+                echo '<a href="Processus/admin_delete.php?id='.$_GET['id'].'" class="quick">
+                <img src="../Resources/img/ui_icons/trash.png" alt="">&nbsp;Supprimer la pétition (Admin)
+            </a>';
+            }
+            ?>
         </div>
     </div>
 

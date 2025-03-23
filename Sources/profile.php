@@ -7,6 +7,8 @@ if(!isset($_SESSION['mail'])){
     exit();
 }
 
+$mail = $_SESSION['mail'];
+
 try{
     $get_user = $pdo->prepare('SELECT username FROM USER WHERE email = :mail');
     $get_user->bindParam(':mail', $mail);
@@ -28,6 +30,21 @@ try{
     $get_gender->execute();
     $gender = $get_gender->fetchColumn();
 
+    $get_avatar_hat = $pdo->prepare('SELECT avatar_hat FROM USER WHERE email = :mail');
+    $get_avatar_hat->bindParam(':mail', $mail);
+    $get_avatar_hat->execute();
+    $avatar_hat = $get_avatar_hat->fetchColumn();
+
+    $get_avatar_eyes = $pdo->prepare('SELECT avatar_eyes FROM USER WHERE email = :mail');
+    $get_avatar_eyes->bindParam(':mail', $mail);
+    $get_avatar_eyes->execute();
+    $avatar_eyes = $get_avatar_eyes->fetchColumn();
+
+    $get_avatar_mouth = $pdo->prepare('SELECT avatar_mouth FROM USER WHERE email = :mail');
+    $get_avatar_mouth->bindParam(':mail', $mail);
+    $get_avatar_mouth->execute();
+    $avatar_mouth = $get_avatar_mouth->fetchColumn();
+
 }catch (PDOException $e){
     echo 'Erreur : '.$e->getMessage();
 }
@@ -43,7 +60,12 @@ try{
     <div class="profil_gauche">
         <h2 id="loginhigh" class="highlighted-text">Aperçu</h2>
         <div class="space"></div>
-            <img src="../Resources/img/ui_icons/unlogged_user.png" alt="Avatar">
+            <div class="avatar">
+                <img class="skin" src="../Resources/avatar/skin.png" alt="">
+                <img src="../Resources/avatar/hat<?=$avatar_hat?>.png" class="hat" alt="Hat" id="hat">
+                <img src="../Resources/avatar/eyes<?=$avatar_eyes?>.png" class="eyes" alt="Eyes" id="eyes">
+                <img src="../Resources/avatar/smile<?=$avatar_mouth?>.png" class="mouth" alt="Mouth" id="mouth">
+            </div>
         <h2 id="nomdp"><?=$user?></h2>
         <p id="description_profile"><?=$description?></p>
     </div>
@@ -89,8 +111,9 @@ try{
                 </div>
             </div>
             
-            <button type="button" onclick="window.location.href='password_form.php'" class="custom-button loginbtn">Changer mon mot de passe</button>
             <button type="button" id="loginbtn" class="custom-button loginbtn">Modifier</button>
+            <button type="button" onclick="window.location.href='password_form.php'" class="custom-button loginbtn" id="pswd_btn">Changer mon mot de passe</button>
+            <button type="button" onclick="window.location.href='modify_avatar.php'" class="custom-button loginbtn" id="avatar_btn">Modifier mon avatar</button>
             <button type="submit" id="save_btn" class="custom-button loginbtn">Enregistrer</button>
         </form>
         <hr id="btn_hr">

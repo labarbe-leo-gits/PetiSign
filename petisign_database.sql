@@ -14,16 +14,12 @@ CREATE TABLE USER (
     description TEXT DEFAULT 'Aucune description disponible',
     is_admin BOOLEAN DEFAULT 0,
     is_benevole BOOLEAN DEFAULT 0
-    avatar VARCHAR(10) REFERENCES AVATAR DEFAULT 'none', --A DÉFINIR--
+    avatar_hat INT DEFAULT 1, -- Attribute for avatar hat
+    avatar_mouth INT DEFAULT 1, -- Attribute for avatar mouth
+    avatar_eyes INT DEFAULT 1, -- Attribute for avatar eyes
     signature INT REFERENCES SIGNATURE(id_petition) --A REVOIR--
 );
 
-CREATE TABLE AVATAR (
-    hat INT DEFAULT 1, -- utiliser des ID de 1 à 5 (5 choix), same for all --
-    mouth INT DEFAULT 1,
-    eyes INT DEFAULT 1,
-    skin INT DEFAULT 1
-);
 
 CREATE TABLE DONATION (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

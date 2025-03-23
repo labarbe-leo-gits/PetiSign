@@ -11,12 +11,12 @@ include_once 'header.php'
     <form method="post" class="login" action="Processus/login.php"> <!-- à changer action -->
         <div class="entries">
             <div class="entries">
-                <input name="mail" id="mail" type="email" required placeholder=" ">
+                <input name="mail" id="mail" type="email" required placeholder=" " class="form-input">
                 <label for="mail">Adresse e-mail</label>
             </div>
             <div class="space"></div>
             <div class="entries">
-                <input name="password" id="password" type="password" required placeholder=" ">
+                <input name="password" id="password" type="password" required placeholder=" " class="form-input">
                 <label for="password">Mot de passe</label>
             </div>
         </div>

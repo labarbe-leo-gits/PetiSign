@@ -31,7 +31,9 @@ body.dark-mode {
     body.dark-mode h6,
     body.dark-mode .cs-title,
     body.dark-mode .cs-text,
-    body.dark-mode .cs-li {
+    body.dark-mode .cs-li,
+    body.dark-mode .smallTxt,
+    body.dark-mode .smallTxt a{
       color: var(--text-color);
       transition: var(--transition);
     }
@@ -45,7 +47,8 @@ body.dark-mode {
     }
 
     body.dark-mode #updates,
-    body.dark-mode .targetElement {
+    body.dark-mode .targetElement,
+    body.dark-mode .search-container button {
       background: var(--bg-secondary);
       transition: var(--transition);
     }
@@ -55,14 +58,15 @@ body.dark-mode {
       transition: var(--transition);
     }
 
-    body.dark-mode .custom-button {
+    body.dark-mode .login_form,
+    body.dark-mode .search-container label,
+    body.dark-mode label{
       background-color: var(--bg-button);
       transition: var(--transition);
     }
 
     body.dark-mode nav, 
-    body.dark-mode .search-container,
-    body.dark-mode .search-container label {
+    body.dark-mode .search-container {
       background-color: var(--bg-secondary);
       transition: var(--transition);
     }
@@ -78,6 +82,17 @@ body.dark-mode {
 
     .dark {
       display: none;
+    }
+    body.dark-mode input.form-input {
+      background-color: var(--bg-button);
+      color: var(--text-color);
+      transition: var(--transition);
+      border: 1px solid var(--bg-secondary);
+    }
+    body.dark-mode .custom-button {
+      background-color: var(--bg-secondary);
+      color: var(--text-color);
+      transition: var(--transition);
     }
   }
 

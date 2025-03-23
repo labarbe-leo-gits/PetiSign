@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let emailError = document.createElement('p');
     const gender_field = document.getElementById('gender');
     const date_field = document.getElementById('anniv');
+    const pswd_btn = document.getElementById('pswd_btn');
+    const avatar_btn = document.getElementById('avatar_btn');
     emailError.style.color = 'red';
     emailError.style.fontSize = '0.8em';
     emailError.style.display = 'none';
@@ -45,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(button.textContent === 'Enregistrer') {
             save_btn.style.display = 'block';
+            pswd_btn.style.display = 'none';
+            avatar_btn.style.display = 'none';
             button.style.display = 'none';
         }
 

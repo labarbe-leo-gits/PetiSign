@@ -155,3 +155,39 @@ body {
     width: 33%;
     font-size: 18px;
 }
+
+.quick {
+    width: fit-content;
+    padding: 10px 30px;
+    background-color: #4F6DFF;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 50px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.quick > img {
+    width: 15px;
+    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+}
+
+.quick:hover {
+    background-color: #2d4be1;
+}
+
+.test {
+	text-align: center;
+	border-top: solid 1px black;
+	margin-left: 20px;
+	margin-right: 20px;
+    margin-bottom: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
