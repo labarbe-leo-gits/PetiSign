@@ -15,6 +15,7 @@ else{
     $is_admin = null;
     $is_benevole = null;
 }
+
 ?>
 
 <!DOCTYPE html>

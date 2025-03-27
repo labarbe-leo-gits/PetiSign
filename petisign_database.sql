@@ -14,10 +14,10 @@ CREATE TABLE USER (
     description TEXT DEFAULT 'Aucune description disponible',
     is_admin BOOLEAN DEFAULT 0,
     is_benevole BOOLEAN DEFAULT 0
-    avatar_hat INT DEFAULT 1, -- Attribute for avatar hat
-    avatar_mouth INT DEFAULT 1, -- Attribute for avatar mouth
-    avatar_eyes INT DEFAULT 1, -- Attribute for avatar eyes
-    signature INT REFERENCES SIGNATURE(id_petition) --A REVOIR--
+    avatar_hat INT DEFAULT 1,
+    avatar_mouth INT DEFAULT 1,
+    avatar_eyes INT DEFAULT 1,
+    signature INT REFERENCES SIGNATURE(id_petition) --METTRE DU COTE DE LA TABLE SIGNATURE DIRECTEMENT SINON USER QUE 1 SIGNATURE--
 );
 
 
@@ -64,9 +64,10 @@ CREATE TABLE PETITION (
 );
 
 CREATE TABLE SIGNATURE (
-    id_user INT,
+    id_user INT REFERENCES USER(id),
+    id_petition INT REFERENCES PETITION(id),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_user, id_petition),
-    id_petition INT REFERENCES PETITION(id)
 );
 
 CREATE TABLE NEWSLETTER (
@@ -75,3 +76,6 @@ CREATE TABLE NEWSLETTER (
     content TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE NEWSLETTER CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE PETITION CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

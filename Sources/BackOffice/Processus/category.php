@@ -1,30 +1,38 @@
 <?php
 
 include_once '../../database/database.php';
+include_once 'security.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
+if($is_admin != 0){
 
-    if (!empty($name)) {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO CATEGORY (name) VALUES (:name)");
-            $stmt->bindParam(':name', $name);
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = htmlspecialchars(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
 
-            $stmt->execute();
+        if (!empty($name)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO CATEGORY (name) VALUES (:name)");
+                $stmt->bindParam(':name', $name);
 
-            header("Location: ../database_gestion.php");
+                $stmt->execute();
+
+                header("Location: ../database_gestion.php");
+                exit();
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        } else {
+            header("Location: ../add_category.php");
             exit();
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
         }
-    } else {
+        }
+    else {
         header("Location: ../add_category.php");
         exit();
     }
-    }
- else {
-    header("Location: ../add_category.php");
+} else {
+    header('Location: /Sources/error.php?code=403');
     exit();
+
 }
 
 ?>

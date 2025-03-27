@@ -1,6 +1,7 @@
 <?php
 
 include_once '../../database/database.php';
+include_once 'security.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));

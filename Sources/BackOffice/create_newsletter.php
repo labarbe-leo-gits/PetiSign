@@ -18,7 +18,7 @@ include_once 'header.php'
                 <div class="space"></div>
                 <div class="entries">
                 <div class="area">
-                    <textarea required name="message" id="message" maxlength="800"></textarea>
+                    <textarea required name="message" id="message" maxlength="1200"></textarea>
                     <label for="message" class="textarea_label">Message</label>
                 </div>
                 </div>

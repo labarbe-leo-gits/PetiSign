@@ -1,27 +1,42 @@
 <?php
 
 include_once '../../database/database.php';
+include_once 'security.php';
+use PHPMailer\PHPMailer\PHPMailer;
+require_once '../../SendNewsletterFunction.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = htmlspecialchars(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING));
-    $message = htmlspecialchars(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING));
+if ($is_admin != 0) {
 
-    if (!empty($title) && !empty($message)) {
-        if (strlen($title) <= 255) {
-            try {
-                $stmt = $pdo->prepare("INSERT INTO NEWSLETTER (title, content) VALUES (:title, :content)");
-                $stmt->bindParam(':title', $title);
-                $stmt->bindParam(':content', $message);
-                $stmt->execute();
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $message = nl2br(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING));
 
-                $get_users_mails = $pdo->prepare("SELECT email FROM USER");
-                $get_users_mails->execute();
-                $users_mails = $get_users_mails->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($title) && !empty($message)) {
+            if (strlen($title) <= 255) {
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO NEWSLETTER (title, content) VALUES (:title, :content)");
+                    $stmt->bindParam(':title', $title);
+                    $stmt->bindParam(':content', $message);
+                    $stmt->execute();
 
-                header("Location: ../newsletter.php");
+                    $users = $pdo->prepare("SELECT email, username FROM USER");
+                    $users->execute();
+                    $users_data = $users->fetchAll(PDO::FETCH_ASSOC);
+
+                    $mail_sent = new PHPMailer(true);
+
+                    foreach($users_data as $user){
+                        EnvoieMail($mail_sent, $user['email'], $user['username'], $title, $message);
+                    }
+
+                    header("Location: ../newsletter.php");
+                    exit();
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+            } else {
+                header("Location: ../create_newsletter.php");
                 exit();
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
             }
         } else {
             header("Location: ../create_newsletter.php");
@@ -32,8 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 } else {
-    header("Location: ../create_newsletter.php");
+    header('Location: /Sources/error.php?code=403');
     exit();
+
 }
 
 ?>
