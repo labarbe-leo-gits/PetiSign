@@ -191,3 +191,7 @@ body {
 	justify-content: center;
 	gap: 5px;
 }
+
+.profile_link{
+    color: #4F6DFF;
+}

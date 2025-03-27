@@ -117,7 +117,7 @@ $pet_image_id = $pet_image_id_stmt->fetchColumn();
         </div>
 
         <div class="petition_information">
-            <p class="author">Pétition de <?=$pet_author_username?></p>
+            <p class="author">Pétition de <a href="view_profile.php?id=<?=$pet_author?>" class="profile_link"><?=$pet_author_username?></a></p>
             <p class="creation_date">Publiée le <?=$pet_date?></p>
         </div>
     </div>

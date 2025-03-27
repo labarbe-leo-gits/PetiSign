@@ -116,7 +116,7 @@ function EnvoieMail($mail, $mailToSend, $Content)
         $mail->AltBody = 'Votre code de validation est : ' . $Content;
 
         $mail->send();
-        echo 'Message has been sent';
+        echo '<p class="code_info">Code de vérification envoyé à : '.$mailToSend.'</p>';
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }

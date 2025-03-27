@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once '../database/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -7,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = htmlspecialchars(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING));
     $confpassword = htmlspecialchars(filter_input(INPUT_POST, 'confpassword', FILTER_SANITIZE_STRING));
     $answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_STRING));
+    $verif = htmlspecialchars(filter_input(INPUT_POST, 'verif', FILTER_SANITIZE_NUMBER_INT));
+    $original_code = $_SESSION['verification_code'] ?? null;
     $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
 
     $stmt = $pdo->prepare("SELECT * FROM CAPTCHA WHERE id = :id");
@@ -18,6 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Captcha fetched: " . htmlspecialchars($captcha['answer'], ENT_QUOTES, 'UTF-8');
     } else {
         header('Location: ../error.php?code=808');
+        exit();
+    }
+
+    if(empty($verif) || !is_numeric($verif)){
+        header('Location: ../register.php');
+        exit();
+    }
+
+    if ($verif != $original_code) {
+        header('Location: ../register.php');
         exit();
     }
 
@@ -40,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
                     $stmt->execute();
+
+                    session_unset();
+                    session_destroy();
 
                     header('Location: ../login.php');
                     exit();

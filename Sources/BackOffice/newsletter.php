@@ -1,4 +1,7 @@
-<?php include_once "header.php"; ?>
+<?php
+include_once "header.php";
+include_once "../database/database.php";
+ ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
 
@@ -8,7 +11,7 @@
     </div>
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
-        <a class="captcha_database_action" href=""><img src="../../Resources/img/ui_icons/plus.png" alt="Nouveau Captcha"> Nouvelle Newsletter</a>
+        <a class="captcha_database_action" href="create_newsletter.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Nouveau Captcha"> Nouvelle Newsletter</a>
     </div>
     <div class="tableau">
         <table>
@@ -18,30 +21,35 @@
                 <th>Date de création</th>
                 <th>Actions</th>
             </tr>
-            <tr>
-                <td class="id">0</td>
-                <td class="content">Campagne marketing</td>
-                <td class="content">xx/xx/xxxx</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/eye.png" alt="Visualiser"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt="Éditer"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt="Supprimer"></a>
-                </td>
-            </tr>
-            <tr>
-                <td class="id">1</td>
-                <td class="content">Campagne marketing</td>
-                <td class="content">xx/xx/xxxx</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/eye.png" alt="Visualiser"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt="Éditer"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt="Supprimer"></a>
-                </td>
-            </tr>
+            <?php
+            try{
+                $stmt = $pdo->prepare("SELECT * FROM NEWSLETTER");
+                $stmt->execute();
+                $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($news as $new){
+                    echo "<tr>";
+                    echo "<td class='id'>".$new['id']."</td>";
+                    echo "<td class='content'>".$new['title']."</td>";
+                    echo "<td class='content'>".$new['date']."</td>";
+                    echo "<td class='actions'>";
+                    echo "<a href='?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } catch (PDOException $e) {
+                    echo "<tr>";
+                    echo "<td class='id'>N/A</td>";
+                    echo "<td class='content'>Error</td>";
+                    echo "<td class='content'>".$e."</td>";
+                    echo "<td class='actions'>";
+                    echo "</td>";
+                    echo "</tr>";
+
+            }
+            ?>
         </table>
     </div>
 </div>

@@ -1,0 +1,32 @@
+body{
+    overflow: hidden;
+}
+
+.code_info {
+    width: 30%;
+    background-color: green;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    margin: 0 auto;
+    margin-top: 8%;
+    opacity: 0;
+    animation: fadeInOut 12s ease-in-out;
+}
+
+/* Keyframes for the animation */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
