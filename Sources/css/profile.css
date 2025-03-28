@@ -174,19 +174,19 @@ label {
   }
 
   .hat, .eyes, .mouth{
-    width: 50%; /* Réduit la taille à 50% */
-    height: 50%; /* Réduit la taille à 50% */
+    width: 50%;
+    height: 50%;
   }
 
   .hat{
-    width: 75px; /* Réduit la taille à 50% */
+    width: 75px;
   }
 
   .eyes{
-    width: 50px; /* Réduit la taille à 50% */
+    width: 50px;
   }
 
   .mouth{
-    width: 50px; /* Réduit la taille à 50% */
+    width: 50px;
   }
 }

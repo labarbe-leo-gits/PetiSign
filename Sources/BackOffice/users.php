@@ -43,6 +43,8 @@ include_once 'header.php';
                         echo "<td class='content'>Utilisateur</td>";
                     }
                     echo "<td class='actions'>";
+                    echo "<a href='../view_profile.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Voir'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='modify_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";

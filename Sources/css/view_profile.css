@@ -1,0 +1,110 @@
+.profile_header{
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: right;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    border-radius: 8px;
+}
+
+.informations{
+    text-align: right;
+}
+
+.informations > .username{
+    font-weight: bold;
+    margin-bottom: -10px;
+}
+
+.avatar{
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.admin_tag{
+    background-color: #FED78B;
+    padding: 5px 10px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: default;
+}
+
+.user_tags{
+    display: flex;
+    gap: 6px;
+    justify-content: right;
+}
+
+.user_public_information{
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    border-radius: 8px;
+}
+
+.avatar{
+    width:100px;
+    height:100px;
+  }
+
+  .hat, .eyes, .mouth{
+    width: 50%;
+    height: 50%;
+  }
+
+  .hat{
+    width: 75px;
+  }
+
+  .eyes{
+    width: 50px;
+  }
+
+  .mouth{
+    width: 50px;
+  }
+
+.desc_header{
+    display: flex;
+    align-items: center;
+}
+
+.profile_hr{
+    width: 75%;
+    margin: 0 auto;
+}
+
+#second{
+    width: 85%;
+}
+
+.profile_title{
+    margin-left: 20px;
+}
+
+.stat_container{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: -10px;
+}
+
+.stat_value_container{
+    background-color: #FED78B;
+    font-size: 20px;
+    border-radius: 8px;
+    width: 150px;
+    text-align: center;
+    padding: 15px 40px;
+    cursor: default;
+}
+
+.user_description{
+    margin-left: 20px;
+}
