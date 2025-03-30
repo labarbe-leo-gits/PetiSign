@@ -56,7 +56,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     descriptionField.addEventListener('input', function() {
-        profileDescription.textContent = descriptionField.value.trim() !== '' ? descriptionField.value : " Vous n'avez pas de desciption. Ajoutez-en une !";
+        profileDescription.innerHTML = descriptionField.value.trim() !== '' 
+            ? descriptionField.value.replace(/\n/g, '<br>') 
+            : " Vous n'avez pas de desciption. Ajoutez-en une !";
     });
     usernameField.addEventListener('input', function() {
         profileUsername.textContent = usernameField.value || 'Nom d\'utilisateur';

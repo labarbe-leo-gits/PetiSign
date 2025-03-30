@@ -20,6 +20,8 @@ try{
     $get_description->execute();
     $description = $get_description->fetchColumn();
 
+    $outputed_description = nl2br($description);
+
     $get_birthdate = $pdo->prepare('SELECT birthdate FROM USER WHERE email = :mail');
     $get_birthdate->bindParam(':mail', $mail);
     $get_birthdate->execute();
@@ -67,7 +69,7 @@ try{
                 <img src="../Resources/avatar/smile<?=$avatar_mouth?>.png" class="mouth" alt="Mouth" id="mouth">
             </div>
         <h2 id="nomdp"><?=$user?></h2>
-        <p id="description_profile"><?=$description?></p>
+        <p id="description_profile"><?=$outputed_description?></p>
     </div>
     <!-- utile ? -->
     <div class="login_form" id="register_form">
