@@ -28,6 +28,12 @@ try{
     $eyes_id = isset($_POST['eyes']) ? $_POST['eyes'] : $avatar_eyes;
     $mouth_id = isset($_POST['mouth']) ? $_POST['mouth'] : $avatar_mouth;
     $skin_id = isset($_POST['skin']) ? $_POST['skin'] : 1;
+
+    $hat_color_id = isset($_POST['hat_color']) ? $_POST['hat_color'] : 1;
+    $eyes_color_id = isset($_POST['eyes_color']) ? $_POST['eyes_color'] : 1;
+    $mouth_color_id = isset($_POST['mouth_color']) ? $_POST['mouth_color'] : 1;
+    $skin_color_id = isset($_POST['skin_color']) ? $_POST['skin_color'] : 1;
+
 } catch (PDOException $e) {
     echo "\n\n\n\n\n\nError: " . $e->getMessage();
     exit();
@@ -41,10 +47,10 @@ try{
 <div class="container">
     <div class="prev_container">
         <div class="preview">
-            <img class="skin" src="../Resources/avatar/skin.png" alt="">
-            <img class="hat" src="../Resources/avatar/hat<?php echo $hat_id; ?>.png" alt="">
-            <img class="eyes" src="../Resources/avatar/eyes<?php echo $eyes_id; ?>.png" alt="">
-            <img class="mouth" src="../Resources/avatar/smile<?php echo $mouth_id; ?>.png" alt="">
+            <img class="skin" src="../Resources/avatar/skin/skin<?php echo $skin_id; ?>c<?php echo $skin_color_id; ?>.png" alt="">
+            <img class="hat" src="../Resources/avatar/hat/hat<?php echo $hat_id; ?>c<?php echo $hat_color_id; ?>.png" alt="">
+            <img class="eyes" src="../Resources/avatar/eyes/eye<?php echo $eyes_id; ?>c<?php echo $eyes_color_id; ?>.png" alt="">
+            <img class="mouth" src="../Resources/avatar/mouth/smile<?php echo $mouth_id; ?>c<?php echo $mouth_color_id; ?>.png" alt="">
         </div>
         </div>
 
@@ -52,8 +58,14 @@ try{
         <form method="post">
 
             <input type="hidden" name="hat" value="<?php echo $hat_id; ?>">
+            <input type="hidden" name="hat_color" value="<?php echo $hat_color_id; ?>">
+            <input type="hidden" name="skin" value="<?php echo $skin_id; ?>">
+            <input type="hidden" name="skin_color" value="<?php echo $skin_color_id; ?>">
             <input type="hidden" name="eyes" value="<?php echo $eyes_id; ?>">
+            <input type="hidden" name="eyes_color" value="<?php echo $eyes_color_id; ?>">
             <input type="hidden" name="mouth" value="<?php echo $mouth_id; ?>">
+            <input type="hidden" name="mouth_color" value="<?php echo $mouth_color_id; ?>">
+
 
             <div class="title_">
                 <div class="title">Yeux</div>
@@ -70,8 +82,8 @@ try{
                 <div class="divider">&nbsp;</div>
 
                 <div class="column colored-squares">
-                    <div></div> <div></div> <div></div>
-                    <div></div> <div></div> <div></div>
+                    <div><button class="color_btn" type="submit" name="eyes_color" value="1"></button></div> <div><button class="color_btn" type="submit" name="eyes_color" value="2"></button></div> <div><button class="color_btn" type="submit" name="eyes_color" value="3"></button></div>
+                    <div><button class="color_btn" type="submit" name="eyes_color" value="4"></button></div> <div><button class="color_btn" type="submit" name="eyes_color" value="5"></button></div> <div><button class="color_btn" type="submit" name="eyes_color" value="6"></button></div>
                 </div>
             </div>
 
@@ -90,8 +102,8 @@ try{
                 <div class="divider">&nbsp;</div>
 
                 <div class="column colored-squares colored-squares_2">
-                    <div></div> <div></div> <div></div>
-                    <div></div> <div></div> <div></div>
+                    <div><button class="color_btn" type="submit" name="mouth_color" value="1"></div> <div><button class="color_btn" type="submit" name="mouth_color" value="2"></div> <div><button class="color_btn" type="submit" name="mouth_color" value="3"></div>
+                    <div><button class="color_btn" type="submit" name="mouth_color" value="4"></div> <div><button class="color_btn" type="submit" name="mouth_color" value="5"></div> <div><button class="color_btn" type="submit" name="mouth_color" value="6"></div>
                 </div>
             </div>
 
@@ -109,8 +121,8 @@ try{
                 <div class="divider">&nbsp;</div>
 
                 <div class="column colored-squares colored-squares_3">
-                    <div></div> <div></div> <div></div>
-                    <div></div> <div></div> <div></div>
+                    <div><button class="color_btn" type="submit" name="hat_color" value="1"></div> <div><button class="color_btn" type="submit" name="hat_color" value="2"></div> <div><button class="color_btn" type="submit" name="hat_color" value="3"></div>
+                    <div><button class="color_btn" type="submit" name="hat_color" value="4"></div> <div><button class="color_btn" type="submit" name="hat_color" value="5"></div> <div><button class="color_btn" type="submit" name="hat_color" value="6"></div>
                 </div>
             </div>
 
@@ -122,8 +134,8 @@ try{
             <div class="container_">
 
                 <div class="column colored-squares colored-squares_4">
-                    <div></div> <div></div> <div></div>
-                    <div></div> <div></div> <div></div>
+                    <div><button class="color_btn" type="submit" name="skin_color" value="1"></div> <div><button class="color_btn" type="submit" name="skin_color" value="2"></div> <div><button class="color_btn" type="submit" name="skin_color" value="3"></div>
+                    <div><button class="color_btn" type="submit" name="skin_color" value="4"></div> <div><button class="color_btn" type="submit" name="skin_color" value="5"></div> <div><button class="color_btn" type="submit" name="skin_color" value="6"></div>
                 </div>
             </div>
 
@@ -133,6 +145,11 @@ try{
             <input type="hidden" name="hat" value="<?php echo $hat_id; ?>">
             <input type="hidden" name="eyes" value="<?php echo $eyes_id; ?>">
             <input type="hidden" name="mouth" value="<?php echo $mouth_id; ?>">
+            <input type="hidden" name="skin" value="<?php echo $skin_id; ?>">
+            <input type="hidden" name="hat_color" value="<?php echo $hat_color_id; ?>">
+            <input type="hidden" name="eyes_color" value="<?php echo $eyes_color_id; ?>">
+            <input type="hidden" name="mouth_color" value="<?php echo $mouth_color_id; ?>">
+            <input type="hidden" name="skin_color" value="<?php echo $skin_color_id; ?>">
             <button type="submit" class="custom-button">Sauvegarder</button>
             <button type="button" class="custom-button" onclick="window.history.back();">Annuler</button>
         </form>

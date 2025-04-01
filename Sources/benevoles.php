@@ -1,6 +1,7 @@
 <?php include_once "header_benevoles.php";?>
 
 <link rel="stylesheet" href="css/benevoles.css">
+<link rel="stylesheet" href="css/dark.css">
 
 <div class="title_box">
     <h1>Mon équipe bénévole</h1>
@@ -34,6 +35,18 @@
                 <hr class="sector_separator">
                 <label for="leave"></label>    
                 <button type="submit">Quitter l'équipe</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="right_panel2">
+        <div class="event_box">
+            <div class="stats">
+                <h3>Actualités et évènements :</h3>
+                <hr class="event_separator">
+                <h4>Prochain évènement : 12/12/2023</h4>
+                <h4>Evènement passé : 01/01/2023</h4>
+                <h4>Evènement passé : 01/02/2023</h4>
             </div>
         </div>
     </div>

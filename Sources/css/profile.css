@@ -165,16 +165,10 @@ label {
   left: 50%;
   width: 100px;
   transform: translate(-50%, -50%);
-}body::after {
+}
+body.dark-mode.profile-page::after {
   opacity: 0;
 }
-body {
-  background-image: url('../../Resources/img/bg/bglogin.jpeg'); /* Remplacez par le chemin de votre image */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* Rend l'image fixe */
-}
-
 @media screen and (max-width: 480px) {
   .avatar{
     width:100px;

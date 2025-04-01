@@ -35,6 +35,31 @@ $get_avatar_mouth->bindParam(':id', $_GET['id']);
 $get_avatar_mouth->execute();
 $avatar_mouth = $get_avatar_mouth->fetchColumn();
 
+$get_avatar_skin = $pdo->prepare('SELECT avatar_skin FROM USER WHERE id = :id');
+$get_avatar_skin->bindParam(':id', $_GET['id']);
+$get_avatar_skin->execute();
+$avatar_skin = $get_avatar_skin->fetchColumn();
+
+$get_avatar_hat_color = $pdo->prepare('SELECT avatar_hat_color FROM USER WHERE id = :id');
+$get_avatar_hat_color->bindParam(':id', $_GET['id']);
+$get_avatar_hat_color->execute();
+$avatar_hat_color = $get_avatar_hat_color->fetchColumn();
+
+$get_avatar_eyes_color = $pdo->prepare('SELECT avatar_eyes_color FROM USER WHERE id = :id');
+$get_avatar_eyes_color->bindParam(':id', $_GET['id']);
+$get_avatar_eyes_color->execute();
+$avatar_eyes_color = $get_avatar_eyes_color->fetchColumn();
+
+$get_avatar_mouth_color = $pdo->prepare('SELECT avatar_mouth_color FROM USER WHERE id = :id');
+$get_avatar_mouth_color->bindParam(':id', $_GET['id']);
+$get_avatar_mouth_color->execute();
+$avatar_mouth_color = $get_avatar_mouth_color->fetchColumn();
+
+$get_avatar_skin_color = $pdo->prepare('SELECT avatar_skin_color FROM USER WHERE id = :id');
+$get_avatar_skin_color->bindParam(':id', $_GET['id']);
+$get_avatar_skin_color->execute();
+$avatar_skin_color = $get_avatar_skin_color->fetchColumn();
+
 $get_if_user_is_admin_stmt = $pdo->prepare('SELECT is_admin FROM USER WHERE id = :id');
 $get_if_user_is_admin_stmt->bindParam(':id', $_GET['id']);
 $get_if_user_is_admin_stmt->execute();
@@ -89,10 +114,10 @@ if ($number_of_signature === false) {
         </div>
     </div>
     <div class="avatar">
-        <img class="skin" src="../Resources/avatar/skin.png" alt="">
-        <img src="../Resources/avatar/hat<?=$avatar_hat?>.png" class="hat" alt="Hat" id="hat">
-        <img src="../Resources/avatar/eyes<?=$avatar_eyes?>.png" class="eyes" alt="Eyes" id="eyes">
-        <img src="../Resources/avatar/smile<?=$avatar_mouth?>.png" class="mouth" alt="Mouth" id="mouth">
+        <img class="skin" src="../Resources/avatar/skin/skin<?=$avatar_skin?>c<?=$avatar_skin_color?>.png" alt="">
+        <img src="../Resources/avatar/hat/hat<?=$avatar_hat?>c<?=$avatar_hat_color?>.png" class="hat" alt="Hat" id="hat">
+        <img src="../Resources/avatar/eyes/eye<?=$avatar_eyes?>c<?=$avatar_eyes_color?>.png" class="eyes" alt="Eyes" id="eyes">
+        <img src="../Resources/avatar/mouth/smile<?=$avatar_mouth?>c<?=$avatar_mouth_color?>.png" class="mouth" alt="Mouth" id="mouth">
     </div>
 </div>
 

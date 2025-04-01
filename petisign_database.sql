@@ -17,6 +17,11 @@ CREATE TABLE USER (
     avatar_hat INT DEFAULT 1,
     avatar_mouth INT DEFAULT 1,
     avatar_eyes INT DEFAULT 1,
+    avatar_skin INT DEFAULT 1,
+    avatar_hat_color INT DEFAULT 1,
+    avatar_mouth_color INT DEFAULT 1,
+    avatar_eyes_color INT DEFAULT 1,
+    avatar_skin_color INT DEFAULT 6,
     signature INT REFERENCES SIGNATURE(id_petition) --METTRE DU COTE DE LA TABLE SIGNATURE DIRECTEMENT SINON USER QUE 1 SIGNATURE--
 );
 
