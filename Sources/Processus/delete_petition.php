@@ -31,17 +31,26 @@ foreach ($petitions_id as $key => $value) {
 
 if(!in_array($pet_id, $clean_array)){
     header('Location: ../my_petitions.php');
+    exit();
 }
 
-try{
-    $stmt = $pdo->prepare('DELETE FROM PETITION WHERE id = :id');
-    $stmt->bindParam(':id', $pet_id);
+try {
+
+    $stmt = $pdo->prepare('DELETE FROM SIGNATURE WHERE id_petition = :id');
+    $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->execute();
+
+    $stmt = $pdo->prepare('DELETE FROM COMMENT WHERE id_petition = :id');
+    $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = $pdo->prepare('DELETE FROM PETITION WHERE id = :id');
+    $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+    $stmt->execute();
+
     header('Location: ../my_petitions.php');
     exit();
-}catch(PDOException $e){
+} catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-
 ?>
-

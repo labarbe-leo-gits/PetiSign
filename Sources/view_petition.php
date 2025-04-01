@@ -45,6 +45,8 @@ $pet_description_stmt->bindParam(':id', $_GET['id']);
 $pet_description_stmt->execute();
 $pet_description = $pet_description_stmt->fetchColumn();
 
+$pet_description = nl2br($pet_description);
+
 $pet_signature_goal_stmt = $pdo->prepare('SELECT signature_goal FROM PETITION WHERE id = :id');
 $pet_signature_goal_stmt->bindParam(':id', $_GET['id']);
 $pet_signature_goal_stmt->execute();
@@ -134,7 +136,7 @@ $signature_count = $signature_stmt->fetchColumn();
                     if($signature_count > 0){
                         echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Déjà signé</button>';
                     }else{
-                        echo '<button type="submit" class="sign_petition_btn">Je Signe !</button>';
+                        echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
                     }
 
                     ?>    
@@ -226,12 +228,37 @@ $signature_count = $signature_stmt->fetchColumn();
 
 <div class="space">&nbsp;</div>
 
+<link rel="stylesheet" href="css/sign_popup.css">
+
+<div class="filter">&nbsp;</div>
+
+    <div class="container_ popup">
+        <div class="close"><img onclick="hide_popup_trancho()" src="../Resources/img/ui_icons/plus.png" alt="Fermer la Popup"></div>
+        <div class="right">
+            <form action="Processus/sign.php" method="post">
+                <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
+                <h1>Signer "<?=$pet_name?>"</h1>
+                <p class="slogan">Signer, c'est changer le monde</p>
+                <hr>
+                <p>En cliquant sur signer, j'affirme avoir pris conscience des conditions d'utilisation de PétiSign.</p>
+                <p>De plus, vos données personelles seront utilisées à des fins de statistiques pour PétiSign et ses filliales.</p>
+                <input type="checkbox" name="check" id="check" required>
+                <label for="check">J'accepte les conditions d'utilisation de PétiSign</label><br>
+                <input type="checkbox" name="check2" id="check2" required>
+                <label for="check2">J'affirme avoir pris connaissance des éléments mentionnés ci-dessus</label>
+                <hr class="bottom_hr">
+                <div class="send"><button class="button_" type="submit">Signer</button></div>
+            </form>
+        </div>
+    </div>
+
 <style>
     .petition_header {
         background-image: url("../../Resources/img/petition_selection/<?=$pet_image_id?>.jpg");
     }
 </style>
 <script src="js/count_characters.js"></script>
+<script src="js/trancho_popup.js"></script>
 
 <?php
 include_once 'footer.php';

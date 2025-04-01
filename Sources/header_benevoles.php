@@ -30,7 +30,9 @@ else{
 </head>
 <body>
     <nav class="header">
-        <a>Espace Bénévoles</a>
+        <div class="header_title">
+            <a>Espace Bénévoles</a>
+        </div>    
         <div class="sign-out">
             <a href="index.php">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/sign-out.png" alt="Retourner sur PétiSign">

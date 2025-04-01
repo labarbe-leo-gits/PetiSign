@@ -11,9 +11,20 @@ try{
 
     include_once '../database/database.php';
 
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $petition_id = htmlspecialchars(filter_input(INPUT_POST, 'petition_id', FILTER_SANITIZE_NUMBER_INT));
+
+        if (!isset($_POST['check'])) {
+            header('Location: ../view_petition.php?id=' . $petition_id);
+            exit();
+        }
+
+        if (!isset($_POST['check2'])) {
+            header('Location: ../view_petition.php?id=' . $petition_id);
+            exit();
+        }
 
         $user_id_stmt = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
         $user_id_stmt->bindParam(':mail', $_SESSION['mail']);
@@ -64,6 +75,9 @@ try{
         $update_stmt2->bindParam(':id', $petition_id);
         $update_stmt2->bindParam(':signature_goal', $petition_signature);
         $update_stmt2->execute();
+
+        header('Location: ../view_petition.php?id=' . $petition_id);
+        exit();
 
 
     } else {

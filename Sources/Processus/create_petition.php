@@ -49,7 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $insert_stmt->bindParam(':user_id', $user_id);
         $insert_stmt->execute();
 
-        header('Location: ../index.php');
+        $get_pet_id = $pdo->prepare("SELECT id FROM PETITION WHERE title = :pet_name AND user = :user_id");
+        $get_pet_id ->bindParam(':pet_name', $petition_name);
+        $get_pet_id->bindParam(':user_id', $user_id);
+        $get_pet_id->execute();
+        $petition_id = $get_pet_id->fetch(PDO::FETCH_ASSOC)['id'];
+
+        header('Location: ../view_petition.php?id=' . $petition_id);
         exit();
     } catch (PDOException $e) {
         echo "Database error: " . $e->getMessage();

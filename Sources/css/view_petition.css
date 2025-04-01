@@ -62,16 +62,18 @@ body {
 }
 
 .text > .pet_category {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
-    background-color: #4F6DFF;
+    background-color: #50829B;
     border-radius: 100px;
     padding: 10px 50px;
     transition: background-color 0.3s ease;
+    position: relative;
+    z-index: 1000;
 }
 
 .text > .pet_category:hover {
-    background-color: #2d4be1;
+    background-color: #3b6174;
 }
 
 .description > p {
@@ -115,9 +117,9 @@ body {
 }
 
 .sign_petition_btn {
-    background-color: #4F6DFF;
+    background-color: #FED78B;
     padding: 10px 150px;
-    color: white;
+    color: #1A414E;
     border-radius: 100px;
     cursor: pointer;
     border: none;
@@ -126,7 +128,7 @@ body {
 }
 
 .sign_petition_btn:hover {
-    background-color: #2d4be1;
+    background-color: #E0BD78;
 }
 
 .grid > .petition_information {
@@ -159,7 +161,7 @@ body {
 .quick {
     width: fit-content;
     padding: 10px 30px;
-    background-color: #4F6DFF;
+    background-color: #FED78B;
     border-radius: 100px;
     transition: background-color 0.3s ease;
     justify-content: center;
@@ -167,17 +169,17 @@ body {
     margin: 0 auto;
     margin-top: 50px;
     text-decoration: none;
-    color: white;
+    color: #1A414E;
     cursor: pointer;
 }
 
 .quick > img {
     width: 15px;
-    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+    filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
 }
 
 .quick:hover {
-    background-color: #2d4be1;
+    background-color: #E0BD78;
 }
 
 .test {
@@ -378,6 +380,7 @@ body {
 
 .disabled{
     background-color:grey;
+    color: white;
     cursor:not-allowed;
     align-items: center;
 }
