@@ -169,6 +169,12 @@ body{
     align-items: center;
 }
 
+.mail button {
+    width: 800%;    
+    max-width: 800px;
+    border-radius: 25px;
+}
+
 .members_box,
 .sector_box {
     flex: 0 0 auto;
@@ -214,4 +220,13 @@ button {
     padding: 15px;
     text-align: center;
     background-color: #fff;
+}
+
+.equip_separator,
+.sector_separator {
+    width: 80%;
+    margin: 10px auto;
+    height: 1px;          
+    border: none;
+    background-color: #000000; 
 }

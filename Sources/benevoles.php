@@ -16,6 +16,7 @@
                 <div class="stat">
                     <h3>Membres :</h3>
                 </div>
+                <hr class="equip_separator">
                 <div class="stat">
                     <h4>Thomas</h4>
                 </div>
@@ -30,6 +31,7 @@
             <div class="stats">
                 <h3>Secteur :</h3>
                 <h4>Paris XV</h4>
+                <hr class="sector_separator">
                 <label for="leave"></label>    
                 <button type="submit">Quitter l'équipe</button>
             </div>

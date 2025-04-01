@@ -69,7 +69,7 @@ body {
     padding: 10px 50px;
     transition: background-color 0.3s ease;
     position: relative;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .text > .pet_category:hover {
