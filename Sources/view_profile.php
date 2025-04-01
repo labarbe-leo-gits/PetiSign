@@ -55,8 +55,18 @@ $user_number_of_petitions = $pdo->prepare('SELECT COUNT(*) FROM PETITION WHERE u
 $user_number_of_petitions->bindParam(':id', $_GET['id']);
 $user_number_of_petitions->execute();
 $number_of_petitions = $user_number_of_petitions->fetchColumn();
+
 if ($number_of_petitions === false) {
     $number_of_petitions = 0;
+}
+
+$user_number_of_signature = $pdo->prepare('SELECT COUNT(*) FROM SIGNATURE WHERE id_user = :id');
+$user_number_of_signature->bindParam(':id', $_GET['id']);
+$user_number_of_signature->execute();
+$number_of_signature = $user_number_of_signature->fetchColumn();
+
+if ($number_of_signature === false) {
+    $number_of_signature = 0;
 }
 
 ?>
@@ -100,10 +110,10 @@ if ($number_of_petitions === false) {
             <hr class="profile_hr" id="second">
         </div>
         <div class="stat_container">
-            <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
-            <p class="stat_value_container">X Signatures</p>
-            <p class="stat_value_container">X € De dons</p>
-        </div>
+    <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
+    <p class="stat_value_container"><?=$number_of_signature?> Signatures</p>
+    <p class="stat_value_container">X € De dons</p>
+</div>
     </div>
 </div>
 

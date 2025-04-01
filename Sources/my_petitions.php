@@ -53,7 +53,7 @@ $card_num = 0;
                 <p class="description">' . $petition['description'] . '</p>
             </div>
             <div class="footer">
-                <p class="sign">XXX / ' . $petition['signature_goal'] . ' Signatures</p>
+                <p class="sign">'. $petition['signature_count'] .' / ' . $petition['signature_goal'] . ' Signatures</p>
             </div>
             <div class="footer_link">
                 <a href="view_petition.php?id=' . $petition['id'] . '" class="mypet desktop">Voir la Pétition</a>

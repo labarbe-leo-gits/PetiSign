@@ -138,3 +138,5 @@ try{
         </form>
     </div>
 </div>
+
+<script src="js/theme.js"></script>

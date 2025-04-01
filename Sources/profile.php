@@ -57,7 +57,7 @@ try{
 <link rel="stylesheet" href="css/profile.css">
 
 <script src="js/profile.js" defer></script>
-
+<body class="dark-mode profile-page"> 
 <div class="profile-container">
     <div class="profil_gauche">
         <h2 id="loginhigh" class="highlighted-text">Aperçu</h2>
@@ -122,6 +122,7 @@ try{
         <button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
     </div>
 </div>
+</body>
 
 <?php
 include_once 'footer.php';

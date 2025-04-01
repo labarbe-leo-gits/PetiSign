@@ -50,6 +50,11 @@ $pet_signature_goal_stmt->bindParam(':id', $_GET['id']);
 $pet_signature_goal_stmt->execute();
 $pet_signature_goal = $pet_signature_goal_stmt->fetchColumn();
 
+$pet_signature_count = $pdo->prepare('SELECT signature_count FROM PETITION WHERE id = :id');
+$pet_signature_count->bindParam(':id', $_GET['id']);
+$pet_signature_count->execute();
+$pet_signature_count = $pet_signature_count->fetchColumn();
+
 $pet_author_stmt = $pdo->prepare('SELECT user FROM PETITION WHERE id = :id');
 $pet_author_stmt->bindParam(':id', $_GET['id']);
 $pet_author_stmt->execute();
@@ -69,6 +74,17 @@ $pet_image_id_stmt = $pdo->prepare('SELECT image_id FROM PETITION WHERE id = :id
 $pet_image_id_stmt->bindParam(':id', $_GET['id']);
 $pet_image_id_stmt->execute();
 $pet_image_id = $pet_image_id_stmt->fetchColumn();
+
+$get_user_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
+$get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+$get_user_id_stmt->execute();
+$get_user_id = $get_user_id_stmt->fetchColumn();
+
+$signature_stmt = $pdo->prepare("SELECT COUNT(*) FROM SIGNATURE WHERE id_user = :user_id AND id_petition = :petition_id");
+$signature_stmt->bindParam(':user_id', $get_user_id);
+$signature_stmt->bindParam(':petition_id', $_GET['id']);
+$signature_stmt->execute();
+$signature_count = $signature_stmt->fetchColumn();
 
 ?>
 
@@ -109,10 +125,20 @@ $pet_image_id = $pet_image_id_stmt->fetchColumn();
 
     <div class="grid">
         <div class="signatures_container">
-            <div class="objectif">XXXX / <?=$pet_signature_goal?> Signatures récoltées</div>
+            <div class="objectif"><?=$pet_signature_count?> / <?=$pet_signature_goal?> Signatures récoltées</div>
             <div class="sign">
-                <form method="post" action="sign.php">
-                    <button type="submit" class="sign_petition_btn">Je Signe !</button>
+                <form method="post" action="Processus/sign.php">
+                    <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
+                    <?php
+
+                    if($signature_count > 0){
+                        echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Déjà signé</button>';
+                    }else{
+                        echo '<button type="submit" class="sign_petition_btn">Je Signe !</button>';
+                    }
+
+                    ?>    
+                    
                 </form></div>
         </div>
 
@@ -127,11 +153,85 @@ $pet_image_id = $pet_image_id_stmt->fetchColumn();
     </div>
 </div>
 
+<div class="comment_section">
+    <h2 class="title">Commentaires</h2>
+    <div class="new">
+        <form method="POST" action="Processus/add_comment.php">
+            <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
+            <input type="hidden" name="user_id" value="<?=$get_user_id?>">
+            <textarea required name="comment" id="comment" maxlength=800  onkeyup="count('desc_counter',this,800)"></textarea>
+            <div class="limit positioned" id="desc_counter">
+                    <p>Limite de caractères : 0 / 800</p>
+            </div>
+            <button type="submit" class="comment_btn custom-button"><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>
+        </form>
+    </div>
+    <?php
+
+    $comments_stmt = $pdo->prepare('SELECT * FROM COMMENT WHERE id_petition = :id ORDER BY date DESC');
+    $comments_stmt->bindParam(':id', $_GET['id']);
+    $comments_stmt->execute();
+    $comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach($comments as $comment){
+        $comment_user_stmt = $pdo->prepare('SELECT username FROM USER WHERE id = :id');
+        $comment_user_stmt->bindParam(':id', $comment['id_user']);
+        $comment_user_stmt->execute();
+        $comment_user = $comment_user_stmt->fetchColumn();
+
+        $get_avatar_hat = $pdo->prepare('SELECT avatar_hat FROM USER WHERE id = :id');
+        $get_avatar_hat->bindParam(':id', $comment['id_user']);
+        $get_avatar_hat->execute();
+        $avatar_hat = $get_avatar_hat->fetchColumn();
+
+        $get_avatar_eyes = $pdo->prepare('SELECT avatar_eyes FROM USER WHERE id = :id');
+        $get_avatar_eyes->bindParam(':id', $comment['id_user']);
+        $get_avatar_eyes->execute();
+        $avatar_eyes = $get_avatar_eyes->fetchColumn();
+
+        $get_avatar_mouth = $pdo->prepare('SELECT avatar_mouth FROM USER WHERE id = :id');
+        $get_avatar_mouth->bindParam(':id', $comment['id_user']);
+        $get_avatar_mouth->execute();
+        $avatar_mouth = $get_avatar_mouth->fetchColumn();
+
+        $formatted_date = date('d/m/Y', strtotime($comment['date']));
+        $formated_time = date('H:i', strtotime($comment['date']));
+
+        echo '<div class="comment">
+                <div class="user_info">
+                    <div class="avatar">
+                        <img class="skin" src="../Resources/avatar/skin.png" alt="">
+                        <img src="../Resources/avatar/hat'.$avatar_hat.'.png" class="hat" alt="Hat" id="hat">
+                        <img src="../Resources/avatar/eyes'.$avatar_eyes.'.png" class="eyes" alt="Eyes" id="eyes">
+                        <img src="../Resources/avatar/smile'.$avatar_mouth.'.png" class="mouth" alt="Mouth" id="mouth">
+                    </div>
+                    <a href="view_profile.php?id='. $comment['id_user'] .'" class="profile_link_comment">'.$comment_user.'</a>
+                </div>
+                <div class="comment_content">
+                    <p class="comment_date">'.$formatted_date.' &#x25CF; '.$formated_time.' &#x25CF ';
+
+                    if($is_admin == 1){
+                        echo '<a href="Processus/admin_delete_com.php?id='.$comment['id'].'" class="quick2">
+                        <img src="../Resources/img/ui_icons/trash.png" alt=""></a>';
+                    }
+
+                    echo '</p>
+                    <div class="comment_text">'.$comment['content'].'</div>
+                </div>
+            </div>';
+    }
+
+    ?>
+</div>
+
+<div class="space">&nbsp;</div>
+
 <style>
     .petition_header {
         background-image: url("../../Resources/img/petition_selection/<?=$pet_image_id?>.jpg");
     }
 </style>
+<script src="js/count_characters.js"></script>
 
 <?php
 include_once 'footer.php';

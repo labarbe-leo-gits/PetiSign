@@ -7,24 +7,97 @@ if(!isset($_SESSION['mail'])){
     exit();
 }
 
+$get_user_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
+$get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+$get_user_id_stmt->execute();
+$user_id = $get_user_id_stmt->fetchColumn();
+
+$get_user_signatures_stmt = $pdo->prepare('SELECT * FROM SIGNATURE WHERE id_user = :user_id');
+$get_user_signatures_stmt->bindParam(':user_id', $user_id);
+$get_user_signatures_stmt->execute();
+$signatures = $get_user_signatures_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
-<link rel="stylesheet" href="css/mysigns.css">
+<link rel="stylesheet" href="css/mypet.css">
 
 <div class="title">
     <h1 class="highlighted-text" id="mysigns">Mes Signatures</h1>
     <hr>
-    <a class="filters" href=""> <img src="../Resources/img/ui_icons/filter.png" id="filter" alt="Filtres">  Filtres</a>
+    <a class="new_pet" href="discover.php"> <img src="../Resources/img/ui_icons/loupe.png" id="add" alt="Filtres">  Explorer les Pétitions</a>
 </div>
 
 <?php
-$card_num = 5
+$card_num = 0;
 ?>
 
 <div class="pet_container">
     <?php
 
-    for($i = 0; $i < $card_num; $i++){
+    try{
+
+        foreach($signatures as $signature){
+
+            $get_pet_name_stmt = $pdo->prepare('SELECT title FROM PETITION WHERE id = :petition_id');
+            $get_pet_name_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $get_pet_name_stmt->execute();
+            $petition = $get_pet_name_stmt->fetchColumn();
+
+            $get_category_id_stmt = $pdo->prepare('SELECT category FROM PETITION WHERE id = :petition_id');
+            $get_category_id_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $get_category_id_stmt->execute();
+            $category_id = $get_category_id_stmt->fetchColumn();
+
+            $get_category_name_stmt = $pdo->prepare('SELECT name FROM CATEGORY WHERE id = :category_id');
+            $get_category_name_stmt->bindParam(':category_id', $category_id);
+            $get_category_name_stmt->execute();
+            $category_name = $get_category_name_stmt->fetchColumn();
+
+            $get_description_stmt = $pdo->prepare('SELECT description FROM PETITION WHERE id = :petition_id');
+            $get_description_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $get_description_stmt->execute();
+            $description = $get_description_stmt->fetchColumn();
+
+            $sign_goal_stmt = $pdo->prepare('SELECT signature_goal FROM PETITION WHERE id = :petition_id');
+            $sign_goal_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $sign_goal_stmt->execute();
+            $sign_goal = $sign_goal_stmt->fetchColumn();
+
+            $sign_count_stmt = $pdo->prepare('SELECT signature_count FROM PETITION WHERE id = :petition_id');
+            $sign_count_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $sign_count_stmt->execute();
+            $sign_count = $sign_count_stmt->fetchColumn();
+
+            $pet_img_id_stmt = $pdo->prepare('SELECT image_id FROM PETITION WHERE id = :petition_id');
+            $pet_img_id_stmt->bindParam(':petition_id', $signature['id_petition']);
+            $pet_img_id_stmt->execute();
+            $pet_img_id = $pet_img_id_stmt->fetchColumn();
+
+            print '
+            <div class="sample_pet">
+                <div class="header">
+                    <img src="../Resources/img/petition_selection/'. $pet_img_id .'.jpg" alt="Image de couverture pétition">
+                    <p class="category">' . $category_name . '</p>
+                </div>
+                <div class="content">
+                    <h2 class="title">' . $petition . '</h2>
+                    <hr class="pet_sep">
+                    <p class="description">' . $description . '</p>
+                </div>
+                <div class="footer">
+                    <p class="sign">'. $sign_count .' / ' . $sign_goal . ' Signatures</p>
+                </div>
+                <div class="footer_link">
+                    <a href="view_petition.php?id=' . $signature['id_petition'] . '" class="mypet desktop">Voir la Pétition</a>
+                    <a href="" class="mypet mobile">Voir</a>
+                </div>
+            </div>';
+        }
+    }catch(PDOException $e){
+        echo 'Erreur : ' . $e->getMessage();
+    }
+
+    for($i=0;$i<$card_num;$i++){
         print '
         <div class="sample_pet">
             <div class="header">
@@ -38,19 +111,18 @@ $card_num = 5
             </div>
             <div class="footer">
                 <p class="sign">XXX / XXX Signatures</p>
-                <p class="author">Author</p>
             </div>
             <div class="footer_link">
-                <a href="" class="see_pet">Voir la Pétition</a>
+                <a href="" class="mypet desktop">Voir la Pétition</a>
+                <a href="" class="mypet mobile">Voir</a>
+                <a href="" class="action_btn"><img src="../Resources/img/ui_icons/crayon.png" alt="Modifier la Pétition"></a>
+                <a href="" class="action_btn"><img src="../Resources/img/ui_icons/trash.png" alt="Supprimer la Pétition"></a>
             </div>
-        </div>
-        ';
+        </div>';
     }
-
     ?>
-
 </div>
 
 <?php
-include_once 'footer.php';
+include_once 'footer.php'
 ?>

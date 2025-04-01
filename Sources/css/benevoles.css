@@ -1,0 +1,133 @@
+* {
+    font-family: "League Spartan", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: #1A414E;
+}
+
+body{
+    margin: 0;
+    top: 0;
+}
+
+.header{
+    text-align: center;
+    background-color: #E0BD78;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: default;
+}
+
+.header > a{
+    color: #1A414E;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.sign-out {
+    text-align: right;
+}
+
+.back_container{
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+}
+
+.back_container > .left_panel{
+    border-right: solid 1px #ccc;
+    height: 100vh;
+}
+
+.back_container > .left_panel > .item{
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
+.back_container > .left_panel > .item > a{
+    text-decoration: none;
+    width: auto;
+    height: auto;
+}
+
+.back_container > .left_panel > .item:hover{
+    background-color: #f6f6f6;
+}
+
+#first_item{
+    margin-top: -1px;
+}
+
+.back_container > .right_panel{
+    height: 100vh;
+}
+
+.custom-button {
+    background-color: #1A414E;
+    color: white;
+    border: none;
+    padding: 18px 80px;
+    font-size: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    width: auto;
+    padding-right: calc(80px + 30px);
+    padding-left: calc(80px + 30px);
+    align-items: center;
+}
+
+.custom-button:hover {
+    background-color: #173642;
+}
+
+.back_container > .left_panel > .navigation_menu_item{
+    text-align: center;
+}
+
+.back_office_nav_img{
+    width: 25px;
+    filter: invert(19%) sepia(37%) saturate(741%) hue-rotate(149deg) brightness(98%) contrast(92%);
+}
+
+.space{
+    margin: 10px;
+}
+
+#exit_btn_container{
+    border: 0px;
+    text-align: center;
+    justify-content: center;
+}
+
+#exit_btn_container > button{
+    width: 50%;
+    height: 50px;
+    font-size: 14px;
+}
+
+#exit_btn{
+    padding: 2px;
+}
+
+.back_container > .left_panel > #exit_btn_container:hover{
+    background-color: transparent;
+}
+
+::selection {
+    background-color: #E0BD78;
+}
+
+.title {
+    text-align: center;
+}
