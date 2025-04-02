@@ -1,6 +1,7 @@
 <?php
 
 include_once '../database/database.php';
+include_once 'write_logs.php';
 session_start();
 
 $username = $_POST['mail'];
@@ -24,6 +25,9 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
     $_SESSION['mail'] = $username;
     $_SESSION['is_admin'] = $is_admin;
+
+    write_logs("../logs/log.txt", "[INFO]", "Nouvelle connexion de l'utilisateur : $user");
+
     header("Location: ../profile.php");
 } else {
     echo "Wrong password or user not found";

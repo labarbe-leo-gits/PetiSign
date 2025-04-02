@@ -14,4 +14,8 @@ ErrorDocument 404 /Sources/error.php?code=404
     Deny from all
     ErrorDocument 403 /Sources/error.php?code=403
 </FilesMatch>
-
+<FilesMatch "\.txt$">
+    Order allow,deny
+    Deny from all
+    ErrorDocument 403 /Sources/error.php?code=403
+</FilesMatch>

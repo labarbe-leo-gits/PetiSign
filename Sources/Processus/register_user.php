@@ -3,6 +3,7 @@
 session_start();
 
 include_once '../database/database.php';
+include_once 'write_logs.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail = htmlspecialchars(filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL));
@@ -58,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     session_unset();
                     session_destroy();
+
+                    write_logs("../logs/log.txt", "[INFO]", "Nouvelle inscription : $mail - $username");
 
                     header('Location: ../login.php');
                     exit();
