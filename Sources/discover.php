@@ -58,99 +58,76 @@ $number_of_cards = 5;
 
 <?php
 
-$get_all_categories_stmt = $pdo->prepare("SELECT name FROM CATEGORY");
+$get_all_categories_stmt = $pdo->prepare("SELECT id, name FROM CATEGORY");
 $get_all_categories_stmt->execute();
 $categories = $get_all_categories_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach($categories as $category){
-
-    $get_category_id = $pdo->prepare("SELECT id FROM CATEGORY WHERE name = :name");
-    $get_category_id->bindParam(':name', $category['name']);
-    $get_category_id->execute();
-    $category_id = $get_category_id->fetchColumn();
+foreach ($categories as $category) {
+    $category_id = $category['id'];
 
     $number_of_pet_in_category_stmt = $pdo->prepare("SELECT COUNT(*) FROM PETITION WHERE category = :category");
     $number_of_pet_in_category_stmt->bindParam(':category', $category_id);
     $number_of_pet_in_category_stmt->execute();
     $number_of_pet_in_category = $number_of_pet_in_category_stmt->fetchColumn();
 
-    if($number_of_pet_in_category == 0){
+    if ($number_of_pet_in_category == 0) {
         echo '
         <div class="trending spacing" id="first_after_title">
             <div class="textheader categories_header">
                 <div class="header_left">
-                    <h2 class="highlighted-text trendinghigh">'.$category['name'].'</h2>
+                    <h2 class="highlighted-text trendinghigh">' . $category['name'] . '</h2>
                 </div>
             </div>
         </div>
-        <p>
-            Il n\'y a pas de pétition dans cette catégorie pour le moment.
-        </p>';
-    }
-    else{
-
-
+        <div class="empty_category">
+            <img src="../Resources/img/ui_icons/empty.png" class="small" alt="Empty Category">
+            <p>Il n\'y a pas de pétition dans cette catégorie pour le moment.</p>
+        </div>';
+    } else {
         echo '
-            <div class="trending spacing" id="first_after_title">
+        <div class="trending spacing" id="first_after_title">
             <div class="textheader categories_header">
                 <div class="header_left">
-                    <h2 class="highlighted-text trendinghigh">'.$category['name'].'</h2>
-                </div>
+                    <h2 class="highlighted-text trendinghigh">' . $category['name'] . '</h2>
+                </div>';
+
+        if ($number_of_pet_in_category >= 5) {
+            echo '
                 <div class="header_right">
                     <a href="">Tout Afficher</a>
-                </div>
+                </div>';
+        }
+
+        echo '
             </div>
             <div class="scrollable">';
 
-            if($number_of_pet_in_category < $number_of_cards){
-                for($i = 0; $i < $number_of_cards; $i++){
-                    echo '
-                        <div class="card">
-                            <div class="cardheader">
-                                <img src="../Resources/img/bg/protest.jpg" alt="">
-                            </div>
-                            <div class="cardcontent">
-                                <div class="left">
-                                    <h3>Titre</h3>
-                                </div>
-                                <div class="right">
-                                    <a href="">Découvrir</a>
-                                </div>
-                            </div>
-                        </div>';
-                }
+        $petitions_stmt = $pdo->prepare("SELECT * FROM PETITION WHERE category = :category LIMIT :limit");
+        $petitions_stmt->bindParam(':category', $category_id, PDO::PARAM_INT);
+        $petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);
+        $petitions_stmt->execute();
+        $petitions = $petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                echo '<div class="card see_more">
-                    <a class="see_more_link"  href=""><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
+        foreach ($petitions as $petition) {
+            echo '
+            <div class="card">
+                <div class="cardheader">
+                    <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
                 </div>
-            </div>
-        </div>
-        ';
-            }else{
-            
-                for($i = 0; $i < $number_of_cards; $i++){
-                    echo '
-                        <div class="card">
-                            <div class="cardheader">
-                                <img src="../Resources/img/bg/protest.jpg" alt="">
-                            </div>
-                            <div class="cardcontent">
-                                <div class="left">
-                                    <h3>Titre</h3>
-                                </div>
-                                <div class="right">
-                                    <a href="">Découvrir</a>
-                                </div>
-                            </div>
-                        </div>';
-                }
+                <div class="cardcontent">
+                    <div class="left">
+                        <h3>' . $petition['title'] . '</h3>
+                    </div>
+                    <div class="right">
+                        <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
+                    </div>
+                </div>
+            </div>';
+        }
 
-                echo '<div class="card see_more">
-                    <a class="see_more_link"  href=""><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
-                </div>
+        echo '
             </div>
-        </div>
-        ';}
+        </div>';
     }
 }
 
