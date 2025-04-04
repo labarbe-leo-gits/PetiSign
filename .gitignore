@@ -1,2 +1,3 @@
 Sources/database/.env
 Sources/PHPMailer/.env
+Sources/logs/log.txt

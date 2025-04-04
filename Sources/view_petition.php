@@ -276,6 +276,7 @@ $signature_count = $signature_stmt->fetchColumn();
             </form>
         </div>
     </div>
+</div>
 
 <style>
     .petition_header {
