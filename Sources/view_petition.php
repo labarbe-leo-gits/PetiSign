@@ -88,6 +88,11 @@ $signature_stmt->bindParam(':petition_id', $_GET['id']);
 $signature_stmt->execute();
 $signature_count = $signature_stmt->fetchColumn();
 
+$pet_statut_stmt = $pdo->prepare('SELECT statut FROM PETITION WHERE id = :id');
+$pet_statut_stmt->bindParam(':id', $_GET['id']);
+$pet_statut_stmt->execute();
+$pet_statut = $pet_statut_stmt->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="css/view_petition.css">
@@ -136,7 +141,11 @@ $signature_count = $signature_stmt->fetchColumn();
                     if($signature_count > 0){
                         echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Déjà signé</button>';
                     }else{
-                        echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
+                        if($pet_statut != 'OPEN'){
+                            echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';
+                        }else{
+                            echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
+                        }
                     }
 
                     ?>    

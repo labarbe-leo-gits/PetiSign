@@ -24,15 +24,40 @@ try{
     $get_avatar_mouth->execute();
     $avatar_mouth = $get_avatar_mouth->fetchColumn();
 
+    $get_avatar_skin = $pdo->prepare('SELECT avatar_skin FROM USER WHERE email = :mail');
+    $get_avatar_skin->bindParam(':mail', $mail);
+    $get_avatar_skin->execute();
+    $avatar_skin = $get_avatar_skin->fetchColumn();
+
+    $get_avatar_hat_color = $pdo->prepare('SELECT avatar_hat_color FROM USER WHERE email = :mail');
+    $get_avatar_hat_color->bindParam(':mail', $mail);
+    $get_avatar_hat_color->execute();
+    $avatar_hat_color = $get_avatar_hat_color->fetchColumn();
+
+    $get_avatar_eyes_color = $pdo->prepare('SELECT avatar_eyes_color FROM USER WHERE email = :mail');
+    $get_avatar_eyes_color->bindParam(':mail', $mail);
+    $get_avatar_eyes_color->execute();
+    $avatar_eyes_color = $get_avatar_eyes_color->fetchColumn();
+
+    $get_avatar_mouth_color = $pdo->prepare('SELECT avatar_mouth_color FROM USER WHERE email = :mail');
+    $get_avatar_mouth_color->bindParam(':mail', $mail);
+    $get_avatar_mouth_color->execute();
+    $avatar_mouth_color = $get_avatar_mouth_color->fetchColumn();
+
+    $get_avatar_skin_color = $pdo->prepare('SELECT avatar_skin_color FROM USER WHERE email = :mail');
+    $get_avatar_skin_color->bindParam(':mail', $mail);
+    $get_avatar_skin_color->execute();
+    $avatar_skin_color = $get_avatar_skin_color->fetchColumn();
+
     $hat_id = isset($_POST['hat']) ? $_POST['hat'] : $avatar_hat;
     $eyes_id = isset($_POST['eyes']) ? $_POST['eyes'] : $avatar_eyes;
     $mouth_id = isset($_POST['mouth']) ? $_POST['mouth'] : $avatar_mouth;
-    $skin_id = isset($_POST['skin']) ? $_POST['skin'] : 1;
+    $skin_id = isset($_POST['skin']) ? $_POST['skin'] : $avatar_skin;
 
-    $hat_color_id = isset($_POST['hat_color']) ? $_POST['hat_color'] : 1;
-    $eyes_color_id = isset($_POST['eyes_color']) ? $_POST['eyes_color'] : 1;
-    $mouth_color_id = isset($_POST['mouth_color']) ? $_POST['mouth_color'] : 1;
-    $skin_color_id = isset($_POST['skin_color']) ? $_POST['skin_color'] : 1;
+    $hat_color_id = isset($_POST['hat_color']) ? $_POST['hat_color'] : $avatar_hat_color;
+    $eyes_color_id = isset($_POST['eyes_color']) ? $_POST['eyes_color'] : $avatar_eyes_color;
+    $mouth_color_id = isset($_POST['mouth_color']) ? $_POST['mouth_color'] : $avatar_mouth_color;
+    $skin_color_id = isset($_POST['skin_color']) ? $_POST['skin_color'] : $avatar_skin_color;
 
 } catch (PDOException $e) {
     echo "\n\n\n\n\n\nError: " . $e->getMessage();
