@@ -1,0 +1,27 @@
+.readonly-field {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    box-sizing: border-box;
+    color: #333;
+    display: inline-block;
+    justify-content: left;
+    text-align: left;
+    cursor: not-allowed;
+}
+
+.role_selector_text{
+    position: relative;
+    text-align: left;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-bottom: -9px;
+    z-index: 10;
+    font-size: 14px;
+    background-color: white;
+    width: fit-content;
+
+}

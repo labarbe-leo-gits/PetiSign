@@ -1,91 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Palette de Couleurs</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .column {
-            display: grid;
-            gap: 10px;
-        }
-
-        .black-squares {
-            grid-template-columns: repeat(2, 50px);
-        }
-
-        .colored-squares {
-            grid-template-columns: repeat(3, 50px);
-        }
-
-        .black-squares div,
-        .colored-squares div {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-        }
-
-        .black-squares div {
-            background-color: black;
-        }
-
-        .colored-squares div {
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .colored-squares div:nth-child(1) { background-color: #776A91; }
-        .colored-squares div:nth-child(2) { background-color: #5690F0; }
-        .colored-squares div:nth-child(3) { background-color: #3D3570; }
-        .colored-squares div:nth-child(4) { background-color: #5B3A2E; }
-        .colored-squares div:nth-child(5) { background-color: #17C1D9; }
-        .colored-squares div:nth-child(6) { background-color: #86A581; }
-
-        .divider {
-            height: 100px;
-            width: 2px;
-            background-color: gray;
-        }
-
-        .title {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .line {
-            width: 100%;
-            background-color: black;
-            margin-bottom: 10px;
-        }
-    </style>
+    <title>File Upload</title>
 </head>
 <body>
-
-    <div class="title">Yeux</div>
-    <div class="line"></div>
-    
-    <div class="container">
-        <div class="column black-squares">
-            <div></div> <div></div> 
-            <div></div> <div></div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="column colored-squares">
-            <div></div> <div></div> <div></div>
-            <div></div> <div></div> <div></div>
-        </div>
-    </div>
-
+    <form action="/Resources/upload.php" method="post" enctype="multipart/form-data">
+        <h2>Upload File</h2>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Upload File" name="submit">
+    </form>
 </body>
 </html>
