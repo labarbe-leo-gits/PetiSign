@@ -192,3 +192,33 @@ body.dark-mode.profile-page::after {
     width: 50px;
   }
 }
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+  accent-color: #FED78B;
+}
+.checkbox-container label {
+  position: static;
+  top: auto;
+  left: auto;
+  background-color: transparent;
+  padding: 0;
+  font-size: 16px;
+  transition: none;
+  pointer-events: auto;
+}
+
+#loginhr_{
+  margin-bottom:10px;
+  margin-top:10px;
+}

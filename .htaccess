@@ -1,4 +1,6 @@
+Options -Indexes
 ErrorDocument 404 /Sources/error.php?code=404
+ErrorDocument 403 /Sources/error.php?code=403
 <FilesMatch "^\.env$">
     Order allow,deny
     Deny from all

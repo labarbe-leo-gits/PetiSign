@@ -19,7 +19,12 @@ if ($is_admin != 0) {
                     $stmt->bindParam(':content', $message);
                     $stmt->execute();
 
-                    $users = $pdo->prepare("SELECT email, username FROM USER");
+                    $newsletter_id_stmt = $pdo->prepare("SELECT id FROM NEWSLETTER WHERE title = :title");
+                    $newsletter_id_stmt->bindParam(':title', $title);
+                    $newsletter_id_stmt->execute();
+                    $newsletter_id = $newsletter_id_stmt->fetchColumn();
+
+                    $users = $pdo->prepare("SELECT id, email, username FROM USER WHERE newsletter = 1");
                     $users->execute();
                     $users_data = $users->fetchAll(PDO::FETCH_ASSOC);
 
@@ -27,6 +32,10 @@ if ($is_admin != 0) {
 
                     foreach($users_data as $user){
                         EnvoieMail($mail_sent, $user['email'], $user['username'], $title, $message);
+                        $abonnement_stmt = $pdo->prepare("INSERT INTO ABONNEMENT (id_user, id_newsletter) VALUES (:id_user, :id_newsletter)");
+                        $abonnement_stmt->bindParam(':id_user', $user['id']);
+                        $abonnement_stmt->bindParam(':id_newsletter', $newsletter_id);
+                        $abonnement_stmt->execute();
                     }
 
                     header("Location: ../newsletter.php");

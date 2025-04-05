@@ -8,9 +8,13 @@ if($is_admin != 0){
         $id = intval($_GET['id']);
 
         try {
+
+            $abonnement_stmt = $pdo->prepare("DELETE FROM ABONNEMENT WHERE id_newsletter = :id");
+            $abonnement_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $abonnement_stmt->execute();
+
             $stmt = $pdo->prepare("DELETE FROM NEWSLETTER WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
             $stmt->execute();
 
             header("Location: ../newsletter.php");

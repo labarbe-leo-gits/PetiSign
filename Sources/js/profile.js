@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const date_field = document.getElementById('anniv');
     const pswd_btn = document.getElementById('pswd_btn');
     const avatar_btn = document.getElementById('avatar_btn');
+    const newsletter_checkbox = document.getElementById('newsletter');
+    const news_label = document.getElementById('news_label');
+    const newsletter_value = document.getElementById('newsletter_value');
     emailError.style.color = 'red';
     emailError.style.fontSize = '0.8em';
     emailError.style.display = 'none';
@@ -43,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         gender_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         date_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        newsletter_checkbox.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        news_label.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
 
         if(button.textContent === 'Enregistrer') {
@@ -54,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         
     });
+
+    newsletter_value.value = newsletter_checkbox.checked ? '1' : '0';
 
     descriptionField.addEventListener('input', function() {
         profileDescription.innerHTML = descriptionField.value.trim() !== '' 

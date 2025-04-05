@@ -22,6 +22,11 @@ try{
 
     $outputed_description = nl2br($description);
 
+    $get_newsletter_statut = $pdo->prepare('SELECT newsletter FROM USER WHERE email = :mail');
+    $get_newsletter_statut->bindParam(':mail', $mail);
+    $get_newsletter_statut->execute();
+    $newsletter_statut = $get_newsletter_statut->fetchColumn();
+
     $get_birthdate = $pdo->prepare('SELECT birthdate FROM USER WHERE email = :mail');
     $get_birthdate->bindParam(':mail', $mail);
     $get_birthdate->execute();
@@ -136,7 +141,15 @@ try{
                     <textarea class="editable" disabled name="description" id="description"><?=$description?></textarea>
                     <label for="description">Description</label>
                 </div>
+                <div class="space"></div>
+                <div class="entries checkbox-container">
+                    <input type="hidden" name="newsletter_value" id="newsletter_value" value="<?= $newsletter_statut == 1 ? '1' : '0'; ?>">
+                    <input class="editable" type="checkbox" name="newsletter" id="newsletter" <?php if ($newsletter_statut == 1) echo 'checked'; ?> value="1" class="checkbox" disabled>
+                    <label for="newsletter" class="checkbox-label" id="news_label">Recevoir la newsletter</label>
+                </div>
             </div>
+
+            <hr id="loginhr_">
             
             <button type="button" id="loginbtn" class="custom-button loginbtn">Modifier</button>
             <button type="button" onclick="window.location.href='password_form.php'" class="custom-button loginbtn" id="pswd_btn">Changer mon mot de passe</button>

@@ -20,6 +20,7 @@ $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $gender = $_POST['gender'];
 $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 $birthdate = $_POST['anniv'];
+$newsletter = isset($_POST['newsletter']) ? 1 : 0;
 
 if($mail == null || $mail == false || $username == null || $username == false || $gender == null || $gender == false || $description == null || $description == false || $birthdate == null || $birthdate == false){
     header("Location: ../profile.php");
@@ -32,13 +33,14 @@ $id_stmt->execute();
 $id = $id_stmt->fetchColumn();
 
 try {
-    $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username WHERE id = :id");
+    $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username, newsletter = :news WHERE id = :id");
     $stmt->bindParam(':mail', $mail);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':gender', $gender);
     $stmt->bindParam(':bday', $birthdate);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':news', $newsletter);
     $stmt->execute();
 
     if($mail != $original_mail){
