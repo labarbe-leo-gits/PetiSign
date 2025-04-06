@@ -115,8 +115,7 @@ $expiration = $formated_date;
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>
-
-<div class="ban_info">
+<div class="ban_container">
     <h2>Bonjour <?= $username ?>,</h2>
     <p class="header_text" id="first">Nous sommes désolés de vous informer que votre compte a été banni.</p>
     <p class="header_text">Voici les détails de votre bannissement :</p>
@@ -139,22 +138,35 @@ $expiration = $formated_date;
     <p class="header_text">Si vous pensez qu'il s'agit d'une erreur, n'hésitez pas à nous contacter.</p>
     <p class="header_text">Nous vous remercions de votre compréhension.</p>
     <p class="header_text" id="signature_text">Cordialement,</p>
-    <p class="header_text">L'équipe de PétiSign</p>
+    <p class="header_text" id="last">L'équipe de PétiSign</p>
+
+    <button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
 </div>
 
+</div>
 
-<button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
+<link rel="stylesheet" href="css/backoffice_ban_user.css">
 
-<form action="">
-<div class="entries">
-                <input name="password" id="password" type="email" required placeholder=" " class="form-input">
-                <label for="password">Mot de passe</label>
+<div class="ban_container">
+    <h2>Contactez-nous</h2>
+    <form action="">
+        <div class="container">
+            <div class="entries">
+                <input name="mail" id="mail" type="email" required placeholder=" " value="<?=$_SESSION['mail']?>" class="form-input">
+                <label for="mail">Adresse e-mail</label>
             </div>
-    <div class="entries">
-        <label for="message">Votre message :</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-    </div>
-</form>
+            <div class="entries">
+                <input name="obj" id="obj" type="text" required placeholder=" " class="form-input">
+                <label for="obj">Objet</label>
+            </div>
+            <div class="area">
+            <p class="role_selector_text">Message</p>
+                <textarea required name="message" id="message" maxlength="1200" placeholder="Écrivez votre message ici ..."></textarea>    
+            </div>
+            <button type="submit" class="custom-button loginbtn">Envoyer</button>
+        </div>
+    </form>
+</div>
 
 <?php
 include_once 'footer.php';

@@ -5,7 +5,7 @@ h1 {
 }
 
 
-.ban_info {
+.ban_container {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -14,13 +14,13 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.ban_info h2 {
+.ban_container h2 {
     font-size: 1.8rem;
     margin-bottom: 10px;
     text-align: center;
 }
 
-.ban_info p {
+.ban_container p {
     font-size: 1rem;
     line-height: 1.5;
     margin: 10px 0;
@@ -53,7 +53,7 @@ h1 {
 .custom-button {
     display: block;
     margin: 20px auto;
-    padding: 10px 20px;
+    padding: 10px 60px;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -62,23 +62,153 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-.ban_info > .header_text{
-    margin: -5px;
+.ban_container > .header_text{
+    line-height: 1;
     padding-left:5px;
 }
 
-.ban_info > #first{
+@media screen and (max-width: 768px) {
+    .ban_container {
+        max-width: 85%;
+        padding: 15px;
+    }
+
+    .ban_container h2 {
+        font-size: 1.5rem;
+    }
+
+    .ban_container p {
+        font-size: 0.9rem;
+    }
+
+    .details_item h3 {
+        font-size: 1rem;
+    }
+
+    .details_item p {
+        font-size: 0.9rem;
+    }
+
+    .custom-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    .details {
+        padding: 15px;
+    }
+    .details_item {
+        margin-bottom: 10px;
+    }
+    .details_item h3 {
+        font-size: 1rem;
+    }
+    .details_item p {
+        font-size: 0.8rem;
+    }
+    .ban_container > .header_text{
+        line-height: 1;
+        padding-left:5px;
+    }
+    .ban_container > #first{
+        margin-top:20px;
+        padding-left:5px;
+    }
+    .ban_container > #second{
+        margin-top:20px;
+        padding-left:5px;
+    }
+    .ban_container > #signature_text{
+        margin-top:20px;
+        padding-left:5px;
+    }
+    
+}
+
+.ban_container > #first{
     margin-top:20px;
     padding-left:5px;
 }
 
-.ban_info > #second{
+.ban_container > #second{
     margin-top:20px;
     padding-left:5px;
 }
 
-.ban_info > #signature_text{
+.ban_container > #signature_text{
     margin-top:20px;
     padding-left:5px;
 }
 
+#last{
+    margin-bottom: 30px;
+}
+
+.contact_form{
+    background-color: aqua;
+    border-radius:8px;
+}
+
+.ban_container label {
+    position: absolute;
+    width: 50%;
+    text-align: left;
+    top: 20px;
+    left: 10px;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #999;
+}
+
+.ban_container input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.ban_container input:focus + label,
+.ban_container input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 5px;
+    font-size: 14px;
+    color: #1A414E;
+    width: auto;
+    background-color: white;
+}
+.entries {
+    position: relative;
+    margin-top: 20px;
+}
+
+#message{
+    width: 100%;
+    position: relative;
+    resize: none;
+    font-size: 20px;
+    box-sizing: border-box;
+    height: 300px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-top:-20px;
+}
+
+.role_selector_text{
+    cursor: default;
+    background-color: white;
+    z-index:30;
+    width:fit-content;
+    position: relative;
+}
+
+.area > p{
+    margin-left:10px;
+    margin-bottom: 7px;
+    padding-left:5px;
+    padding-right:5px;
+}
