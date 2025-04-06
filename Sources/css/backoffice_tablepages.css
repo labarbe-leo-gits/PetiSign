@@ -126,3 +126,7 @@ tr:first-child{background-color: #E0BD78;}
     align-items: center;
     justify-content: center;
 }
+
+.banned{
+    color: red;
+}

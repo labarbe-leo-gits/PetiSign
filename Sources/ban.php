@@ -1,25 +1,57 @@
-
 <?php
+
 session_start();
-if(isset($_SESSION['mail'])){
-    $mail = $_SESSION['mail'];
-    
-    
 
-    $is_admin = $_SESSION['is_admin'];
-    $is_benevole = $_SESSION['is_benevole'];
-
-}
-else{
-    $mail = null;
-    $is_admin = null;
-    $is_benevole = null;
-}
-
-if(isset($_SESSION['ban'])){
-    header('Location: /Sources/ban.php');
+if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
     exit();
 }
+
+include_once 'database/database.php';
+
+$user_username = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+$user_username->bindParam(':mail', $_SESSION['mail']);
+$user_username->execute();
+$username = $user_username->fetchColumn();
+
+$check_if_ban_exist_stmt = $pdo->prepare("SELECT COUNT(*) FROM BAN WHERE id_user = (SELECT id FROM USER WHERE email = :mail)");
+$check_if_ban_exist_stmt->bindParam(':mail', $_SESSION['mail']);
+$check_if_ban_exist_stmt->execute();
+$check_if_ban_exist = $check_if_ban_exist_stmt->fetchColumn();
+
+if($check_if_ban_exist == 0){
+    header('Location: profile.php');
+    exit();
+}
+
+$user_id_stmt = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+$user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+$user_id_stmt->execute();
+$user_id = $user_id_stmt->fetchColumn();
+
+$get_ban = $pdo->prepare("SELECT * FROM BAN WHERE id_user = :id");
+$get_ban->bindParam(':id', $user_id);
+$get_ban->execute();
+$ban = $get_ban->fetch(PDO::FETCH_ASSOC);
+
+$admin_username = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+$admin_username->bindParam(':id', $ban['id_admin']);
+$admin_username->execute();
+$admin = $admin_username->fetchColumn();
+
+$ban_reason_stmt = $pdo->prepare("SELECT reason FROM BAN WHERE id_user = :id");
+$ban_reason_stmt->bindParam(':id', $user_id);
+$ban_reason_stmt->execute();
+$ban_reason = $ban_reason_stmt->fetchColumn();
+$ban_reason = nl2br($ban_reason);
+
+$expiration_stmt = $pdo->prepare("SELECT expiration FROM BAN WHERE id_user = :id");
+$expiration_stmt->bindParam(':id', $user_id);
+$expiration_stmt->execute();
+$expiration = $expiration_stmt->fetchColumn();
+
+$formated_date = date('d/m/Y', strtotime($expiration));
+$expiration = $formated_date;
 
 ?>
 
@@ -30,11 +62,12 @@ if(isset($_SESSION['ban'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FED78B">
     <meta name="description" content="PétiSign est une plateforme de pétitions en ligne.">
-    <title>PétiSign</title>
+    <title>Compte Banni</title>
     <link rel="shortcut icon" href="../Resources/img/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dark.css">
     <link rel="stylesheet" href="css/mobile_menu.css">
+    <link rel="stylesheet" href="css/ban.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
@@ -82,3 +115,47 @@ if(isset($_SESSION['ban'])){
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>
+
+<div class="ban_info">
+    <h2>Bonjour <?= $username ?>,</h2>
+    <p class="header_text" id="first">Nous sommes désolés de vous informer que votre compte a été banni.</p>
+    <p class="header_text">Voici les détails de votre bannissement :</p>
+
+    <div class="details">
+        <div class="details_item">
+            <h3>Administrateur à l'origine du bannissement :</h3>
+            <p><?= $admin ?></p>
+        </div>
+        <div class="details_item">
+            <h3>Raison du bannissement :</h3>
+            <p><?= $ban_reason ?></p>
+        </div>
+        <div class="details_item">
+            <h3>Date de fin du bannissement :</h3>
+            <p><?= $expiration ?></p>
+    </div>
+</div>
+    <p class="header_text" id="second">Nous vous prions de bien vouloir respecter les règles de la plateforme à l'avenir.</p>
+    <p class="header_text">Si vous pensez qu'il s'agit d'une erreur, n'hésitez pas à nous contacter.</p>
+    <p class="header_text">Nous vous remercions de votre compréhension.</p>
+    <p class="header_text" id="signature_text">Cordialement,</p>
+    <p class="header_text">L'équipe de PétiSign</p>
+</div>
+
+
+<button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
+
+<form action="">
+<div class="entries">
+                <input name="password" id="password" type="email" required placeholder=" " class="form-input">
+                <label for="password">Mot de passe</label>
+            </div>
+    <div class="entries">
+        <label for="message">Votre message :</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+    </div>
+</form>
+
+<?php
+include_once 'footer.php';
+?>

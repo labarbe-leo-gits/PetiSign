@@ -170,7 +170,50 @@
     overflow-y: auto;
 }
 
+
 #user{
     text-decoration: none;
     color: #4F6DFF;
+}
+
+#description{
+    width: 100%;
+    position: relative;
+    resize: none;
+    font-size: 20px;
+    box-sizing: border-box;
+    height: 200px;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+.textarea_label{
+    margin-top: -30px;
+    width: fit-content;
+    color: #1A414E;
+}
+
+.limit{
+    margin-top: 0px;
+    width: fit-content;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #ccc;
+    align-items: center;
+}
+
+.limit > p{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.positioned{
+    margin-top: -10px;
+}
+
+.role_selector_text{
+    cursor: default;
 }

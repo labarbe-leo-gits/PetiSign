@@ -12,6 +12,7 @@ include_once 'header.php';
     </div>
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
+        <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
     </div>
     <div class="tableau">
         <table>
@@ -28,19 +29,25 @@ include_once 'header.php';
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($users as $user){
+
+                    $user_ban = $pdo->prepare("SELECT COUNT(*) FROM BAN WHERE id_user = :id");
+                    $user_ban->bindParam(':id', $user['id'], PDO::PARAM_INT);
+                    $user_ban->execute();
+                    $ban = $user_ban->fetchColumn();
+
                     echo "<tr>";
-                    echo "<td class='id'>".$user['id']."</td>";
-                    echo "<td class='content'>".$user['username']."</td>";
+                    echo "<td class='id ".($ban > 0 ? "banned" : "")."'>".$user['id']."</td>";
+                    echo "<td class='content ".($ban > 0 ? "banned" : "")."'>".$user['username']."</td>";
                     if($user['is_admin'] == 1){
                         if($user['is_benevole'] == 1){
-                            echo "<td class='content'>Administrateur, Bénévole</td>";
+                            echo "<td class='content ".($ban > 0 ? "banned" : "")."'>Administrateur, Bénévole</td>";
                         } else {
-                            echo "<td class='content'>Administrateur</td>";
+                            echo "<td class='content".($ban > 0 ? "banned" : "")."'>Administrateur</td>";
                         }
                     } else if($user['is_benevole'] == 1){
-                        echo "<td class='content'>Bénévole</td>";
+                        echo "<td class='content ".($ban > 0 ? "banned" : "")."'>Bénévole</td>";
                     } else {
-                        echo "<td class='content'>Utilisateur</td>";
+                        echo "<td class='content ".($ban > 0 ? "banned" : "")."'>Utilisateur</td>";
                     }
                     echo "<td class='actions'>";
                     echo "<a href='../view_profile.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Voir'></a>";
@@ -49,7 +56,13 @@ include_once 'header.php';
                     echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='ban_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban.png' alt='Bannir'></a>";
+
+                    if($ban > 0){
+                        echo "<a href='Processus/unban_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban.png' alt='Débannir'></a>";
+                    } else {
+                        echo "<a href='ban_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban-user.png' alt='Bannir'></a>";
+                    }
+                    
                     echo "</td>";
                     echo "</tr>";
                 }

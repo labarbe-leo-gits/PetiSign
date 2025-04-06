@@ -8,7 +8,7 @@ include_once 'header.php'
 <div class="login_form" id="login_form">
     <h1 id="loginhigh" class="highlighted-text">Connexion</h1>
     <hr id="loginhr">
-    <form method="post" class="login" action="Processus/login.php"> <!-- à changer action -->
+    <form method="post" class="login" action="Processus/login.php">
         <div class="entries">
             <div class="entries">
                 <input name="mail" id="mail" type="email" required placeholder=" " class="form-input">

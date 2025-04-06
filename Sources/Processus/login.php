@@ -13,6 +13,26 @@ $stmt->execute();
 $hashedPassword = $stmt->fetchColumn();
 
 if ($hashedPassword && password_verify($password, $hashedPassword)) {
+
+    $get_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+    $get_user_id->bindParam(':mail', $username);
+    $get_user_id->execute();
+    $user_id = $get_user_id->fetchColumn();
+
+    $get_user_ban = $pdo->prepare("SELECT COUNT(*) FROM BAN WHERE id_user = :user_id");
+    $get_user_ban->bindParam(':user_id', $user_id);
+    $get_user_ban->execute();
+    $ban_count = $get_user_ban->fetchColumn();
+
+    if ($ban_count > 0) {
+
+        $_SESSION['ban'] = true;
+        $_SESSION['mail'] = $username;
+
+        header("Location: /Sources/ban.php");
+        exit();
+    }
+
     $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
     $stmt->bindParam(':mail', $username);
     $stmt->execute();

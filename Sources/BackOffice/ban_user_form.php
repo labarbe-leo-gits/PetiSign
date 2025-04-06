@@ -36,20 +36,25 @@ if ($username === false || $is_admin === false) {
             <div class="entries">
                 <div class="entries">
                     <p class="role_selector_text">Utilisateur à bannir</p>
+                    <input type="hidden" name="username" id="username" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
                     <div class="readonly-field"><a id="user" href="/Sources/view_profile.php?id=<?php echo $id ?>"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></a></div>
                 </div>
                 <div class="space"></div>
 
                 <div class="entries">
                     <p class="role_selector_text">Administrateur</p>
+                    <input type="hidden" name="admin" id="admin" value="<?= htmlspecialchars($admin_id, ENT_QUOTES, 'UTF-8') ?>">
                     <div class="readonly-field"><a id="user" href="/Sources/view_profile.php?id=<?php echo $admin_id ?>"><?= htmlspecialchars($admin, ENT_QUOTES, 'UTF-8') ?></a></div>
                 </div>
                 <div class="space"></div>
-
-                <div class="entries">
-                    <p class="role_selector_text">Raison du bannissement</p>
-                    <textarea name="ban_reason" id="ban_reason" maxlength="800" required placeholder="Indiquez la raison du bannissement"></textarea>
+                <div class="area">
+                <p class="role_selector_text">Raison du bannissement</p>
+                    <textarea required name="ban_reason" id="ban_reason" maxlength=400 onkeyup="count('ban_counter',this,400)" placeholder="Indiquez la raison du bannissement"></textarea>
                 </div>
+                <div class="limit positioned" id="ban_counter">
+                    <p>Limite de caractères : 0 / 400</p>
+                </div>
+
                 <div class="space"></div>
 
                 <div class="entries">
@@ -67,6 +72,8 @@ if ($username === false || $is_admin === false) {
     &nbsp;
 </div>
 </div>
+
+<script src="../js/count_characters.js"></script>
 
 <?php
 include_once 'footer.php';

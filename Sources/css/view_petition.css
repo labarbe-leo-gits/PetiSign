@@ -395,3 +395,21 @@ body {
     filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
     vertical-align: middle;
 }
+
+.warning{
+    background-color: #FED78B;
+    text-align: center;
+    width: 85vw;
+    margin: 0 auto;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.warning > .warning_icon > img{
+    width:30px;
+    filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
+    vertical-align: middle;
+}

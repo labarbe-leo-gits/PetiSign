@@ -67,6 +67,11 @@ $pet_author_username->bindParam(':id', $pet_author);
 $pet_author_username->execute();
 $pet_author_username = $pet_author_username->fetchColumn();
 
+$pet_author_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE username = :username');
+$pet_author_id_stmt->bindParam(':username', $pet_author_username);
+$pet_author_id_stmt->execute();
+$pet_author_id = $pet_author_id_stmt->fetchColumn();
+
 $pet_date = $pdo->prepare('SELECT DATE_FORMAT(date, "%d/%m/%Y") FROM PETITION WHERE id = :id');
 $pet_date->bindParam(':id', $_GET['id']);
 $pet_date->execute();
@@ -93,6 +98,11 @@ $pet_statut_stmt->bindParam(':id', $_GET['id']);
 $pet_statut_stmt->execute();
 $pet_statut = $pet_statut_stmt->fetchColumn();
 
+$check_if_creator_is_banned_stmt = $pdo->prepare('SELECT COUNT(*) FROM BAN WHERE id_user = :id');
+$check_if_creator_is_banned_stmt->bindParam(':id', $pet_author_id);
+$check_if_creator_is_banned_stmt->execute();
+$is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="css/view_petition.css">
@@ -100,6 +110,19 @@ $pet_statut = $pet_statut_stmt->fetchColumn();
 <script src="js/dynamic_underline_view.js"></script>
 
 <div class="page_container">
+
+    <?php
+
+    if($is_banned > 0){
+        echo '
+        <div class="warning">
+            <div class="warning_icon"><img src="../Resources/img/ui_icons/warning.png" alt=""></div>
+            <div class="warning_text"><p>&nbsp;&nbsp;&nbsp;Le créateur de cette pétition a été banni de la plateforme. Cette pétition est donc suspendue.</p></div>
+        </div>
+        ';
+    }
+
+    ?>
 
     <div class="main_container">
         <div class="petition_header">
@@ -137,7 +160,9 @@ $pet_statut = $pet_statut_stmt->fetchColumn();
                 <form method="post" action="Processus/sign.php">
                     <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
                     <?php
-
+                    if($is_banned > 0){
+                        echo '<button type="button" class="sign_petition_btn disabled" disabled>Pétition suspendue</button>';
+                    }else{
                     if($signature_count > 0){
                         echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Déjà signé</button>';
                     }else{
@@ -147,7 +172,7 @@ $pet_statut = $pet_statut_stmt->fetchColumn();
                             echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
                         }
                     }
-
+                    }
                     ?>    
                     
                 </form></div>

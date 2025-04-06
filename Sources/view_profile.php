@@ -94,6 +94,11 @@ if ($number_of_signature === false) {
     $number_of_signature = 0;
 }
 
+$user_ban = $pdo->prepare("SELECT COUNT(*) FROM BAN WHERE id_user = :id");
+$user_ban->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+$user_ban->execute();
+$ban = $user_ban->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="css/profile.css">
@@ -109,6 +114,9 @@ if ($number_of_signature === false) {
             }
             if($is_benevole == 1){
                 echo '<p class="admin_tag">Bénévole</p>';
+            }
+            if($ban > 0){
+                echo '<p class="admin_tag">Compte Banni</p>';
             }
             ?>
         </div>
