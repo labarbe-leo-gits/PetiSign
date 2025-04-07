@@ -48,6 +48,12 @@ include_once 'header.php';
             ?>
         </table>
     </div>
+    <div class="title">
+        <h3 class="highlighted-text" id="page_title">Gestion des images</h3>
+    </div>
+    <div class="database_actions_container">
+        <a class="captcha_database_action" href="upload_image.php"><img src="../../Resources/img/ui_icons/upload.png" alt="Nouveau Captcha">&nbsp;&nbsp;Upload</a>
+    </div>
 </div>
 
 <?php

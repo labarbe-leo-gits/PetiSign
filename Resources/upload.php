@@ -18,7 +18,7 @@ if ($_FILES["fileToUpload"]["size"] > 5000000) {
     $uploadOk = 0;
 }
 
-$allowed_types = array("jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "txt", "csv", "xls", "xlsx", "zip", "rar", "mp4", "mp3");
+$allowed_types = array("jpg");
 if (!in_array($fileType, $allowed_types)) {
     echo "Sorry, this file type is not allowed. Permitted types: " . implode(", ", $allowed_types) . "<br>";
     $uploadOk = 0;

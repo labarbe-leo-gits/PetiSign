@@ -4,25 +4,28 @@ include_once 'header.php'
 
 <link rel="stylesheet" href="../css/backoffice_addcaptcha.css">
 <link rel="stylesheet" href="../css/backoffice_upload.css">
+<link rel="stylesheet" href="../css/file_input.css">
 
 <div class="right_panel">
     <div class="captcha_form" id="captcha_form">
         <h1 id="loginhigh" class="highlighted-text">Upload</h1>
         <hr id="loginhr">
-        <form method="post" class="login" action="Processus/captcha.php">
+        <form action="/Resources/upload.php" method="post" enctype="multipart/form-data" class="login">
             <div class="entries">
-                <div class="entries">
-                    <div class="readonly-field"><a id="user" href="/Sources/view_profile.php?id=<?php echo $id ?>"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></a></div>
-                    <label for="">cc</label>
-                </div>
-                <div class="space"></div>
+            <div class="file-upload-container">
+                <input type="file" id="fileToUpload" name="fileToUpload" class="file-input" required>
+                <button id="fileButton" class="file-button" type="button">Sélectionnez un fichier</button>
+            </div>
+            <div class="space"></div>
             </div>
             <button class="custom-button" id="add_btn" type="submit">Upload l'image</button>
         </form>
-        <button class="custom-button" onclick="window.location.href='captcha.php'" id="cancel_btn">Annuler</button>
+        <button class="custom-button" onclick="window.location.href='database_gestion.php'" id="cancel_btn">Annuler</button>
     </div>
 </div>
 </div>
+
+<script src="../js/file_input.js"></script>
 
 <?php
 include_once 'footer.php'
