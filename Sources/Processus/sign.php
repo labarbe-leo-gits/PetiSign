@@ -70,11 +70,17 @@ try{
         $update_stmt = $pdo->prepare("UPDATE PETITION SET signature_count = signature_count + 1 WHERE id = :id");
         $update_stmt->bindParam(':id', $petition_id);
         $update_stmt->execute();
-        
-        $update_stmt2 = $pdo->prepare("UPDATE PETITION SET statut = 'CLOSED' WHERE id = :id AND signature_goal <= :signature_goal");
-        $update_stmt2->bindParam(':id', $petition_id);
-        $update_stmt2->bindParam(':signature_goal', $petition_signature);
-        $update_stmt2->execute();
+
+        $get_updated_count_stmt = $pdo->prepare("SELECT signature_count FROM PETITION WHERE id = :id");
+        $get_updated_count_stmt->bindParam(':id', $petition_id);
+        $get_updated_count_stmt->execute();
+        $updated_count = $get_updated_count_stmt->fetchColumn();
+
+        if($updated_count >= $petition_goal) {
+            $update_stmt2 = $pdo->prepare("UPDATE PETITION SET statut = 'CLOSED' WHERE id = :id");
+            $update_stmt2->bindParam(':id', $petition_id);
+            $update_stmt2->execute();
+        }
 
         header('Location: ../view_petition.php?id=' . $petition_id);
         exit();
