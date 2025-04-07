@@ -46,7 +46,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     $_SESSION['mail'] = $username;
     $_SESSION['is_admin'] = $is_admin;
 
-    write_logs("../logs/log.txt", "[INFO]", "Nouvelle connexion de l'utilisateur : $user");
+    write_logs("../logs/log.txt", "[INFO]", "Nouvelle connexion de l'utilisateur : $user || Adresse IP : " . $_SERVER['REMOTE_ADDR']);
 
     header("Location: ../profile.php");
 } else {
