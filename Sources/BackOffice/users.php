@@ -1,5 +1,11 @@
 <?php
 include_once 'header.php';
+
+$get_current_admin_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+$get_current_admin_id->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);
+$get_current_admin_id->execute();
+$current_admin_id = $get_current_admin_id->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
@@ -57,12 +63,15 @@ include_once 'header.php';
                     echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
 
-                    if($ban > 0){
-                        echo "<a href='Processus/unban_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban.png' alt='Débannir'></a>";
+                    if($current_admin_id == $user['id']){
+                        echo "<a href='' class='void'></a>";
                     } else {
-                        echo "<a href='ban_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban-user.png' alt='Bannir'></a>";
+                        if($ban > 0){
+                            echo "<a href='Processus/unban_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban.png' alt='Débannir'></a>";
+                        } else {
+                            echo "<a href='ban_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban-user.png' alt='Bannir'></a>";
+                        }
                     }
-                    
                     echo "</td>";
                     echo "</tr>";
                 }

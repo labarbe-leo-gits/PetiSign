@@ -19,10 +19,17 @@ $admin_id_stmt->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);
 $admin_id_stmt->execute();
 $admin_id = $admin_id_stmt->fetchColumn();
 
+
 if ($username === false || $is_admin === false) {
     echo "Error: Unable to fetch data for ID $id";
     exit();
 }
+
+if($admin_id == $id){
+    echo "Error: You cannot ban yourself.";
+    exit();
+}
+
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_ban_user.css">

@@ -138,7 +138,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         </div>
 
         <div class="test">
-            <a href="Processus/report.php?id=<?= $_GET['id'] ?>?type=2" class="quick">
+            <a href="Processus/report.php?id=<?= $_GET['id'] ?>&type=2" class="quick">
                 <img src="../Resources/img/ui_icons/red-flag.png" alt="">
                 &nbsp;Signaler un abus
             </a>
@@ -210,7 +210,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         <p>Limite de caractères : 0 / 800</p>
                 </div>
 
-                <button type="submit" class="comment_btn custom-button" disabled><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>
+                <button type="submit" class="comment_btn custom-button"><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>
             </form>
         </div>';
     }
@@ -292,7 +292,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                     }
 
                     echo '
-                    <a href="Processus/report.php?id='.$comment['id'].'?type=3" class="quick2">
+                    <a href="Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
                     <img src="../Resources/img/ui_icons/red-flag.png" alt=""></a>';
 
                     echo '</p>
