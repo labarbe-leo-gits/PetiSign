@@ -32,22 +32,32 @@ $number_of_cards = 5;
     </div>
     <div class="scrollable">
     <?php
-    for ($i = 0; $i < $number_of_cards; $i++) {
-        print '
+
+    $five_most_recent_petitions_stmt = $pdo->prepare("SELECT * FROM PETITION ORDER BY date DESC LIMIT :limit");
+    $five_most_recent_petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);
+    $five_most_recent_petitions_stmt->execute();
+    $five_most_recent_petitions = $five_most_recent_petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+    foreach($five_most_recent_petitions as $petition) {
+        echo '
         <div class="card">
             <div class="cardheader">
-                <img src="../Resources/img/bg/protest.jpg" alt="">
+                <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
             </div>
             <div class="cardcontent">
                 <div class="left">
-                    <h3>Titre</h3>
+                    <h3>' . $petition['title'] . '</h3>
                 </div>
                 <div class="right">
-                    <a href="">Découvrir</a>
+                    <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
                 </div>
             </div>
         </div>';
     }
+
+
+    
 ?>
 
         <div class="card see_more">

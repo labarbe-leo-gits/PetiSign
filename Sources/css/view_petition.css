@@ -413,3 +413,7 @@ body {
     filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
     vertical-align: middle;
 }
+
+.disabled_input{
+    cursor: not-allowed;
+}

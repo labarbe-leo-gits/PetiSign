@@ -1,5 +1,5 @@
 <?php
-include_once 'header.php'
+include_once 'header.php';
 ?>
 
 <link rel="stylesheet" href="css/login_register.css">

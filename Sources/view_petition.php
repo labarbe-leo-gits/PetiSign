@@ -117,7 +117,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         echo '
         <div class="warning">
             <div class="warning_icon"><img src="../Resources/img/ui_icons/warning.png" alt=""></div>
-            <div class="warning_text"><p>&nbsp;&nbsp;&nbsp;Le créateur de cette pétition a été banni de la plateforme. Cette pétition est donc suspendue.</p></div>
+            <div class="warning_text"><p>&nbsp;&nbsp;&nbsp;Le créateur de cette pétition a été banni de la plateforme. Cette pétition est donc suspendue et les commentaires ont été désactivés.</p></div>
         </div>
         ';
     }
@@ -138,7 +138,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         </div>
 
         <div class="test">
-            <a href="" class="quick">
+            <a href="Processus/report.php?id=<?= $_GET['id'] ?>?type=2" class="quick">
                 <img src="../Resources/img/ui_icons/red-flag.png" alt="">
                 &nbsp;Signaler un abus
             </a>
@@ -191,17 +191,32 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 
 <div class="comment_section">
     <h2 class="title">Commentaires</h2>
-    <div class="new">
-        <form method="POST" action="Processus/add_comment.php">
-            <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
-            <input type="hidden" name="user_id" value="<?=$get_user_id?>">
-            <textarea required name="comment" id="comment" maxlength=800  onkeyup="count('desc_counter',this,800)"></textarea>
-            <div class="limit positioned" id="desc_counter">
-                    <p>Limite de caractères : 0 / 800</p>
-            </div>
-            <button type="submit" class="comment_btn custom-button"><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>
-        </form>
-    </div>
+
+    <?php
+
+    if($is_banned <= 0){
+        echo '
+        <div class="new">
+            <form method="POST" action="Processus/add_comment.php">
+                <input type="hidden" name="petition_id" value="
+        ';
+        echo $_GET['id'];
+        echo '">
+                <input type="hidden" name="user_id" value="';
+        echo $get_user_id;
+        echo '">
+                <textarea name="comment" id="comment" maxlength=800  onkeyup="count(\'desc_counter\',this,800)"></textarea>
+                <div class="limit positioned" id="desc_counter">
+                        <p>Limite de caractères : 0 / 800</p>
+                </div>
+
+                <button type="submit" class="comment_btn custom-button" disabled><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>
+            </form>
+        </div>';
+    }
+
+    ?>
+
     <?php
 
     $comments_stmt = $pdo->prepare('SELECT * FROM COMMENT WHERE id_petition = :id ORDER BY date DESC');
@@ -275,6 +290,10 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         echo '<a href="Processus/admin_delete_com.php?id='.$comment['id'].'" class="quick2">
                         <img src="../Resources/img/ui_icons/trash.png" alt=""></a>';
                     }
+
+                    echo '
+                    <a href="Processus/report.php?id='.$comment['id'].'?type=3" class="quick2">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt=""></a>';
 
                     echo '</p>
                     <div class="comment_text">'.$comment['content'].'</div>
