@@ -10,7 +10,7 @@ include_once 'header.php';
         <h2 class="highlighted-text" id="page_title">Logs</h2>
     </div>
     <div class="database_actions_container">
-        <a class="captcha_database_action" onclick="show_popup_trancho()"><img src="../../Resources/img/ui_icons/download.png" alt="Télécharger les logs">&nbsp;&nbsp;Télécharger</a>
+        <a class="captcha_database_action" onclick="show_popup_trancho()"><img src="../../Resources/img/ui_icons/download.png">&nbsp;&nbsp;Télécharger</a>
         <a class="captcha_database_action" onclick="window.location.href = 'Processus/logs_deletion.php'"><img src="../../Resources/img/ui_icons/trash.png" alt="Actualiser la page">&nbsp;&nbsp;Supprimer</a>
     </div>
     <div class="logs_container">

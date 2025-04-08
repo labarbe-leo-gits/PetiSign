@@ -45,11 +45,12 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
     $_SESSION['mail'] = $username;
     $_SESSION['is_admin'] = $is_admin;
-
-    write_logs("../logs/log.txt", "[INFO]", "Nouvelle connexion de l'utilisateur : $user || Adresse IP : " . $_SERVER['REMOTE_ADDR']);
+    $ip = $_SERVER['REMOTE_ADDR'];
+    
+    write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
 
     header("Location: ../profile.php");
 } else {
-    echo "Wrong password or user not found";
+    echo "Mot de passe incorrect ou utilisateur introuvable.";
 }
 ?>
