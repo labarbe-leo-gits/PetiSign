@@ -1,0 +1,108 @@
+* {
+    font-family: "League Spartan", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: #1A414E;
+}
+
+body{
+    margin: 0;
+    top: 0;
+}
+
+.header{
+    text-align: center;
+    background-color: #E0BD78;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: default;
+}
+
+.header > a{
+    color: #1A414E;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.custom-button {
+    background-color: #1A414E;
+    color: white;
+    border: none;
+    padding: 18px 80px;
+    font-size: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    width: auto;
+    padding-right: calc(80px + 30px);
+    padding-left: calc(80px + 30px);
+    align-items: center;
+}
+
+.custom-button:hover {
+    background-color: #173642;
+}
+
+::selection {
+    background-color: #E0BD78;
+}
+
+.benevoles_icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.benevoles_icon > img{
+    width:25px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; 
+    background-color: #E0BD78;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 1000;
+    cursor: default;
+}
+
+.nav-left,
+.nav-right {
+    width: 100px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header > a{
+    color: #1A414E;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.sign-out {
+    text-align: right;
+}
+
+.header_title {
+    flex: 1;
+    text-align: center;
+    font-size: 24px;
+}

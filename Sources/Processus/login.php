@@ -43,8 +43,14 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     $stmt2->execute();
     $is_admin = $stmt2->fetchColumn();
 
+    $stmt3 = $pdo->prepare("SELECT is_benevole FROM USER WHERE email = :mail");
+    $stmt3->bindParam(':mail', $username);
+    $stmt3->execute();
+    $is_benevole = $stmt3->fetchColumn();
+
     $_SESSION['mail'] = $username;
     $_SESSION['is_admin'] = $is_admin;
+    $_SESSION['is_benevole'] = $is_benevole;
     $ip = $_SERVER['REMOTE_ADDR'];
     
     write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');

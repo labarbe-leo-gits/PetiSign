@@ -22,6 +22,7 @@ $is_admin = $is_admin_stmt->fetchColumn();
 if($is_admin != 0){
 
     try {
+
         $stmt = $pdo->prepare("DELETE FROM PETITION WHERE id = :id");
         $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
         $stmt->execute();

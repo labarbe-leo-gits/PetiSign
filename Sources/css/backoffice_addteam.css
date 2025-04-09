@@ -1,0 +1,30 @@
+body {
+    overflow: auto;
+}
+
+.selectable, .selectable_ {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 8vw;
+}
+
+.selectable.selected, .selectable_.selected {
+    background-color: #E0BD78;
+}
+
+.selectable.disabled, .selectable_.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.benevoles_selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}

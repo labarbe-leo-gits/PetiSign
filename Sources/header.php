@@ -3,9 +3,6 @@
 session_start();
 if(isset($_SESSION['mail'])){
     $mail = $_SESSION['mail'];
-    
-    
-
     $is_admin = $_SESSION['is_admin'];
     $is_benevole = $_SESSION['is_benevole'];
 
@@ -55,6 +52,11 @@ if(isset($_SESSION['ban'])){
                 ">Back Office</a>';
                 echo '<p class="dot navcontent">&#x25CF;</p>';
             }
+            if($is_benevole != null){
+                echo '<a href="Benevoles" class="navcontent
+                ">Espace Bénévoles</a>';
+                echo '<p class="dot navcontent">&#x25CF;</p>';
+            }
             ?>
             <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
             <p class="dot navcontent">&#x25CF;</p>
@@ -74,6 +76,9 @@ if(isset($_SESSION['ban'])){
             <?php
             if($is_admin != null){
                 echo '<div class="menu_item"><a href="BackOffice">Back Office</a></div>';
+            }
+            if($is_benevole != null){
+                echo '<div class="menu_item"><a href="Benevoles">Espace Bénévoles</a></div>';
             }
             ?>
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>

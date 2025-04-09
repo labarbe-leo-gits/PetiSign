@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS petisign;
+USE petisign;
 
 CREATE TABLE CAPTCHA(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -26,6 +27,33 @@ CREATE TABLE USER (
     avatar_skin_color INT DEFAULT 6,
     signature INT REFERENCES SIGNATURE(id_petition),
     newsletter INT DEFAULT 1
+);
+
+CREATE TABLE TEAM(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(60),
+    sector TEXT DEFAULT 'Aucun secteur renseigné',
+    description TEXT DEFAULT 'Aucune description disponible',
+    leader INT REFERENCES USER(id)
+);
+
+CREATE TABLE TEAM_MEMBER(
+    id_user INT REFERENCES USER(id),
+    id_team INT REFERENCES TEAM(id),
+    PRIMARY KEY (id_user, id_team)
+);
+
+CREATE TABLE TEAM_ACTIVITY(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(60),
+    description TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_user INT REFERENCES USER(id),
+    id_team INT REFERENCES TEAM(id),
+    city VARCHAR(30),
+    postal_code VARCHAR(5),
+    rue VARCHAR(30),
+    number INT
 );
 
 CREATE TABLE DONATION (

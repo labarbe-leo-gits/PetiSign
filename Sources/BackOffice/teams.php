@@ -22,30 +22,38 @@ include_once 'header.php';
                 <th>Secteur</th>
                 <th>Actions</th>
             </tr>
-            <tr>
-                <td class="id">0</td>
-                <td class="content">Les Voix Citoyennes</td>
-                <td class="content">Paris 11°</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/eye.png" alt="Visualiser"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt=""></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt=""></a>
-                </td>
-            </tr>
-            <tr>
-                <td class="id">1</td>
-                <td class="content">Action Signature</td>
-                <td class="content">Saint-Denis</td>
-                <td class="actions">
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/eye.png" alt="Visualiser"></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/crayon.png" alt=""></a>
-                    <a href="" class="void">&nbsp;</a>
-                    <a href="" class="action"><img src="../../Resources/img/ui_icons/trash.png" alt=""></a>
-                </td>
-            </tr>
+            <?php
+            try{
+                $stmt = $pdo->prepare("SELECT * FROM TEAM");
+                $stmt->execute();
+                $teams = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($teams as $team){
+                    echo "<tr>";
+                    echo "<td class='id'>".$team['id']."</td>";
+                    echo "<td class='content'>".$team['name']."</td>";
+                    echo "<td class='content'>".$team['sector']."</td>";
+                    echo "<td class='actions'>";
+
+                    echo "<a href='team_view.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='View'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='modify_team_form.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='Processus/delete_team.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } catch (PDOException $e) {
+                    echo "<tr>";
+                    echo "<td class='id'>N/A</td>";
+                    echo "<td class='content'>Error</td>";
+                    echo "<td class='content'>".$e."</td>";
+                    echo "<td class='actions'>";
+                    echo "</td>";
+                    echo "</tr>";
+
+            }
+            ?>
         </table>
     </div>
 </div>

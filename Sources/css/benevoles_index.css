@@ -1,0 +1,51 @@
+.test{
+    background-color: white;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding:10px 15px;
+    width:40vw;
+    margin:0 auto;
+    margin-top:20px;
+}
+
+.main_hr{
+    width:10%;
+}
+
+h1{
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+    margin-top:3%;
+}
+
+.select_team{
+    display: flex;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px 15px;
+    width:70%;
+    justify-content: center;
+    align-items: center;
+    font-size:20px;
+}
+
+.select_team > img{
+    width:15px;
+}
+
+
+.link_to_profile{
+    text-decoration: none;
+    color: #4F6DFF;
+}
+
+.test > .name{
+    margin-top:-20px;
+}
+
+.select_team{
+    margin-top:20px;
+    margin-bottom:10px;
+}
