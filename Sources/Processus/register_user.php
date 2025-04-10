@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($verif != $original_code) {
-        header('Location: ../register.php');
+        header('Location: ../register.php?error=VerifCode&referer=register');
         exit();
     }
 

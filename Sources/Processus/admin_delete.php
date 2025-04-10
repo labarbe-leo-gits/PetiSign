@@ -23,6 +23,14 @@ if($is_admin != 0){
 
     try {
 
+        $delete_signature_stmt = $pdo->prepare("DELETE FROM SIGNATURE WHERE id_petition = :id");
+        $delete_signature_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+        $delete_signature_stmt->execute();
+
+        $delete_comment_stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id_petition = :id");
+        $delete_comment_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+        $delete_comment_stmt->execute();
+
         $stmt = $pdo->prepare("DELETE FROM PETITION WHERE id = :id");
         $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
         $stmt->execute();

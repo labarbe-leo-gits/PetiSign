@@ -6,6 +6,16 @@ if($is_admin != 0){
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
 
+        $get_current_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+        $get_current_user_id->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);
+        $get_current_user_id->execute();
+        $current_user_id = $get_current_user_id->fetchColumn();
+
+        if ($current_user_id == $id) {
+            echo "cannot delete your own account";
+            exit();
+        }
+
         try {
 
             $stmt = $pdo->prepare("DELETE FROM PETITION WHERE user = :id");

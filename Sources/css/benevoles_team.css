@@ -1,0 +1,76 @@
+.team_header{
+    background-color: white;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    width:95vw;
+    margin: 0 auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.team_header > p{
+    margin-top:-20px;
+}
+
+.hierarchy{
+    background-color: white;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.container{
+    width: 95vw;
+    margin: 0 auto;
+    margin-top:2%;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 10px;
+}
+
+.next_activities{
+    background-color: white;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+
+.activities{
+    background-color: white;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.event_container{
+    background-color: #E0BD78;
+    width:80%;
+    margin: 0 auto;
+    padding: 1px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;;
+}
+
+h3{
+    text-align: center;
+}
+
+.msg{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    width: 80%;
+    margin: 0 auto;
+    padding: 5px 7.5px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    font-size:18px;
+}
+
+.msg > img{
+    width:30px;
+}

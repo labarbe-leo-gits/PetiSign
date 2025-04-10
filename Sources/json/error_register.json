@@ -1,0 +1,8 @@
+{
+    "Captcha": "Captcha invalide.",
+    "EmptyFields": "Veuillez remplir tous les champs.",
+    "PasswordMismatch": "Les mots de passe ne correspondent pas.",
+    "BannedUsername": "Ce nom d'utilisateur est interdit.",
+    "VerifCode": "Le code de vérification est invalide.",
+    "WrongCreds": "Nom d'utilisateur ou mot de passe incorrect."
+}

@@ -34,6 +34,13 @@ include_once 'header.php';
                     echo "<td class='content'>".$captcha['question']."</td>";
                     echo "<td class='content'>".$captcha['answer']."</td>";
                     echo "<td class='actions'>";
+
+                    if($captcha['state'] == 1){
+                        echo "<a href='Processus/disable_captcha.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/cross.png' alt='Disable'></a>";
+                    } else {
+                        echo "<a href='Processus/enable_captcha.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/validate.png' alt='Enable'></a>";
+                    }
+                    echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='modify_captcha_form.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='Processus/delete_captcha.php?id=" . htmlspecialchars($captcha['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";

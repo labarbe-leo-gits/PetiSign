@@ -32,7 +32,7 @@ else{
 
     <nav class="header">
         <a href="index.php">Espace Bénévoles</a>
-        <a href="" class="benevoles_icon"><img src="/Resources/img/ui_icons/sign-out.png" alt=""></a>
+        <a href="/Sources/" class="benevoles_icon"><img src="/Resources/img/ui_icons/sign-out.png" alt=""></a>
     </nav>
 
     <?php include_once '../database/database.php' ?>

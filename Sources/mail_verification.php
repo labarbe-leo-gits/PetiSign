@@ -16,13 +16,42 @@ $confpassword = htmlspecialchars(filter_input(INPUT_POST, 'confpassword', FILTER
 $answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_STRING));
 $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
 
+$filename = 'json/banned_username.json';
+if (file_exists($filename)) {
+    $json = file_get_contents($filename);
+    $data = json_decode($json, true);
+} else {
+    echo "File not found.";
+    exit;
+}
+
+if (isset($data['banned_usernames'])) {
+    $banned_usernames = $data['banned_usernames'];
+    if (in_array($username, $banned_usernames)) {
+        header('Location: register.php?error=BannedUsername&referer=mail_verification');
+        exit;
+    }
+    
+}
+
+
 if (empty($mail) || empty($username) || empty($password) || empty($confpassword) || empty($answer) || empty($id)) {
-    header('Location: register.php');
+    header('Location: register.php?error=EmptyFields&referer=mail_verification');
     exit();
 }
 
 if ($password != $confpassword) {
-    header('Location: register.php');
+    header('Location: register.php?error=PasswordMismatch&referer=mail_verification');
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT * FROM CAPTCHA WHERE id = :id");
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+$captcha = $stmt->fetch();
+
+if($captcha['answer'] != $answer){
+    header('Location: register.php?error=Captcha&referer=mail_verification');
     exit();
 }
 

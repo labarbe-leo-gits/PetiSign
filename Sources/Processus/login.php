@@ -29,6 +29,14 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
         $_SESSION['ban'] = true;
         $_SESSION['mail'] = $username;
 
+        $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+        $stmt->bindParam(':mail', $username);
+        $stmt->execute();
+        $user = $stmt->fetchColumn();
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion écouée (banni)');
         header("Location: /Sources/ban.php");
         exit();
     }
@@ -57,6 +65,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
     header("Location: ../profile.php");
 } else {
-    echo "Mot de passe incorrect ou utilisateur introuvable.";
+    header('Location: ../login.php?error=WrongCreds&referer=login');
+    exit;
 }
 ?>

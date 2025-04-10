@@ -60,8 +60,12 @@ $current_admin_id = $get_current_admin_id->fetchColumn();
                     echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='modify_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
-                    echo "<a href='' class='void'>&nbsp;</a>";
+
+
+                    if($current_admin_id != $user['id']) {
+                        echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                        echo "<a href='' class='void'>&nbsp;</a>";
+                    }
 
                     if($current_admin_id == $user['id']){
                         echo "<a href='' class='void'></a>";

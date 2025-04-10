@@ -4,7 +4,8 @@ USE petisign;
 CREATE TABLE CAPTCHA(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     question TEXT,
-    answer VARCHAR(30)
+    answer VARCHAR(30),
+    state BOOLEAN DEFAULT 1
 );
 
 CREATE TABLE USER (
@@ -47,13 +48,14 @@ CREATE TABLE TEAM_ACTIVITY(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(60),
     description TEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    event_date DATE  DEFAULT '2000-01-01',
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_user INT REFERENCES USER(id),
     id_team INT REFERENCES TEAM(id),
     city VARCHAR(30),
     postal_code VARCHAR(5),
     rue VARCHAR(30),
-    number INT
+    num INT
 );
 
 CREATE TABLE DONATION (

@@ -2,16 +2,39 @@
 include_once 'header.php';
 include_once 'database/database.php';
 
-$stmt = $pdo->prepare("SELECT * FROM CAPTCHA ORDER BY RAND() LIMIT 1");
+$stmt = $pdo->prepare("SELECT * FROM CAPTCHA WHERE state = 1 ORDER BY RAND() LIMIT 1");
 $stmt->execute();
 $captcha = $stmt->fetch();
 
 $id = $captcha['id'];
 
+if(isset($_GET['error'])){
+    $json_file = file_get_contents('json/error_register.json');
+    $error_manager = json_decode($json_file, true);
+    if(array_key_exists($_GET['error'], $error_manager)){
+        $insertVal = $_GET['error'];
+    }
+}
+
+$error_details = $error_manager[$insertVal];
+
 ?>
 
 <link rel="stylesheet" href="css/login_register.css">
 <link rel="stylesheet" href="css/register.css">
+
+<?php
+
+if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mail_verification' || $_GET['referer'] == 'register') && $_GET['error'] != '' && $_GET['referer'] != ''){
+    echo '
+    <div class="error">
+        <div class="error_message">
+            <p class="error_text">' . $error_details .'</p>
+        </div>
+    </div>
+    ';
+}
+?>
 
 <div class="login_form" id="register_form">
     <h1 id="loginhigh" class="highlighted-text">Inscription</h1>
