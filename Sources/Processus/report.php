@@ -4,7 +4,7 @@ include_once '../database/database.php';
 
 $report_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
 $target_id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-$report_reason = filter_input(INPUT_POST, 'reason', FILTER_SANITIZE_STRING);
+
 
 if ($report_type === null || $target_id === null || $report_type === false || $target_id === false || $report_type === '' || $target_id === '' || empty($report_type) || empty($target_id) || !$report_type || !$target_id) {
     header('Location: ../index.php');

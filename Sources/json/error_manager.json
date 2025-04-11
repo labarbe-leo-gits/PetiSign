@@ -11,5 +11,6 @@
     "504": "Le serveur, agissant en tant que passerelle ou proxy, n'a pas reçu de réponse du serveur en amont dans le délai imparti.",
     "505": "La version du protocole HTTP utilisée dans la requête n'est pas prise en charge par le serveur.",
     "808" : "Le paramètre n'existe pas.",
+    "333" : "Utilisateur introuvable.",
     " ":"Une erreur inconnue est survenue."
 }

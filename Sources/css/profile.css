@@ -222,3 +222,10 @@ body.dark-mode.profile-page::after {
   margin-bottom:10px;
   margin-top:10px;
 }
+.second_check{
+  margin-top:-20px;
+}
+
+#mails_label{
+  margin-top:-20px;
+}

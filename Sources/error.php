@@ -67,12 +67,19 @@ $error_details = $error_manager[$insertVal];
                 ">Back Office</a>';
                 echo '<p class="dot navcontent">&#x25CF;</p>';
             }
+            if($is_admin != null){
+                echo '<a href="/Sources/Benevoles" class="navcontent
+                ">Espace Bénévoles</a>';
+                echo '<p class="dot navcontent">&#x25CF;</p>';
+            }
             ?>
             <a href="/Sources/discover.php" class="navcontent">Découvrir PétiSign</a>
             <p class="dot navcontent">&#x25CF;</p>
             <a href="<?php echo isset($_SESSION['mail']) ? '/Sources/my_signatures.php' : '/Sources/login.php'; ?>" class="navcontent">Mes Signatures</a>
             <p class="dot navcontent">&#x25CF;</p>
             <a href="<?php echo isset($_SESSION['mail']) ? '/Sources/my_petitions.php' : '/Sources/login.php'; ?>" class="navcontent">Mes Pétitions</a>
+            <p class="dot navcontent">&#x25CF;</p>
+            <a href="<?php echo isset($_SESSION['mail']) ? '/Sources/chat.php' : '/Sources/login.php'; ?>" class="navcontent">Messagerie</a>
             <p class="dot navcontent">&#x25CF;</p>
             <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? '/Sources/profile.php' : '/Sources/login.php'; ?>"><img class="pfp" src="/Resources/img/ui_icons/unlogged_user.png" alt=""></a>
             <!--<a id="navcontent" href="#user_list">UserMenu</a>-->
@@ -91,6 +98,7 @@ $error_details = $error_manager[$insertVal];
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? '/Sources/my_signatures.php' : '/Sources/login.php'; ?>">Mes Signatures</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? '/Sources/my_petitions.php' : '/Sources/login.php'; ?>">Mes Pétitions</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? '/Sources/chat.php' : '/Sources/login.php'; ?>">Messagerie</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? '/Sources/profile.php' : '/Sources/login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>

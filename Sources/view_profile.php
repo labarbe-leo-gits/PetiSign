@@ -99,6 +99,15 @@ $user_ban->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
 $user_ban->execute();
 $ban = $user_ban->fetchColumn();
 
+if(isset($_SESSION['mail'])){
+    $get_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+    $get_user_id->bindParam(':mail', $_SESSION['mail']);
+    $get_user_id->execute();
+    $user_id = $get_user_id->fetchColumn();
+}else{
+    $user_id = null;
+}
+
 ?>
 
 <link rel="stylesheet" href="css/profile.css">
@@ -147,6 +156,31 @@ $ban = $user_ban->fetchColumn();
     <p class="stat_value_container"><?=$number_of_signature?> Signatures</p>
     <p class="stat_value_container">X € De dons</p>
 </div>
+<div class="description">
+        <div class="desc_header">
+            <h2 class="profile_title">Contact</h2>
+            <hr class="profile_hr">
+        </div>
+        <?php
+
+        if($ban > 0){
+            echo '<p class="user_description">Cet utilisateur est banni, vous ne pouvez pas le contacter.</p>';
+        } else {
+            if($user_id == $_GET['id']){
+                echo '<p class="user_description">Vous ne pouvez pas vous contacter vous-même.</p>';
+            } else {
+                echo '
+                <p class="user_description">Vous pouvez contacter cet utilisateur en lui envoyant un message privé.</p>
+                <form action="Processus/create_chat_feed.php" method="POST" class="contact_form">
+                    <input type="hidden" name="user_id" id="user_id" value="'. $_GET['id'] .'" required>
+                    <button type="submit" class="custom-button contact_btn">Envoyer un message privé</button>
+                </form>
+                ';
+            }
+        }
+
+        ?>
+    </div> 
     </div>
 </div>
 

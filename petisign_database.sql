@@ -27,7 +27,8 @@ CREATE TABLE USER (
     avatar_eyes_color INT DEFAULT 1,
     avatar_skin_color INT DEFAULT 6,
     signature INT REFERENCES SIGNATURE(id_petition),
-    newsletter INT DEFAULT 1
+    newsletter INT DEFAULT 1,
+    mail_notification INT DEFAULT 1
 );
 
 CREATE TABLE TEAM(
@@ -66,12 +67,18 @@ CREATE TABLE DONATION (
     id INT REFERENCES USER(id)
 );
 
+CREATE TABLE DISCUSSION (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_user INT REFERENCES USER(id),
+    id_second_user INT REFERENCES USER(id)
+);
+
 CREATE TABLE MESSAGE (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     content TEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    id_user INT,
-    user INTEGER REFERENCES USER(id)
+    sender INT REFERENCES USER(id),
+    id_discussion INT REFERENCES DISCUSSION(id),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE COMMENT (
@@ -105,6 +112,10 @@ CREATE TABLE PETITION (
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     signature_goal INT,
     signature_count INT DEFAULT 0,
+    signature_stage_one INT DEFAULT 0,
+    signature_stage_two INT DEFAULT 0,
+    signature_stage_three INT DEFAULT 0,
+    signature_stage_four INT DEFAULT 0,
     image_id INT,
     user INTEGER REFERENCES USER(id),
     statut VARCHAR(6) DEFAULT 'OPEN'

@@ -64,6 +64,8 @@ if(isset($_SESSION['ban'])){
             <p class="dot navcontent">&#x25CF;</p>
             <a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>" class="navcontent">Mes Pétitions</a>
             <p class="dot navcontent">&#x25CF;</p>
+            <a href="<?php echo isset($_SESSION['mail']) ? 'chat.php' : 'login.php'; ?>" class="navcontent">Messagerie</a>
+            <p class="dot navcontent">&#x25CF;</p>
             <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
             <!--<a id="navcontent" href="#user_list">UserMenu</a>-->
             <a class="men" id="excep" href="javascript:show_popup()"><img class="mobile_menu" src="../Resources/img/ui_icons/menu.png" alt=""></a>
@@ -84,6 +86,7 @@ if(isset($_SESSION['ban'])){
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>">Mes Signatures</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>">Mes Pétitions</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'chat.php' : 'login.php'; ?>">Messagerie</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>

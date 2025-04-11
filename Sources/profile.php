@@ -27,6 +27,11 @@ try{
     $get_newsletter_statut->execute();
     $newsletter_statut = $get_newsletter_statut->fetchColumn();
 
+    $get_mail_notification_statut = $pdo->prepare('SELECT mail_notification FROM USER WHERE email = :mail');
+    $get_mail_notification_statut->bindParam(':mail', $mail);
+    $get_mail_notification_statut->execute();
+    $mail_notification_statut = $get_mail_notification_statut->fetchColumn();
+
     $get_birthdate = $pdo->prepare('SELECT birthdate FROM USER WHERE email = :mail');
     $get_birthdate->bindParam(':mail', $mail);
     $get_birthdate->execute();
@@ -146,6 +151,11 @@ try{
                     <input type="hidden" name="newsletter_value" id="newsletter_value" value="<?= $newsletter_statut == 1 ? '1' : '0'; ?>">
                     <input class="editable" type="checkbox" name="newsletter" id="newsletter" <?php if ($newsletter_statut == 1) echo 'checked'; ?> value="1" class="checkbox" disabled>
                     <label for="newsletter" class="checkbox-label" id="news_label">Recevoir la newsletter</label>
+                </div>
+                <div class="entries checkbox-container">
+                    <input type="hidden" name="mails_notif_value" id="mails_notif_value" value="<?= $mail_notification_statut == 1 ? '1' : '0'; ?>">
+                    <input class="editable second_check" type="checkbox" name="mails_notif" id="mails_notif" <?php if ($mail_notification_statut == 1) echo 'checked'; ?> value="1" class="checkbox" disabled>
+                    <label for="mails_notif" class="checkbox-label" id="mails_label">Notifications Mails</label>
                 </div>
             </div>
 
