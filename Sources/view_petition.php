@@ -120,6 +120,12 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             <div class="warning_text"><p>&nbsp;&nbsp;&nbsp;Le créateur de cette pétition a été banni de la plateforme. Cette pétition est donc suspendue et les commentaires ont été désactivés.</p></div>
         </div>
         ';
+
+        $set_pet_status_to_closed_stmt = $pdo->prepare('UPDATE PETITION SET statut = :statut WHERE id = :id');
+        $set_pet_status_to_closed_stmt->bindParam(':statut', 'CLOSED');
+        $set_pet_status_to_closed_stmt->bindParam(':id', $_GET['id']);
+        $set_pet_status_to_closed_stmt->execute();
+
     }
 
     ?>

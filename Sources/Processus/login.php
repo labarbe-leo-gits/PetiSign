@@ -26,6 +26,45 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
     if ($ban_count > 0) {
 
+        $get_ban_expiration_date = $pdo->prepare("SELECT expiration FROM BAN WHERE id_user = :user_id");
+        $get_ban_expiration_date->bindParam(':user_id', $user_id);
+        $get_ban_expiration_date->execute();
+        $ban_expiration_date = $get_ban_expiration_date->fetchColumn();
+
+        $current_date = new DateTime();
+        $ban_expiration_date = new DateTime($ban_expiration_date);
+
+        if($ban_expiration_date <= $current_date) {
+            $delete_ban = $pdo->prepare("DELETE FROM BAN WHERE id_user = :user_id");
+            $delete_ban->bindParam(':user_id', $user_id);
+            $delete_ban->execute();
+
+            $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+            $stmt->bindParam(':mail', $username);
+            $stmt->execute();
+            $user = $stmt->fetchColumn();
+
+            $stmt2 = $pdo->prepare("SELECT is_admin FROM USER WHERE email = :mail");
+            $stmt2->bindParam(':mail', $username);
+            $stmt2->execute();
+            $is_admin = $stmt2->fetchColumn();
+
+            $stmt3 = $pdo->prepare("SELECT is_benevole FROM USER WHERE email = :mail");
+            $stmt3->bindParam(':mail', $username);
+            $stmt3->execute();
+            $is_benevole = $stmt3->fetchColumn();
+
+            $_SESSION['mail'] = $username;
+            $_SESSION['is_admin'] = $is_admin;
+            $_SESSION['is_benevole'] = $is_benevole;
+            $ip = $_SERVER['REMOTE_ADDR'];
+            
+            write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
+
+            header("Location: /Sources/profile.php");
+            exit();
+        }
+
         $_SESSION['ban'] = true;
         $_SESSION['mail'] = $username;
 
@@ -36,7 +75,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion écouée (banni)');
+        write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion échouée (banni)');
         header("Location: /Sources/ban.php");
         exit();
     }

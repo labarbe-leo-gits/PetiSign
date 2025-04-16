@@ -32,3 +32,15 @@
 .file-button:hover {
     background-color: #e4e6e9;
 }
+
+.img_warn{
+    text-align: center;
+}
+
+.img_warn > p{
+    margin-top:-15px;;
+}
+
+.img_warn > p:last-child{
+    margin-bottom: 30px;
+}

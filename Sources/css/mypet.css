@@ -34,7 +34,7 @@
 
 .title {
     text-align: center;
-    margin-top: 1vh;
+    margin-top: 4vh;
 }
 
 .pet_sep {
@@ -62,8 +62,8 @@
 }
 
 .header > .category {
-    color: white;
-    background-color: #4F6DFF;
+
+    background-color: #FED78B;
     width: fit-content;
     padding: 10px 30px;
     border-radius: 100px;
@@ -76,7 +76,7 @@
 }
 
 .header > .category:hover {
-    background-color: #2d4be1;
+    background-color: #E0BD78;
 }
 
 .footer_link {
@@ -159,8 +159,7 @@ hr {
 .mypet {
     padding: 10px 15%;
     margin-top: 0px;
-    background-color: #4F6DFF;
-    color: white;
+    background-color: #FED78B;
     width: fit-content;
     padding: 10px 15%;
     border-radius: 100px;
@@ -169,13 +168,13 @@ hr {
 }
 
 .mypet:hover {
-    background-color: #2d4be1;
+    background-color: #E0BD78;
 }
 
 .action_btn {
     width: fit-content;
     padding: 10px 30px;
-    background-color: #4F6DFF;
+    background-color: #FED78B;
     border-radius: 100px;
     transition: background-color 0.3s ease;
 }
@@ -190,11 +189,11 @@ hr {
 
 .action_btn > img {
     width: 15px;
-    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+    filter: invert(19%) sepia(25%) saturate(1249%) hue-rotate(149deg) brightness(92%) contrast(87%);
 }
 
 .action_btn:hover {
-    background-color: #2d4be1;
+    background-color: #E0BD78;
 }
 
 @media screen and (max-width: 480px) {

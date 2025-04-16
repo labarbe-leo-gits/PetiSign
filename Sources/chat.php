@@ -214,3 +214,7 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
 </div>
+
+<?php
+include_once 'footer.php';
+?>

@@ -21,3 +21,5 @@ ErrorDocument 403 /Sources/error.php?code=403
     Deny from all
     ErrorDocument 403 /Sources/error.php?code=403
 </FilesMatch>
+php_value upload_max_filesize 10M
+php_value post_max_size 10M

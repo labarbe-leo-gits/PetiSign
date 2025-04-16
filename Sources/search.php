@@ -1,9 +1,12 @@
 <?php
-include_once 'header.php'
+include_once 'header.php';
+include_once 'database/database.php';
 ?>
 
+<link rel="stylesheet" href="css/discover.css">
 <link rel="stylesheet" href="css/searchbar.css">
 <link rel="stylesheet" href="css/result.css">
+
 
 <?php
 
@@ -45,6 +48,34 @@ if($insertVal == "" or $insertVal == " "){
     print "<h1 class='querytitle'>Résultats de la recherche pour : &laquo; ".$insertVal." &raquo;</h1>";
 }
 ?>
+<div class="card-container">
+
+        <?php
+
+        $get_all_petitions = $pdo->prepare("SELECT * FROM PETITION");
+        $get_all_petitions->execute();
+        $all_petitions = $get_all_petitions->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($all_petitions as $petition) {
+            echo '
+            <div class="card">
+                <div class="cardheader">
+                    <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
+                </div>
+                <div class="cardcontent">
+                    <div class="left">
+                        <h3>' . $petition['title'] . '</h3>
+                    </div>
+                    <div class="right">
+                        <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
+                    </div>
+                </div>
+            </div>';
+        }
+        
+
+        ?>
+</div>
 
 <?php
 include_once 'footer.php';

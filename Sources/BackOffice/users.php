@@ -18,7 +18,7 @@ $current_admin_id = $get_current_admin_id->fetchColumn();
     </div>
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
-        <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
+        <a class="captcha_database_action" href="create_admin.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
     </div>
     <div class="tableau">
         <table>

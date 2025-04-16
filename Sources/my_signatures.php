@@ -80,6 +80,7 @@ $card_num = 0;
                     <p class="category">' . $category_name . '</p>
                 </div>
                 <div class="content">
+                <p>
                     <h2 class="title">' . $petition . '</h2>
                     <hr class="pet_sep">
                     <p class="description">' . $description . '</p>
@@ -91,6 +92,7 @@ $card_num = 0;
                     <a href="view_petition.php?id=' . $signature['id_petition'] . '" class="mypet desktop">Voir la Pétition</a>
                     <a href="" class="mypet mobile">Voir</a>
                 </div>
+                </p>
             </div>';
         }
     }catch(PDOException $e){

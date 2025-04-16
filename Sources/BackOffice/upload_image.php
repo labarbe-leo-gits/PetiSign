@@ -10,6 +10,10 @@ include_once 'header.php';
     <div class="captcha_form" id="captcha_form">
         <h1 id="loginhigh" class="highlighted-text">Upload</h1>
         <hr id="loginhr">
+        <div class="img_warn">
+            <p class="warning">Formats d'image acceptés : JPG</p>
+            <p class="warning">Taille maximale : 10 Mo</p>
+        </div>
         <form action="/Resources/upload.php" method="post" enctype="multipart/form-data" class="login">
             <div class="entries">
             <div class="file-upload-container">

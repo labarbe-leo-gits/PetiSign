@@ -2,7 +2,6 @@
 
 include_once 'security.php';
 include_once '../../database/database.php';
-include_once '../../Processus/write_logs.php';
 
 if($is_admin != 0){
 
@@ -16,8 +15,6 @@ if($is_admin != 0){
         $delete_ban = $pdo->prepare("DELETE FROM BAN WHERE id_user = :id");
         $delete_ban->bindParam(':id', $_GET['id']);
         $delete_ban->execute();
-
-        write_logs("../logs/log.txt", "[ACTION]", "Déban de l'utilisateur : $user");
 
         header("Location: ../users.php");
         exit;
