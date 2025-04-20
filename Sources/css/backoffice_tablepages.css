@@ -130,3 +130,62 @@ tr:first-child{background-color: #E0BD78;}
 .banned{
     color: red;
 }
+
+.message{
+    display:flex;
+    justify-content: center;
+    margin-top:-15px;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.message > .success {
+    background-color: green;
+    border-radius: 8px;
+    text-align: center;
+    padding: 1px;
+    width: 95%;
+    margin: 10px 0;
+    animation: fadeInOut 5s ease-in-out forwards;
+}
+
+.message > .success > p {
+    color: white;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.message > .error{
+    background-color: rgb(178, 29, 29);
+    border-radius: 8px;
+    text-align: center;
+    padding: 1px;
+    width: 95%;
+    margin: 10px 0;
+}
+.message > .error > p{
+    color: white;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.hidden{
+    display: none;
+}

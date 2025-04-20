@@ -144,10 +144,28 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         </div>
 
         <div class="test">
-            <a href="Processus/report.php?id=<?= $_GET['id'] ?>&type=2" class="quick">
+
+            <?php
+
+            $check_if_already_reported_stmt = $pdo->prepare('SELECT COUNT(*) FROM REPORT WHERE id_user = :user_id AND id_target = :petition_id AND report_type = 2');
+            $check_if_already_reported_stmt->bindParam(':user_id', $get_user_id);
+            $check_if_already_reported_stmt->bindParam(':petition_id', $_GET['id']);
+            $check_if_already_reported_stmt->execute();
+            $already_reported = $check_if_already_reported_stmt->fetchColumn();
+
+            if($already_reported == 0){
+                echo '<a href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
                 <img src="../Resources/img/ui_icons/red-flag.png" alt="">
                 &nbsp;Signaler un abus
-            </a>
+            </a>';
+            }else{
+                echo '<p class="quick disabled">
+                <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                &nbsp;Signalement déjà effectué
+            </p>';
+            }
+
+            ?>
 
             <?php
             if($is_admin == 1){

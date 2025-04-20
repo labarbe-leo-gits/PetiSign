@@ -58,6 +58,11 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
             $_SESSION['is_admin'] = $is_admin;
             $_SESSION['is_benevole'] = $is_benevole;
             $ip = $_SERVER['REMOTE_ADDR'];
+
+            //$create_session_instance = $pdo->prepare("INSERT INTO SESSION (id_user, ip_address) VALUES (:user_id, :ip_address)");
+            //$create_session_instance->bindParam(':user_id', $user_id);
+            //$create_session_instance->bindParam(':ip_address', $ip);
+            //$create_session_instance->execute();
             
             write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
 
@@ -99,6 +104,11 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     $_SESSION['is_admin'] = $is_admin;
     $_SESSION['is_benevole'] = $is_benevole;
     $ip = $_SERVER['REMOTE_ADDR'];
+
+    //$create_session_instance = $pdo->prepare("INSERT INTO SESSION (id_user, ip_address) VALUES (:user_id, :ip_address)");
+    //$create_session_instance->bindParam(':user_id', $user_id);
+    //$create_session_instance->bindParam(':ip_address', $ip);
+    //$create_session_instance->execute();
     
     write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
 

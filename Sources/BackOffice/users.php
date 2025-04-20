@@ -6,6 +6,32 @@ $get_current_admin_id->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);
 $get_current_admin_id->execute();
 $current_admin_id = $get_current_admin_id->fetchColumn();
 
+$error_details = '';
+$success_details = '';
+
+if(isset($_GET['error']) && isset($_GET['referer'])){
+
+    $json_file = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Sources/json/error_register.json');
+    $error_manager = json_decode($json_file, true);
+    
+    if(array_key_exists($_GET['error'], $error_manager)){
+        $error_details = $error_manager[$_GET['error']];
+    } else {
+        $error_details = "Unknown error";
+    }
+}
+
+if(isset($_GET['success']) && isset($_GET['referer'])){
+
+    $json_file = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Sources/json/success_register.json');
+    $success_manager = json_decode($json_file, true);
+    
+    if(array_key_exists($_GET['success'], $success_manager)){
+        $success_details = $success_manager[$_GET['success']];
+    } else {
+        $success_details = "Unknown success message";
+    }
+}
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
@@ -19,6 +45,24 @@ $current_admin_id = $get_current_admin_id->fetchColumn();
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
         <a class="captcha_database_action" href="create_admin.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
+    </div>
+    <div class="message">
+    <?php
+        if(isset($_GET['error']) && isset($_GET['referer'])){
+            echo '
+            <div class="error">
+                <p>' . $error_details .'</p>
+            </div>
+            ';
+        }
+        if(isset($_GET['success']) && isset($_GET['referer'])){
+            echo '
+            <div class="success">
+                <p>' . $success_details .'</p>
+            </div>
+            ';
+        }
+    ?>
     </div>
     <div class="tableau">
         <table>
@@ -101,22 +145,31 @@ $current_admin_id = $get_current_admin_id->fetchColumn();
                 <th>ID</th>
                 <th>Nom d'utilisateur</th>
             </tr>
-            <tr>
-                <td class="id">0</td>
-                <td class="content">SuperKiwi</td>
-            </tr>
-            <tr>
-                <td class="id">1</td>
-                <td class="content">FDupont</td>
-            </tr>
-            <tr>
-                <td class="id">2</td>
-                <td class="content">DetrauxL</td>
-            </tr>
+            <?php
+
+            $sessions_stmt = $pdo->prepare("SELECT * FROM SESSION");
+            $sessions_stmt->execute();
+            $sessions = $sessions_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($sessions as $session){
+                $user_stmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+                $user_stmt->bindParam(':id', $session['id_user'], PDO::PARAM_INT);
+                $user_stmt->execute();
+                $user = $user_stmt->fetchColumn();
+
+                echo "<tr>";
+                echo "<td class='id'>".$session['id_user']."</td>";
+                echo "<td class='content'>".$user."</td>";
+                echo "</tr>";
+            }
+
+            ?>
         </table>
     </div>
 </div>
 </div>
+
+<script src="/Sources/js/message_hider.js"></script>
 
 <?php
 include_once 'footer.php';

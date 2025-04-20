@@ -17,7 +17,7 @@ include_once 'header.php';
         <form action="/Resources/upload.php" method="post" enctype="multipart/form-data" class="login">
             <div class="entries">
             <div class="file-upload-container">
-                <input type="file" id="fileToUpload" name="fileToUpload" class="file-input" required>
+                <input type="file" id="fileToUpload" name="fileToUpload" class="file-input" accept=".jpg" required>
                 <button id="fileButton" class="file-button" type="button">Sélectionnez un fichier</button>
             </div>
             <div class="space"></div>

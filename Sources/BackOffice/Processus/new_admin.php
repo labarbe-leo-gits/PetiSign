@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':is_admin', $is_admin);
             $stmt->execute();
 
-            echo 'user created';
+            header('Location: ../users.php?success=UsrCreated&referer=admin_create');
 
     }}} else {
         header('Location: '. $_SERVER['HTTP_REFERER']);
