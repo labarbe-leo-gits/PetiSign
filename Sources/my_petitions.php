@@ -57,8 +57,8 @@ $card_num = 0;
             </div>
             <div class="footer_link">
                 <a href="view_petition.php?id=' . $petition['id'] . '" class="mypet desktop">Voir la Pétition</a>
-                <a href="" class="mypet mobile">Voir</a>
-                <a href="" class="action_btn"><img src="../Resources/img/ui_icons/crayon.png" alt="Modifier la Pétition"></a>
+                <a href="view_petition.php?id=' . $petition['id'] . '" class="mypet mobile">Voir</a>
+                <a href="modify_petition.php?id='. $petition['id'] .'" class="action_btn"><img src="../Resources/img/ui_icons/crayon.png" alt="Modifier la Pétition"></a>
                 <a href="Processus/delete_petition.php?id=' . $petition['id'] . '" class="action_btn"><img src="../Resources/img/ui_icons/trash.png" alt="Supprimer la Pétition"></a>
             </div>
         </div>';

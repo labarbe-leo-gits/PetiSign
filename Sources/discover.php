@@ -1,6 +1,22 @@
 <?php
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'Processus/write_logs.php';
+
+if(!isset($_SESSION['mail'])){
+    $user = 'Anonyme';
+}else{
+    $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+    $stmt->bindParam(':mail', $_SESSION['mail']);
+    $stmt->execute();
+    $user = $stmt->fetchColumn();
+}
+
+$user_ip = $_SERVER['REMOTE_ADDR'];
+
+write_logs('logs/log.txt', 'INFO', $user, $user_ip, 'Visite de la page "Découvrir"');
+
+
 ?>
 
 <link rel="stylesheet" href="css/searchbar.css">
@@ -32,6 +48,8 @@ $number_of_cards = 5;
     </div>
     <div class="scrollable">
     <?php
+
+    
 
     $five_most_recent_petitions_stmt = $pdo->prepare("SELECT * FROM PETITION ORDER BY date DESC LIMIT :limit");
     $five_most_recent_petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);

@@ -8,3 +8,8 @@
     text-align: center;
     padding-top:20px;
 }
+
+.entries > .entries > .readonly-field{
+    padding-top: 1px;
+    padding-bottom: 1px;
+}

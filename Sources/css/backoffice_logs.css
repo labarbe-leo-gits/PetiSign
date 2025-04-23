@@ -21,3 +21,27 @@
 hr{
     width:15%;
 }
+
+.stat_container{
+    text-align: center;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding-top:10px;
+
+}
+
+.stat{
+    background-color: #E0BD78;
+    border-radius: 8px;
+    width: fit-content;
+    text-align: center;
+    cursor:default;
+    margin:0 auto;
+}
+
+.stat > p{
+    padding:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+}

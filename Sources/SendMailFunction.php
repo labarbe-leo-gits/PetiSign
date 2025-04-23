@@ -29,6 +29,7 @@ function EnvoieMail($mail, $mailToSend, $Content)
         $mail->addReplyTo('noreply.petisign@gmail.com', 'No Reply');
 
         $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->CharSet = 'UTF-8';
         $mail->Subject = 'Code de validation';
         $mail->Body    = '<!DOCTYPE html>
         <html lang="fr">

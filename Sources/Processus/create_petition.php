@@ -39,14 +39,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
+    $petition_stage_one = ($petition_goal / 4) * 1;
+    $petition_stage_two = ($petition_goal / 4) * 2;
+    $petition_stage_three = ($petition_goal / 4) * 3;
+    $petition_stage_four = $petition_goal;
+
     try {
-        $insert_stmt = $pdo->prepare("INSERT INTO PETITION (title, category, description, signature_goal, image_id, user) VALUES (:name, :category, :description, :signature_goal, :image_id, :user_id)");
+        $insert_stmt = $pdo->prepare("INSERT INTO PETITION (title, category, description, signature_goal, image_id, user, signature_stage_one, signature_stage_two, signature_stage_three, signature_stage_four) VALUES (:name, :category, :description, :signature_goal, :image_id, :user_id, :signature_stage_one, :signature_stage_two, :signature_stage_three, :signature_stage_four)");
         $insert_stmt->bindParam(':name', $petition_name);
         $insert_stmt->bindParam(':category', $petition_category);
         $insert_stmt->bindParam(':description', $petition_description);
         $insert_stmt->bindParam(':signature_goal', $petition_goal);
         $insert_stmt->bindParam(':image_id', $petition_img);
         $insert_stmt->bindParam(':user_id', $user_id);
+        $insert_stmt->bindParam(':signature_stage_one', $petition_stage_one);
+        $insert_stmt->bindParam(':signature_stage_two', $petition_stage_two);
+        $insert_stmt->bindParam(':signature_stage_three', $petition_stage_three);
+        $insert_stmt->bindParam(':signature_stage_four', $petition_stage_four);
         $insert_stmt->execute();
 
         $get_pet_id = $pdo->prepare("SELECT id FROM PETITION WHERE title = :pet_name AND user = :user_id");

@@ -23,9 +23,37 @@ include_once 'header.php';
             } else {
                 echo "Log file not found.";
             }
+            
             ?>
         </div>
-    </div>    
+    </div>
+    <?php
+
+    $successfulConnections = 0;
+    $discover_count = 0;
+    if (file_exists($logFile)) {
+        $logLines = file($logFile);
+        foreach ($logLines as $line) {
+            if (strpos($line, 'Connexion réussie') !== false) {
+                $successfulConnections++;
+            }
+            if (strpos($line, 'Découvrir') !== false) {
+                $discover_count++;
+            }
+        }
+    }
+
+
+    ?>
+    <div class="stat_container">
+        <div class="stat">
+            <p>Connexions : <strong id="connection-count"><?php echo $successfulConnections; ?></strong></p>
+        </div>
+        <hr>
+        <div class="stat">
+            <p>Découvrir : <strong id="discover-count"><?php echo $discover_count; ?></strong></p>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -57,9 +85,25 @@ include_once 'header.php';
             .then(response => response.text())
             .then(data => {
                 document.getElementById('logs_div').innerHTML = data;
+                updateConnectionCount();
+                discoverCount();
             })
             .catch(error => console.error('Error fetching logs:', error));
     }, 1000);
+    
+
+    function updateConnectionCount() {
+        let logContent = document.getElementById('logs_div').innerHTML;
+        let count = (logContent.match(/Connexion réussie/g) || []).length;
+        document.getElementById('connection-count').innerHTML = count;
+    }
+
+    function discoverCount() {
+        let logContent = document.getElementById('logs_div').innerHTML;
+        let count = (logContent.match(/Découvrir/g) || []).length;
+        document.getElementById('discover-count').innerHTML = count;
+    }
+
 </script>
 
 <?php
