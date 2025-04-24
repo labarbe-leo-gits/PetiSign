@@ -12,7 +12,7 @@ Pour déployer PétiSign sur un VPS, la marche à suivre est relativement simple
  7. Rentrez le mot de passe suivant : `3hIe1TuYoGUymZ8iePmwjVBniyGgYq8vmH0NM9i3PtAWKEULUS`
 
 Une fois ces étapes effectuées, PétiSign devrait être déployé et prêt à l'emploi avec tout ce qu'il faut pour pouvoir le gérer via le BackOffice !
-***N.B : n'oubliez pas de supprimer par la suite le fichier setup.php !***
+<br />***N.B : n'oubliez pas de supprimer par la suite le fichier setup.php !***
 
 ## Contributions
 
