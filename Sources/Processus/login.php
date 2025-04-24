@@ -64,7 +64,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
             //$create_session_instance->bindParam(':ip_address', $ip);
             //$create_session_instance->execute();
             
-            write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
+            write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 
             header("Location: /Sources/profile.php");
             exit();
@@ -80,7 +80,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion échouée (banni)');
+        write_logs('../logs/log.txt', 'AUTH02', $user, $ip, 'Connexion échouée (banni)');
         header("Location: /Sources/ban.php");
         exit();
     }
@@ -110,7 +110,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     //$create_session_instance->bindParam(':ip_address', $ip);
     //$create_session_instance->execute();
     
-    write_logs('../logs/log.txt', 'INFO', $user, $ip, 'Connexion réussie');
+    write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 
     header("Location: ../profile.php");
 } else {

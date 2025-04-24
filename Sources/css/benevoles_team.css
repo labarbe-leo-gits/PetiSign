@@ -18,6 +18,20 @@
     background-color: white;
     box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    height:fit-content;
+    padding-bottom:20px;
+}
+
+.members{
+    display: flex;
+    margin:0 auto;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+
+.members > a{
+    margin:0 0;
 }
 
 .container{
@@ -33,6 +47,8 @@
     background-color: white;
     box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    height:fit-content;
+    padding-bottom:10px;
 }
 
 
@@ -41,6 +57,7 @@
     background-color: white;
     box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    padding-bottom: 10px;
 }
 
 .event_container{
@@ -73,4 +90,93 @@ h3{
 
 .msg > img{
     width:30px;
+}
+
+.quick{
+    background-color: #E0BD78;
+    display: flex;
+    width:fit-content;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 100px;
+    margin: 0 auto;
+    margin-top: -10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.quick:hover{
+    background-color: #b69960;
+}
+
+.line{
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top:20px;
+}
+
+.team_header{
+    margin-top: 30px;
+}
+
+.member_item{
+    background-color: #E0BD78;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin:0 auto;
+    display: flex;
+    width:fit-content;
+    padding-left: 30px;
+    padding-right: 30px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.member_item:hover{
+    background-color: #b69960;
+}
+
+.nx_container{
+    margin-bottom:10px;
+}
+
+.btn{
+    display: flex;
+    margin-bottom: 20px;;
+}
+.quick > .btn_img{
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin: 0 auto;
+    text-align: center;
+    filter: invert(20%) sepia(43%) saturate(573%) hue-rotate(153deg) brightness(85%) contrast(91%);
+    position: relative;
+}
+
+.line_header{
+    width: 30%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.btn_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+
+.act_container {
+    max-height: 300px;
+    overflow-y: auto;
 }

@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'Processus/write_logs.php';
 
 if(!isset($_SESSION['mail'])){
     header('Location: login.php');
@@ -8,6 +9,15 @@ if(!isset($_SESSION['mail'])){
 }
 
 $mail = $_SESSION['mail'];
+
+$user_stmt = $pdo->prepare('SELECT username FROM USER WHERE email = :mail');
+$user_stmt->bindParam(':mail', $mail);
+$user_stmt->execute();
+$user = $user_stmt->fetchColumn();
+
+$user_ip = $_SERVER['REMOTE_ADDR'];
+
+write_logs('logs/log.txt', 'PROF1L', $user, $user_ip, 'Visite de la page "Profile"');
 
 try{
     $get_user = $pdo->prepare('SELECT username FROM USER WHERE email = :mail');
@@ -105,6 +115,7 @@ try{
             </div>
         <h2 id="nomdp"><?=$user?></h2>
         <p id="description_profile"><?=$outputed_description?></p>
+        <button class="custom-button dl_btn">Télécharger mes données</button>
     </div>
     <!-- utile ? -->
     <div class="login_form" id="register_form">

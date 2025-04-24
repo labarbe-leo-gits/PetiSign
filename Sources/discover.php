@@ -14,7 +14,7 @@ if(!isset($_SESSION['mail'])){
 
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
-write_logs('logs/log.txt', 'INFO', $user, $user_ip, 'Visite de la page "Découvrir"');
+write_logs('logs/log.txt', 'D1SC0V', $user, $user_ip, 'Visite de la page "Découvrir"');
 
 
 ?>

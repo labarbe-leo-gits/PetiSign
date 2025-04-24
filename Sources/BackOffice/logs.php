@@ -30,29 +30,62 @@ include_once 'header.php';
     <?php
 
     $successfulConnections = 0;
+    $uniqueIPs = [];
     $discover_count = 0;
+    $profile_count = 0;
+    
     if (file_exists($logFile)) {
         $logLines = file($logFile);
         foreach ($logLines as $line) {
-            if (strpos($line, 'Connexion réussie') !== false) {
+
+            if (strpos($line, 'AUTH01') !== false) {
                 $successfulConnections++;
             }
-            if (strpos($line, 'Découvrir') !== false) {
-                $discover_count++;
+            
+            if (strpos($line, 'D1SC0V') !== false) {
+
+                if (preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $line, $matches)) {
+                    $ip = $matches[0];
+                    if (!in_array($ip, $uniqueIPs)) {
+                        $uniqueIPs[] = $ip;
+                        $discover_count++;
+                    }
+                }
+            }
+
+            if (strpos($line, 'PROF1L') !== false) {
+
+                if (preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $line, $matches)) {
+                    $ip = $matches[0];
+                    if (!in_array($ip, $uniqueIPs)) {
+                        $uniqueIPs[] = $ip;
+                        $profile_count++;
+                    }
+                }
             }
         }
     }
-
-
     ?>
     <div class="stat_container">
-        <div class="stat">
-            <p>Connexions : <strong id="connection-count"><?php echo $successfulConnections; ?></strong></p>
+        <h3>Statistiques (30 derniers jours)</h3>
+        <div class="main">
+            <div class="stat">
+                <p>Nombre de connexions : <strong id="connection-count"><?php echo $successfulConnections; ?></strong></p>
+            </div>
+            <div class="stat">
+                <p>Nombre de nouveau comptes : <strong id="new-account-count">0</strong></p>
+            </div>
         </div>
-        <hr>
-        <div class="stat">
-            <p>Découvrir : <strong id="discover-count"><?php echo $discover_count; ?></strong></p>
-        </div>
+            <hr class="stat_hr">
+            <h3>Visites uniques par page (30 derniers jours)</h3>
+            <div class="main">
+                <div class="stat">
+                    <p>'Découvrir' : <strong id="discover-count"><?php echo $discover_count; ?></strong></p>
+                </div>
+                <div class="stat">
+                    <p>'Profile' : <strong id="profile-count"><?php echo $profile_count; ?></strong></p>
+                </div>
+                </div>
     </div>
 </div>
 </div>
@@ -86,24 +119,50 @@ include_once 'header.php';
             .then(data => {
                 document.getElementById('logs_div').innerHTML = data;
                 updateConnectionCount();
-                discoverCount();
+                updateUniqueVisitors();
+                updateUniqueProfileVisitors();
             })
             .catch(error => console.error('Error fetching logs:', error));
     }, 1000);
     
-
     function updateConnectionCount() {
         let logContent = document.getElementById('logs_div').innerHTML;
-        let count = (logContent.match(/Connexion réussie/g) || []).length;
+        let count = (logContent.match(/AUTH01/g) || []).length;
         document.getElementById('connection-count').innerHTML = count;
     }
 
-    function discoverCount() {
+    function updateUniqueVisitors() {
         let logContent = document.getElementById('logs_div').innerHTML;
-        let count = (logContent.match(/Découvrir/g) || []).length;
-        document.getElementById('discover-count').innerHTML = count;
+        let lines = logContent.split('<br>');
+        let uniqueIPs = new Set();
+        
+        lines.forEach(line => {
+            if (line.includes('D1SC0V')) {
+                let ipMatch = line.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/);
+                if (ipMatch) {
+                    uniqueIPs.add(ipMatch[0]);
+                }
+            }
+        });
+        
+        document.getElementById('discover-count').innerHTML = uniqueIPs.size;
     }
-
+    function updateUniqueProfileVisitors() {
+        let logContent = document.getElementById('logs_div').innerHTML;
+        let lines = logContent.split('<br>');
+        let uniqueIPs = new Set();
+        
+        lines.forEach(line => {
+            if (line.includes('PROF1L')) {
+                let ipMatch = line.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/);
+                if (ipMatch) {
+                    uniqueIPs.add(ipMatch[0]);
+                }
+            }
+        });
+        
+        document.getElementById('profile-count').innerHTML = uniqueIPs.size;
+    }
 </script>
 
 <?php

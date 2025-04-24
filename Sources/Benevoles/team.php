@@ -46,6 +46,11 @@ $leader_username->bindParam(':id', $team['leader'], PDO::PARAM_INT);
 $leader_username->execute();
 $leader_username = $leader_username->fetchColumn();
 
+if ($team['leader'] == $user_id) {
+    $is_leader = 1;
+} else {
+    $is_leader = 0;
+}
 
 ?>
 
@@ -54,15 +59,38 @@ $leader_username = $leader_username->fetchColumn();
 <div class="team_header">
     <h1><?=$team['name']?></h1>
     <p><?=$team['description']?></p>
+    <hr class="line_header">
+    <div class="btn_container">
+    <?php
+
+    if ($is_leader == 1) {
+        echo '
+        <div class="btn">
+            <a href="modify_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/crayon.png" alt="leader" class="btn_img">&nbsp;&nbsp;Modifier l\'équipe</a>
+        </div>
+        ';
+    } else {
+        echo '
+        <div class="btn">
+            <a href="modify_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img">&nbsp;&nbsp;Quitter l\'équipe</a>
+        </div>
+        ';
+    }
+
+    ?>
+    <div class="btn">
+        <a href="index.php" class="quick"><img src="/Resources/img/ui_icons/back.png" alt="leader" class="btn_img">&nbsp;&nbsp;Retour</a>
+    </div>
+    </div>
 </div>
 
 <div class="container">
     <div class="hierarchy">
         <h3>Gérant</h3>
         
-        <a target="_blank" href="/Sources/view_profile.php?id=<?=$team['leader']?>" class="link_to_profile"><?=$leader_username?></a>
-        </ul>
+        <a target="_blank" href="/Sources/view_profile.php?id=<?=$team['leader']?>" class="member_item"><?=$leader_username?></a>
         <h3>Membres</h3>
+        <div class="members">
         
         <?php
 
@@ -81,12 +109,12 @@ $leader_username = $leader_username->fetchColumn();
                 continue;
             }
 
-            echo '<li><a target="_blank" href="/Sources/view_profile.php?id='.$member['id_user'].'" class="link_to_profile">'.$username.'</a></li>';
+            echo '<a target="_blank" href="/Sources/view_profile.php?id='.$member['id_user'].'" class="member_item">'.$username.'</a>';
 
         }
 
         ?>
-        </ul>
+        </div>
     </div>
     <div class="next_activities">
         <div class="nx_header">
@@ -126,7 +154,8 @@ $leader_username = $leader_username->fetchColumn();
     <div class="activities">
         <div class="act_header">
             <h3>Actualité et évènements</h3>
-            <a href="create_event.php?id=<?=$team_id?>" class="quick">+</a>
+            <a href="create_event.php?id=<?=$team_id?>" class="quick">+ Nouvelle activité / évènement</a>
+            <hr class="line">
         </div>
         <div class="act_container">
         <?php

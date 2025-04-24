@@ -45,3 +45,25 @@ hr{
     padding-top:10px;
     padding-bottom:10px;
 }
+
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+
+.main > .stat{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+}
+
+.main > .stat > p{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.stat_hr{
+    margin-bottom: 25px;
+}
