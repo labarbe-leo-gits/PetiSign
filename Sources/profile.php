@@ -10,6 +10,8 @@ if(!isset($_SESSION['mail'])){
 
 $mail = $_SESSION['mail'];
 
+include_once 'Processus/sessionlocked_security.php';
+
 $user_stmt = $pdo->prepare('SELECT username FROM USER WHERE email = :mail');
 $user_stmt->bindParam(':mail', $mail);
 $user_stmt->execute();

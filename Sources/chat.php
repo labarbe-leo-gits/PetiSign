@@ -2,12 +2,25 @@
 
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'Processus/write_logs.php';
 
 
 if(!isset($_SESSION['mail'])) {
     header('Location: login.php');
     exit();
 }
+
+include_once 'Processus/sessionlocked_security.php';
+
+$stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+$stmt->bindParam(':mail', $_SESSION['mail']);
+$stmt->execute();
+$user = $stmt->fetchColumn();
+
+$user_ip = $_SERVER['REMOTE_ADDR'];
+
+write_logs('logs/log.txt', 'MSG1NG', $user, $user_ip, 'Visite de la page "Messagerie"');
+
 
 $discussion_id = $_GET['discussion_id'] ?? null;
 $discussion_id = filter_input(INPUT_GET, 'discussion_id', FILTER_SANITIZE_NUMBER_INT);

@@ -60,7 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     session_unset();
                     session_destroy();
 
-                    write_logs("../logs/log.txt", "[INFO]", "Nouvelle inscription : $mail - $username");
+                    $ip = $_SERVER['REMOTE_ADDR'];
+
+                    write_logs('../logs/log.txt', 'AUTH03', $username, $ip, 'Nouveau compte utilisateur créé');
 
                     header('Location: ../login.php');
                     exit();

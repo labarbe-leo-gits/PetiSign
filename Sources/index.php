@@ -1,5 +1,21 @@
 <?php
-include_once 'header.php'
+include_once 'header.php';
+include_once 'database/database.php';
+include_once 'Processus/write_logs.php';
+
+if(!isset($_SESSION['mail'])){
+    $user = 'Anonyme';
+}else{
+    $stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+    $stmt->bindParam(':mail', $_SESSION['mail']);
+    $stmt->execute();
+    $user = $stmt->fetchColumn();
+}
+
+$user_ip = $_SERVER['REMOTE_ADDR'];
+
+write_logs('logs/log.txt', 'AC3UIL', $user, $user_ip, 'Visite de la page "Accueil"');
+
 ?>
 
 <link rel="stylesheet" href="css/index.css">
