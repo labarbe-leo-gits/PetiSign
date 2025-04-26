@@ -229,9 +229,9 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 <input type="hidden" name="user_id" value="';
         echo $get_user_id;
         echo '">
-                <textarea name="comment" id="comment" maxlength=800  onkeyup="count(\'desc_counter\',this,800)"></textarea>
+                <textarea name="comment" id="comment" maxlength=200  onkeyup="count(\'desc_counter\',this,200)"></textarea>
                 <div class="limit positioned" id="desc_counter">
-                        <p>Limite de caractères : 0 / 800</p>
+                        <p>Limite de caractères : 0 / 200</p>
                 </div>
 
                 <button type="submit" class="comment_btn custom-button"><img src="../Resources/img/ui_icons/send.png" alt="Envoyer"><p>&nbsp; Publier</p></button>

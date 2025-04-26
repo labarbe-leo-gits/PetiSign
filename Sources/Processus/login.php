@@ -7,6 +7,8 @@ session_start();
 $username = $_POST['mail'];
 $password = $_POST['password'];
 
+$username = strtolower($username);
+
 $stmt = $pdo->prepare("SELECT password FROM USER WHERE email = :mail");
 $stmt->bindParam(':mail', $username);
 $stmt->execute();

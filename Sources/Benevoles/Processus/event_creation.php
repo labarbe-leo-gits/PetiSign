@@ -26,7 +26,6 @@ if($is_benevole !=0){
             $user_id->execute();
             $user_id = $user_id->fetchColumn();
 
-            // Insert the new event into the database
             $stmt = $pdo->prepare("INSERT INTO TEAM_ACTIVITY (name, event_date, description, id_user, id_team) VALUES (:name, :date, :description, :id_user, :id_team)");
             $stmt->bindParam(':name', $event_name);
             $stmt->bindParam(':date', $event_date);
@@ -34,6 +33,27 @@ if($is_benevole !=0){
             $stmt->bindParam(':id_user', $user_id);
             $stmt->bindParam(':id_team', $team_id);
             $stmt->execute();
+
+            $activity_id = $pdo->lastInsertId();
+
+            $city = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
+            $city = htmlspecialchars($_POST['city']);
+            $pcode = filter_input(INPUT_POST, 'pcode', FILTER_SANITIZE_NUMBER_INT);
+            $pcode = htmlspecialchars($_POST['pcode']);
+            $road = filter_input(INPUT_POST, 'road', FILTER_SANITIZE_STRING);
+            $road = htmlspecialchars($_POST['road']);
+            $num = filter_input(INPUT_POST, 'num', FILTER_SANITIZE_NUMBER_INT);
+            $num = htmlspecialchars($_POST['num']);
+
+            if(!empty($city) && !empty($pcode) && !empty($road) && !empty($num)){
+                $stmt = $pdo->prepare("UPDATE TEAM_ACTIVITY SET city = :city, postal_code = :postal_code, rue = :road, num = :number WHERE id = :id");
+                $stmt->bindParam(':city', $city);
+                $stmt->bindParam(':postal_code', $pcode);
+                $stmt->bindParam(':road', $road);
+                $stmt->bindParam(':number', $num);
+                $stmt->bindParam(':id', $activity_id);
+                $stmt->execute();
+            }
 
             echo "Event created successfully";
             exit();

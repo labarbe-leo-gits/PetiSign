@@ -14,6 +14,13 @@ try{
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
     $petition_id = filter_input(INPUT_POST, 'petition_id', FILTER_SANITIZE_NUMBER_INT);
 
+    $comment_length = strlen($comment);
+
+    if($comment_length > 200) {
+        echo "Comment is too long!";
+        exit();
+    }
+
     $petition_owner_stmt = $pdo->prepare("SELECT user FROM PETITION WHERE id = :petition_id");
     $petition_owner_stmt->bindParam(':petition_id', $petition_id);
     $petition_owner_stmt->execute();

@@ -417,3 +417,105 @@ body {
 .disabled_input{
     cursor: not-allowed;
 }
+
+
+@media screen and (max-width: 480px) {
+
+    body {
+        height: auto;
+    }
+
+    .main_container {
+        width:100vw;
+    }
+
+    .text {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .petition_name {
+        font-size: 1.5rem;
+    }
+
+    .description > p {
+        margin: 20px;
+        font-size: 14px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        width: 100vw;
+        margin-top: 20px;
+        gap: 10px;
+    }
+
+    .grid > .signatures_container {
+        grid-template-columns: 1fr;
+    }
+
+    .grid > .signatures_container > .objectif {
+        padding: 10px 0;
+        border-right: none;
+        border-bottom: solid 1px black;
+    }
+
+    .sign_petition_btn {
+        padding: 10px 40px;
+        margin: 10px 0;
+    }
+
+    .action_btn {
+        width: 100vw;
+    }
+
+    #back {
+        width: 80%;
+    }
+
+    .comment_section {
+        width: 100vw;
+        border-radius: 0;
+    }
+
+    .comment {
+        grid-template-columns: 1fr;
+        margin: 10px;
+    }
+
+    .user_info {
+        border-right: none;
+        border-bottom: solid 1px black;
+        margin-right: 0;
+        padding-bottom: 10px;
+    }
+
+    #comment {
+        width: calc(100% - 20px);
+        height: 100px;
+        margin-left: 10px;
+    }
+
+    .limit {
+        margin-left: 10px;
+    }
+
+    .comment_btn {
+        width: 50%;
+    }
+
+    .quick {
+        padding: 8px 15px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .quick2 {
+        padding: 5px 8px;
+    }
+    .container_.popup {
+        width: 90%;
+        max-width: none;
+    }
+}

@@ -9,6 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $petition_img = htmlspecialchars(filter_input(INPUT_POST, 'img_id', FILTER_SANITIZE_NUMBER_INT));
     $user_id = htmlspecialchars(filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT));
 
+    $petition_name_length = strlen($petition_name);
+    $petition_description_length = strlen($petition_description);
+
+    if ($petition_name_length > 60) {
+        echo "Petition name is too long";
+        exit();
+    }
+
+    if ($petition_description_length > 800) {
+        echo "Petition description is too long";
+        exit();
+    }
+
     if (empty($petition_name)) {
         echo "Petition name is empty";
         exit();

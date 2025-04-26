@@ -12,18 +12,51 @@ include_once 'header.php';
     <br>
     <br>
     <p>facultatif</p>
-    <input type="text" name="city" id="city" placeholder="City">
-    <label for="city">City</label>
-    <input type="number" name="pcode" id="pcode" placeholder="Postal Code">
-    <label for="pcode">Postal Code</label>
-    <input type="text" name="road" id="road" placeholder="Road">
-    <label for="road">Road</label>
-    <input type="number" name="num" id="num">
-    <label for="num">Number</label>
+    <div id="address-fields">
+        <input type="text" name="city" id="city" placeholder="City" class="address-field">
+        <label for="city">City</label>
+        <input type="number" name="pcode" id="pcode" placeholder="Postal Code" class="address-field">
+        <label for="pcode">Postal Code</label>
+        <input type="text" name="road" id="road" placeholder="Road" class="address-field">
+        <label for="road">Road</label>
+        <input type="number" name="num" id="num" placeholder="Number" class="address-field">
+        <label for="num">Number</label>
+    </div>
     <input type="hidden" name="id" id="id" value="<?php echo $_GET['id']; ?>">
     <br><br>
     <button type="submit">send</button>
 </form>
+
+<script>
+
+    const addressFields = document.querySelectorAll('.address-field');
+    
+    addressFields.forEach(field => {
+        field.addEventListener('input', validateAddressFields);
+    });
+    
+    function validateAddressFields() {
+        let hasValue = false;
+        addressFields.forEach(field => {
+            if (field.value.trim() !== '') {
+                hasValue = true;
+            }
+        });
+        
+        addressFields.forEach(field => {
+            if (hasValue) {
+                field.required = true;
+                field.parentElement.querySelector('label').innerHTML = 
+                    field.parentElement.querySelector('label').innerHTML + 
+                    (field.parentElement.querySelector('label').innerHTML.includes('*') ? '' : ' *');
+            } else {
+                field.required = false;
+                field.parentElement.querySelector('label').innerHTML = 
+                    field.parentElement.querySelector('label').innerHTML.replace(' *', '');
+            }
+        });
+    }
+</script>
 
 <?php
 include_once 'footer.php';

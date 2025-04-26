@@ -30,6 +30,4 @@ if($ban_exists > 0){
     }
 }
 
-// todo : unban when manually unbanned
-
 ?>

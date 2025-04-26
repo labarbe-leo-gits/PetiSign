@@ -132,7 +132,11 @@ if ($team['leader'] == $user_id) {
                 $formatted_date = date('d/m/Y', strtotime($next_activity['event_date']));
                 $next_activity['event_date'] = $formatted_date;
                 echo '<div class="event_container">';
-                echo '<p>'.$next_activity['name'].' &#x25CF; '.$next_activity['event_date'].'</p>';
+                echo '<p>'.$next_activity['name'].' &#x25CF; '.$next_activity['event_date'].' &#x25CF; <a href="view_activity.php?id='.$next_activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/eye.png" alt=""></a>';
+                if($user_id == $next_activity['id_user'] || $user_id == $team['leader']) {
+                    echo ' &#x25CF; <a href="Processus/delete_activity.php?id='.$next_activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/trash.png" alt=""></a>';
+                }
+                echo '</p>';
                 echo '<hr>';
                 echo '<p>'.$next_activity['description'].'</p>';
                 echo '</div>';
@@ -174,7 +178,11 @@ if ($team['leader'] == $user_id) {
                 $formatted_date = date('d/m/Y', strtotime($activity['event_date']));
                 $activity['event_date'] = $formatted_date;
                 echo '<div class="event_container">';
-                echo '<p>'.$activity['name'].' &#x25CF; '.$activity['event_date'].'</p>';
+                echo '<p>'.$activity['name'].' &#x25CF; '.$activity['event_date'].' &#x25CF; <a href="view_activity.php?id='.$activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/eye.png" alt=""></a>';
+                if($user_id == $activity['id_user'] || $user_id == $team['leader']) {
+                    echo ' &#x25CF; <a href="Processus/delete_activity.php?id='.$activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/trash.png" alt=""></a>';
+                }
+                echo '</p>';
                 echo '<hr>';
                 echo '<p>'.$activity['description'].'</p>';
                 echo '</div>';

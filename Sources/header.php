@@ -73,8 +73,6 @@ if(isset($_SESSION['ban'])){
     </nav>
     <div class="menu_container">
         <div class="mobile_menu_popup">
-            <h2 class="highlighted-text" id="navhigh">Menu de Navigation</h2>
-            <hr id="menu_separator">
             <?php
             if($is_admin != null){
                 echo '<div class="menu_item"><a href="BackOffice">Back Office</a></div>';
