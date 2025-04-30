@@ -19,6 +19,8 @@ Une fois la mise en place effectuée, rendez-vous sur `http://[votre_ip]/Sources
 - Adresse e-mail : a@a.a
 - Mot de passe : root
 
+<br />***N.B : n'oubliez pas de modifier l'adresse e-mail ainsi que le mot de passe via le BackOffice !***
+
 ## Contributions
 
 [@LouisDetraux](https://github.com/Louiss1904)\
