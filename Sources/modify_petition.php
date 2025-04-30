@@ -69,6 +69,7 @@ if($petition_info){
                 <input name="objectif" id="objectif" type="number" value=<?php echo $petition_signature_goal ?> min="10" required placeholder=" ">
                 <label for="objectif">Objectif de Signatures</label>
             </div>
+            <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
             <hr class="form_hr">
         </div>
         <button type="button" class="custom-button cancel" onclick="window.location.href='my_petitions.php';">Annuler</button>

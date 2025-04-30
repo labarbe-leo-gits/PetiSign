@@ -11,6 +11,11 @@ if(isset($_GET['error'])){
 
 $error_details = $error_manager[$insertVal];
 
+if(isset($_SESSION['mail'])){
+    header('Location: profile.php');
+    exit();
+}
+
 ?>
 
 <link rel="stylesheet" href="css/login_register.css">

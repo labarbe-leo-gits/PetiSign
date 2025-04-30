@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 //Create an instance; passing `true` enables exceptions
 
-function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
+function EnvoieMail($mail, $mailToSend, $username, $title, $Content, $reason)
 {
     try {
         //Server settings
@@ -29,6 +29,7 @@ function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
         $mail->addReplyTo('noreply.petisign@gmail.com', 'No Reply');
 
         $mail->isHTML(true);                                  //Set email format to HTML
+        $mail ->CharSet = 'UTF-8';
         $mail->Subject = $title;
         $mail->Body = '<!DOCTYPE html>
 <html lang="fr">
@@ -123,8 +124,8 @@ function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
             <p>' . $Content . '</p>
         </div>
         <div class="footer">
-            <p>Vous recevez cet email car vous êtes abonné à notre newsletter.</p>
-            <p><a href="5.196.4.238/Sources/profile.php">Mon Compte PétiSign</a> | <a href="5.196.4.238">Visitez notre site</a></p>
+            <p>Vous recevez cet email car vous êtes '. $reason .'</p>
+            <p><a href="petisign.cloud/Sources/profile.php">Mon Compte PétiSign</a> | <a href="petisign.cloud">Visitez notre site</a></p>
             <p>© 2025 PétiSign. Tous droits réservés.</p>
         </div>
     </div>
@@ -134,7 +135,7 @@ function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
 
         $mail->send();
         $mail->clearAllRecipients();
-        echo 'Message has been sent';
+        
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }

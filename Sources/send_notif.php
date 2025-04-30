@@ -123,7 +123,7 @@ function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
             <p>' . $Content . '</p>
         </div>
         <div class="footer">
-            <p><a href="5.196.4.238/Sources/profile.php">Mon Compte PétiSign</a> | <a href="5.196.4.238">Visitez notre site</a></p>
+            <p><a href="petisign.cloud/Sources/profile.php">Mon Compte PétiSign</a> | <a href="petisign.cloud">Visitez notre site</a></p>
             <p>© 2025 PétiSign. Tous droits réservés.</p>
         </div>
     </div>

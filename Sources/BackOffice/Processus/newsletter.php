@@ -31,7 +31,7 @@ if ($is_admin != 0) {
                     $mail_sent = new PHPMailer(true);
 
                     foreach($users_data as $user){
-                        EnvoieMail($mail_sent, $user['email'], $user['username'], $title, $message);
+                        EnvoieMail($mail_sent, $user['email'], $user['username'], $title, $message, "abonné à notre newsletter.");
                         $abonnement_stmt = $pdo->prepare("INSERT INTO ABONNEMENT (id_user, id_newsletter) VALUES (:id_user, :id_newsletter)");
                         $abonnement_stmt->bindParam(':id_user', $user['id']);
                         $abonnement_stmt->bindParam(':id_newsletter', $newsletter_id);

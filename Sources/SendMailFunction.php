@@ -108,7 +108,7 @@ function EnvoieMail($mail, $mailToSend, $Content)
                     <p class="small">Attention : ce code est strictement personel.</p>
                     <p class="small">Vous avez reçu cet email car vous vous êtes inscrit sur notre site. Si vous n\'êtes pas à l\'origine de cette demande, veuillez ignorer cet email.</p>
                     <p class="small">© 2025 PétiSign. Tous droits réservés.</p>
-                    <a href="5.196.4.238" class="more">En savoir plus</a>
+                    <a href="petisign.cloud" class="more">En savoir plus</a>
                 </div>
             </div>
 

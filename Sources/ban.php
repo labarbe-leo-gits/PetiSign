@@ -8,6 +8,8 @@ if(!isset($_SESSION['mail'])){
 }
 
 include_once 'database/database.php';
+use PHPMailer\PHPMailer\PHPMailer;
+require_once 'SendNewsletterFunction.php';
 
 $user_username = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
 $user_username->bindParam(':mail', $_SESSION['mail']);
@@ -65,56 +67,45 @@ $expiration = $formated_date;
     <title>Compte Banni</title>
     <link rel="shortcut icon" href="../Resources/img/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dark.css">
-    <link rel="stylesheet" href="css/mobile_menu.css">
     <link rel="stylesheet" href="css/ban.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script src="js/menu.js"></script>
     <nav>
         <img src="../Resources/img/logo/logocompletsf.png" alt="Logo PétiSign" class="navlogo" onclick="location.href='index.php'">
-        <p class="dot navcontent">&#x25CF;</p>
-        <button id="dark-mode-toggle">
-            <svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" xml:space="preserve"><path d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"/></svg>
-            <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.digitaloceanspaces.com/Contact-Page/sun.svg" decoding="async" alt="sun" width="15" height="15">
-        </button>
-        <div class="links">
-            <?php
-            if($is_admin != null){
-                echo '<a href="BackOffice" class="navcontent
-                ">Back Office</a>';
-                echo '<p class="dot navcontent">&#x25CF;</p>';
-            }
-            ?>
-            <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
-            <p class="dot navcontent">&#x25CF;</p>
-            <a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>" class="navcontent">Mes Signatures</a>
-            <p class="dot navcontent">&#x25CF;</p>
-            <a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>" class="navcontent">Mes Pétitions</a>
-            <p class="dot navcontent">&#x25CF;</p>
-            <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
-            <!--<a id="navcontent" href="#user_list">UserMenu</a>-->
-            <a class="men" id="excep" href="javascript:show_popup()"><img class="mobile_menu" src="../Resources/img/ui_icons/menu.png" alt=""></a>
-        </div>
     </nav>
-    <div class="menu_container">
-        <div class="mobile_menu_popup">
-            <h2 class="highlighted-text" id="navhigh">Menu de Navigation</h2>
-            <hr id="menu_separator">
-            <?php
-            if($is_admin != null){
-                echo '<div class="menu_item"><a href="BackOffice">Back Office</a></div>';
-            }
-            ?>
-            <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
-            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>">Mes Signatures</a></div>
-            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>">Mes Pétitions</a></div>
-            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
-        </div>
-    </div>
+
+    <?php
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $mail_obj = filter_input(INPUT_POST, 'obj', FILTER_SANITIZE_STRING);
+        $mail_message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+        $mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
+        $confirmed_mail = filter_var($mail, FILTER_VALIDATE_EMAIL);
+
+        $get_all_website_admin_stmt = $pdo->prepare("SELECT username, email FROM USER WHERE is_admin = 1");
+        $get_all_website_admin_stmt->execute();
+        $all_website_admin = $get_all_website_admin_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $mail_sent = new PHPMailer(true);
+        
+        foreach($all_website_admin as $admin) {
+            EnvoieMail($mail_sent, $admin['email'], $admin['username'], $mail_obj, "$confirmed_mail a effectué une demande de contact. Voici le corps de son message :<br /><br /> $mail_message", "administrateur du site");
+        }
+
+        echo "<p class='success'>Votre message a été envoyé avec succès !</p>";
+
+        $_POST = array();
+        header("Location: ban.php");
+        exit();
+
+    }
+
+    ?>
+
 <div class="ban_container">
     <h2>Bonjour <?= $username ?>,</h2>
     <p class="header_text" id="first">Nous sommes désolés de vous informer que votre compte a été banni.</p>
@@ -149,7 +140,7 @@ $expiration = $formated_date;
 
 <div class="ban_container">
     <h2>Contactez-nous</h2>
-    <form action="">
+    <form action="ban.php" method="POST">
         <div class="container">
             <div class="entries">
                 <input name="mail" id="mail" type="email" required placeholder=" " value="<?=$_SESSION['mail']?>" class="form-input">
