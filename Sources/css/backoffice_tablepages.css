@@ -25,6 +25,11 @@
     height: 0.5em;
 }
 
+#sec::before {
+    bottom:0.60em;
+    height: 0.5em;
+}
+
 .right_panel{
     height: fit-content;
 }

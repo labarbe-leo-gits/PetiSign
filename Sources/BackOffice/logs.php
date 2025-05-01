@@ -69,6 +69,7 @@ include_once 'header.php';
 
         $successfulConnections = countKeywordOccurrences($logLines, 'AUTH01');
         $new_account_count = countKeywordOccurrences($logLines, 'AUTH03');
+        $new_pet_count = countKeywordOccurrences($logLines, 'N3WP3T');
         $discover_count = countUniqueIPs($logLines, 'D1SC0V', $uniqueIPs);
         $profile_count = countUniqueIPs($logLines, 'PROF1L', $uniqueIPs);
         $mysign_count = countUniqueIPs($logLines, 'MYS1GN', $uniqueIPs);
@@ -81,25 +82,22 @@ include_once 'header.php';
         <h3>Statistiques (30 derniers jours)</h3>
         <div class="main">
             <div class="stat">
-                <p>Nombre de connexions : <strong id="connection-count"><?php echo $successfulConnections; ?></strong></p>
+                <p>Connexions : <strong id="connection-count"><?php echo $successfulConnections; ?></strong></p>
             </div>
             <div class="stat">
-                <p>Nombre de nouveau comptes : <strong id="new-account-count"><?php echo $new_account_count; ?></strong></p>
+                <p>Nouveaux comptes : <strong id="new-account-count"><?php echo $new_account_count; ?></strong></p>
             </div>
             <div class="stat">
-                <p>Nombre de nouvelles pétitions : <strong id="new-pet-count"><?php echo "0" ?></strong></p>
+                <p>Pétitions : <strong id="new-pet-count"><?php echo $new_pet_count ?></strong></p>
             </div>
             <div class="stat">
-                <p>Nombre de nouvelles signatures : <strong id="new-sign-count"><?php echo "0" ?></strong></p>
+                <p>Signatures : <strong id="new-sign-count"><?php echo "0" ?></strong></p>
             </div>
             <div class="stat">
-                <p>Nombre de nouveaux commentaires : <strong id="new-coms-count"><?php echo "0" ?></strong></p>
+                <p>Commentaires : <strong id="new-coms-count"><?php echo "0" ?></strong></p>
             </div>
             <div class="stat">
-                <p>Nombre de nouveaux messages : <strong id="new-msg-count"><?php echo "0" ?></strong></p>
-            </div>
-            <div class="stat">
-                <p>Nombre de nouveaux signalements : <strong id="new-report-count"><?php echo "0" ?></strong></p>
+                <p>Signalements : <strong id="new-report-count"><?php echo "0" ?></strong></p>
             </div>
         </div>
         <hr class="stat_hr">
@@ -125,6 +123,54 @@ include_once 'header.php';
             </div>
         </div>
     </div>
+    <div class="backup">
+        <h3 class="highlighted-text" id="sec">Gestion des sauvegardes</h3>
+        <div class="file_container">
+            <?php
+
+            $directory = '../logs/archives/';
+
+            if (is_dir($directory)) {
+
+                $files = scandir($directory);
+                $files = array_diff($files, array('.', '..'));
+                
+                if (count($files) > 0) {
+                    
+                    foreach ($files as $file) {
+                        echo '<div class="file_header">';
+                        $filePath = $directory . $file;
+                        $fileSize = filesize($filePath);
+                        $fileDate = date("d/m/Y H:i", filemtime($filePath));
+                        
+                        if ($fileSize < 1024) {
+                            $formattedSize = $fileSize . " B";
+                        } elseif ($fileSize < 1048576) {
+                            $formattedSize = round($fileSize / 1024, 2) . " KB";
+                        } else {
+                            $formattedSize = round($fileSize / 1048576, 2) . " MB";
+                        }
+                        
+                        echo '<span class="file-name">' . htmlspecialchars($file) . '</span>';
+                        echo '<span class="file-info">' . $formattedSize . ' - ' . $fileDate . ' UTC </span>';
+                        echo '<hr class="file_hr">';
+                        echo '<div class="file-actions">';
+                        echo '<a href="Processus/download_backup.php?file=' . urlencode($file) . '" class="action"><img class="test" src="../../Resources/img/ui_icons/download.png">&nbsp;&nbsp;Télécharger</a>';
+                        echo '<a href="Processus/delete_backup.php?file=' . urlencode($file) . '" class="action"><img class="test" src="../../Resources/img/ui_icons/trash.png">&nbsp;&nbsp;Supprimer</a>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<p>Aucune sauvegarde disponible.</p>';
+                }
+            } else {
+                echo '<p>Le répertoire des sauvegardes n\'existe pas.</p>';
+            }
+
+            ?>
+        </div>
+    </div>
+    <div class="space">&nbsp;</div>
 </div>
 
 <link rel="stylesheet" href="/Sources/css/sign_popup.css">
@@ -147,48 +193,7 @@ include_once 'header.php';
 </div>
 
 <script src="/Sources/js/trancho_popup.js"></script>
-
-<script>
-    setInterval(() => {
-        fetch('fetch_logs.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('logs_div').innerHTML = data;
-                updateCount('AUTH01', 'connection-count');
-                updateCount('AUTH03', 'new-account-count');
-                updateUniqueCount('D1SC0V', 'discover-count');
-                updateUniqueCount('PROF1L', 'profile-count');
-                updateUniqueCount('MYS1GN', 'mysign-count');
-                updateUniqueCount('MYP3TS', 'mypet-count');
-                updateUniqueCount('MSG1NG', 'msg-count');
-                updateUniqueCount('AC3UIL', 'index-count');
-            })
-            .catch(error => console.error('Error fetching logs:', error));
-    }, 1000);
-
-    function updateCount(keyword, elementId) {
-        let logContent = document.getElementById('logs_div').innerHTML;
-        let count = (logContent.match(new RegExp(keyword, 'g')) || []).length;
-        document.getElementById(elementId).innerHTML = count;
-    }
-
-    function updateUniqueCount(keyword, elementId) {
-        let logContent = document.getElementById('logs_div').innerHTML;
-        let lines = logContent.split('<br>');
-        let uniqueIPs = new Set();
-
-        lines.forEach(line => {
-            if (line.includes(keyword)) {
-                let ipMatch = line.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/);
-                if (ipMatch) {
-                    uniqueIPs.add(ipMatch[0]);
-                }
-            }
-        });
-
-        document.getElementById(elementId).innerHTML = uniqueIPs.size;
-    }
-</script>
+<script src="/Sources/js/logs.js"></script>
 
 <?php
 include_once 'footer.php';

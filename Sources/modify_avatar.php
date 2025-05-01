@@ -176,7 +176,7 @@ try{
             <input type="hidden" name="mouth_color" value="<?php echo $mouth_color_id; ?>">
             <input type="hidden" name="skin_color" value="<?php echo $skin_color_id; ?>">
             <button type="submit" class="custom-button">Sauvegarder</button>
-            <button type="button" class="custom-button" onclick="window.history.back();">Annuler</button>
+            <button type="button" class="custom-button" onclick="window.location.href='profile.php';">Annuler</button>
         </form>
     </div>
 </div>

@@ -79,7 +79,7 @@ $number_of_cards = 5;
 ?>
 
         <div class="card see_more">
-            <a class="see_more_link"  href=""><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
+            <a class="see_more_link"  href="search.php"><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
         </div>
     </div>
 </div>

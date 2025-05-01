@@ -1,3 +1,4 @@
 Sources/database/.env
 Sources/PHPMailer/.env
 Sources/logs/log.txt
+Sources/BackOffice/Processus/key.env

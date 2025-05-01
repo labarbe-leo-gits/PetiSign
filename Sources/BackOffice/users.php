@@ -126,6 +126,12 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
                             echo "<a href='ban_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/ban-user.png' alt='Bannir'></a>";
                         }
                     }
+
+                    if($current_admin_id != $user['id']){
+                        echo "<a href='' class='void'>&nbsp;</a>";
+                        echo "<a href='' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Modify'></a>";
+                    }
+
                     echo "</td>";
                     echo "</tr>";
                 }

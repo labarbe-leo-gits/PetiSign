@@ -1,5 +1,13 @@
 <?php
 include_once '../database/database.php';
+include_once 'write_logs.php';
+
+session_start();
+
+if(!isset($_SESSION['mail'])) {
+    header('Location: ../login.php');
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $petition_name = htmlspecialchars(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
@@ -76,6 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $get_pet_id->bindParam(':user_id', $user_id);
         $get_pet_id->execute();
         $petition_id = $get_pet_id->fetch(PDO::FETCH_ASSOC)['id'];
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $user = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+        $user->bindParam(':id', $user_id);
+        $user->execute();
+        $user = $user->fetchColumn();
+
+        write_logs('../logs/log.txt', 'N3WP3T', $user, $ip, 'Nouvelle pétition créée');
 
         header('Location: ../view_petition.php?id=' . $petition_id);
         exit();
