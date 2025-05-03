@@ -17,7 +17,7 @@ CREATE TABLE USER (
     birthdate DATE DEFAULT '2000-01-01',
     description TEXT DEFAULT 'Aucune description disponible',
     is_admin BOOLEAN DEFAULT 0,
-    is_benevole BOOLEAN DEFAULT 0
+    is_benevole BOOLEAN DEFAULT 0,,
     avatar_hat INT DEFAULT 1,
     avatar_mouth INT DEFAULT 1,
     avatar_eyes INT DEFAULT 1,
@@ -28,7 +28,8 @@ CREATE TABLE USER (
     avatar_skin_color INT DEFAULT 6,
     signature INT REFERENCES SIGNATURE(id_petition),
     newsletter INT DEFAULT 1,
-    mail_notification INT DEFAULT 1
+    mail_notification INT DEFAULT 1,
+    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE SESSION(
