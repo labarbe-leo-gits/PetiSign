@@ -24,7 +24,7 @@ function EnvoieMail($mail, $mailToSend, $username, $title, $Content)
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom($mailToSend, 'PetiSign');
+        $mail->setFrom($mailToSend, 'PétiSign');
         $mail->addAddress($mailToSend, 'User');    // Ajouter un destinataire
         $mail->addReplyTo('noreply.petisign@gmail.com', 'No Reply');
 

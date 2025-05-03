@@ -118,6 +118,7 @@ $error_details = $error_manager[$insertVal];
 <button class="custom-button" id="back_to_menu" onclick="location.href='/Sources'" >Retourner à l'accueil</button>
 </div>
 
+<script src="/Sources/js/theme.js"></script>
 
 <?php
 include_once '/Sources/footer.php';

@@ -1,4 +1,5 @@
 <?php
+include_once '../loading.php';
 session_start();
 include_once '../database/database.php';
 

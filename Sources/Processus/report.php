@@ -1,5 +1,5 @@
 <?php
-
+include_once '../loading.php';
 session_start();
 
 if (!isset($_SESSION['mail'])) {
