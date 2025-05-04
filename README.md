@@ -21,6 +21,21 @@ Une fois la mise en place effectuée, rendez-vous sur `http://[votre_ip]/Sources
 
 <br />***N.B : n'oubliez pas de modifier l'adresse e-mail ainsi que le mot de passe via le BackOffice !***
 
+## CronTab
+PétiSign utilise CronTab afin d'automatiser des tâches comme la suppression des logs, les rappels de connection, ... <br />
+Afin de pouvoir pleinement profiter de la plateforme, voici ce qu'il faut faire sur votre serveur : <br />
+1. `apt update && apt upgrade`
+2. `apt install crontab`
+3. `crontab -e`
+4. Rajoutez les lignes suivantes à la fin du fichier :
+   ```
+   0 0 1 * * php /var/www/html/Sources/BackOffice/Processus/clear_monthly_logs.php?key=[Votre clé défini dans key.env]
+   0 0 * * * php /var/www/html/Sources/BackOffice/Processus/auto_clear_ban.php?key=[Votre clé défini dans key.env]
+   ```
+
+## Android
+Sur Android, un APK est disponible. Il s'agit d'un simple Embed WebView du site http://petisign.cloud mais permet d'accèder à l'application de manière simple.
+
 ## Contributions
 
 [@LouisDetraux](https://github.com/Louiss1904)\
