@@ -70,6 +70,9 @@ if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mai
                 <h2 id="captchahigh" class="highlighted-text">Captcha</h2>
             </div>
             <div class="entries">
+                <?php
+                $captcha['question'] = html_entity_decode($captcha['question'], ENT_QUOTES, 'UTF-8');
+                ?>
                 <p class="captcha_text"><?=$captcha['question'];?></p>
             </div>
             <div class="entries">

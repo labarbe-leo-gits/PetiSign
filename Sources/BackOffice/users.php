@@ -45,7 +45,8 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
         <a class="captcha_database_action" href="create_admin.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
-        <a class="captcha_database_action" href="Processus/export_users.php" target="_blank"><img src="../../Resources/img/ui_icons/download.png" alt="Exporter utilisateurs">&nbsp;&nbsp;Extraire la liste utilisateur
+        <a class="captcha_database_action" href="Processus/export_users.php" target="_blank"><img src="../../Resources/img/ui_icons/download.png" alt="Exporter utilisateurs">&nbsp;&nbsp;Extraire la liste utilisateur</a>
+        <a class="captcha_database_action" href=""><img src="../../Resources/img/ui_icons/ban.png" alt="Exporter utilisateurs">&nbsp;&nbsp;Pseudos interdits</a>
 </a>
 
 </a>
