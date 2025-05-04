@@ -27,7 +27,11 @@ Afin de pouvoir pleinement profiter de la plateforme, voici ce qu'il faut faire 
 1. `apt update && apt upgrade`
 2. `apt install crontab`
 3. `crontab -e`
-4. Le reste a venir :)
+4. Rajoutez les lignes suivantes à la fin du fichier :
+   ```
+   0 0 1 * * php /var/www/html/Sources/BackOffice/Processus/clear_monthly_logs.php?key=[Votre clé défini dans key.env]
+   0 0 * * * php /var/www/html/Sources/BackOffice/Processus/auto_clear_ban.php?key=[Votre clé défini dans key.env]
+   ```
 
 ## Android
 Sur Android, un APK est disponible. Il s'agit d'un simple Embed WebView du site http://petisign.cloud mais permet d'accèder à l'application de manière simple.
