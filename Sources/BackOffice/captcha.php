@@ -29,6 +29,10 @@ include_once 'header.php';
                 $captchas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($captchas as $captcha){
+
+                    $captcha['question'] = html_entity_decode($captcha['question'], ENT_QUOTES, 'UTF-8');
+                    $captcha['answer'] = html_entity_decode($captcha['answer'], ENT_QUOTES, 'UTF-8');
+
                     echo "<tr>";
                     echo "<td class='id'>".$captcha['id']."</td>";
                     echo "<td class='content'>".$captcha['question']."</td>";

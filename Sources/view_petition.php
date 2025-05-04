@@ -45,6 +45,7 @@ $pet_description_stmt->bindParam(':id', $_GET['id']);
 $pet_description_stmt->execute();
 $pet_description = $pet_description_stmt->fetchColumn();
 
+$pet_description = html_entity_decode($pet_description, ENT_QUOTES, 'UTF-8');
 $pet_description = nl2br($pet_description);
 
 $pet_signature_goal_stmt = $pdo->prepare('SELECT signature_goal FROM PETITION WHERE id = :id');

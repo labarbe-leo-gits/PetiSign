@@ -191,7 +191,7 @@ $bannedUsernames = getBannedUsernames();
                 <table id="usernamesTable">
                     <thead>
                         <tr>
-                            <th>Username</th>
+                            <th>Pseudo</th>
                             <th width="100">Action</th>
                         </tr>
                     </thead>
@@ -204,7 +204,7 @@ $bannedUsernames = getBannedUsernames();
                                         <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
                                         <button type="submit" name="delete_username" class="btn btn-danger"
                                          onclick="return confirm('Are you sure you want to unban this username?')">
-                                            Unban
+                                            Supprimer
                                         </button>
                                     </form>
                                 </td>
