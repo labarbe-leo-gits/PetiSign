@@ -1,0 +1,5 @@
+01/05/2025 12:43 UTC - [SYSTEM] - CronTab - 0.0.0.0 - Suppression auto. des logs
+01/05/2025 12:43 UTC - [SYSTEM] - CronTab - 0.0.0.0 - Backup des logs créé
+01/05/2025 12:45 UTC  - [AC3UIL] - llabarbe - 85.170.112.76 - Visite de la page "Accueil"
+01/05/2025 12:45 UTC  - [AC3UIL] - llabarbe - 85.170.112.76 - Visite de la page "Accueil"
+01/05/2025 12:45 UTC  - [D1SC0V] - llabarbe - 85.170.112.76 - Visite de la page "Découvrir"

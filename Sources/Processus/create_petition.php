@@ -1,4 +1,6 @@
 <?php
+
+include_once '../loading.php';
 include_once '../database/database.php';
 include_once 'write_logs.php';
 

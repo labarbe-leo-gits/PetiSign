@@ -1,5 +1,5 @@
 <?php
-
+include_once '../loading.php';
 include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -8,7 +8,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $message = $_POST['message'];
     $discussion_id = $_POST['discussion_id'];
 
-    // Insert the message into the database
     $stmt = $pdo->prepare("INSERT INTO MESSAGE (content, sender, id_discussion) VALUES (:content, :sender, :id_discussion)");
     $stmt->bindParam(':content', $message);
     $stmt->bindParam(':sender', $user_id);
@@ -16,7 +15,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
 
     header('Location: ../chat.php?discussion_id=' . $discussion_id);
-    
     
 } else {
     header('Location: '. $_SERVER['HTTP_REFERER']);

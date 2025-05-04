@@ -197,7 +197,7 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-md-12">
                     <script src="js/chat.js"></script>
                     <ul id="chat-messages">
-                        <!-- Chat messages will be loaded here -->
+                        
                     </ul>
                 </div>
             </div>

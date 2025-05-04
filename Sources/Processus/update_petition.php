@@ -1,4 +1,5 @@
 <?php
+include_once '../loading.php';
 include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -82,6 +83,21 @@ try {
         $get_petition_goal_after_update->bindParam(':id', $pet_id);
         $get_petition_goal_after_update->execute();
         $petition_goal_after_update = $get_petition_goal_after_update->fetchColumn();
+
+        if($petition_goal_after_update < $petition_goal_before_update && $signature_count < $petition_goal_after_update){
+            $petition_stage_one = ($petition_goal_after_update / 4) * 1;
+            $petition_stage_two = ($petition_goal_after_update / 4) * 2;
+            $petition_stage_three = ($petition_goal_after_update / 4) * 3;
+            $petition_stage_four = $petition_goal_after_update;
+            
+            $update_stages_stmt = $pdo->prepare("UPDATE PETITION SET signature_stage_one = :stage_one, signature_stage_two = :stage_two, signature_stage_three = :stage_three, signature_stage_four = :stage_four WHERE id = :id");
+            $update_stages_stmt->bindParam(':stage_one', $petition_stage_one);
+            $update_stages_stmt->bindParam(':stage_two', $petition_stage_two);
+            $update_stages_stmt->bindParam(':stage_three', $petition_stage_three);
+            $update_stages_stmt->bindParam(':stage_four', $petition_stage_four);
+            $update_stages_stmt->bindParam(':id', $pet_id);
+            $update_stages_stmt->execute();
+        }
 
         if($petition_goal_after_update > $petition_goal_before_update){
 
