@@ -22,6 +22,8 @@ include_once 'header.php';
         <input type="number" name="num" id="num" placeholder="Number" class="address-field">
         <label for="num">Number</label>
     </div>
+    <input type="number" name="max_part" id="max_part">
+    <label for="max_part">Max participants</label>
     <input type="hidden" name="id" id="id" value="<?php echo $_GET['id']; ?>">
     <br><br>
     <button type="submit">send</button>

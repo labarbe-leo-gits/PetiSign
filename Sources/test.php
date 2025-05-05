@@ -1,8 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
-//test
->>>>>>> 7290a7f6d7c0e51c7769cdeefa9f5fc8bcfa84d7
 
 session_start();
 

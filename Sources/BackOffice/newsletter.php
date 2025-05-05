@@ -28,14 +28,23 @@ include_once "../database/database.php";
                 $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($news as $new){
+
+                    $formatted_timestamp = strtotime($new['date']);
+                    $formatted_date = date('d/m/Y à H:i', $formatted_timestamp);
+                    $new['date'] = $formatted_date;
+
                     echo "<tr>";
                     echo "<td class='id'>".$new['id']."</td>";
                     echo "<td class='content'>".$new['title']."</td>";
-                    echo "<td class='content'>".$new['date']."</td>";
+                    echo "<td class='content'>".$new['date']." UTC</td>";
                     echo "<td class='actions'>";
                     echo "<a href='view_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='Processus/edit_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Delete'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='Processus/delete_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "<a href='' class='void'>&nbsp;</a>";
+                    echo "<a href='Processus/send_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Send'></a>";
                     echo "</td>";
                     echo "</tr>";
                 }

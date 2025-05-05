@@ -53,7 +53,8 @@ body.dark-mode {
   body.dark-mode #updates,
   body.dark-mode .targetElement,
   body.dark-mode .stat_value_container,
-  body.dark-mode .no-discussion-message {
+  body.dark-mode .no-discussion-message,
+  body.dark-mode .donation {
     background: var(--bg-secondary);
     transition: var(--transition);
   }

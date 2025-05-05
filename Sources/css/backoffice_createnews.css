@@ -16,3 +16,7 @@
     width: fit-content;
     color: #1A414E;
 }
+
+body{
+    overflow-y: auto;
+}

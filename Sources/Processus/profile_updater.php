@@ -32,6 +32,13 @@ $id_stmt->bindParam(':mail', $_SESSION['mail']);
 $id_stmt->execute();
 $id = $id_stmt->fetchColumn();
 
+$eighteen_years_ago = date('Y-m-d', strtotime('-18 years'));
+
+if($birthdate > $eighteen_years_ago){
+    header("Location: ../profile.php?error=AgeTooYoung");
+    exit();
+}
+
 try {
     $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username, newsletter = :news WHERE id = :id");
     $stmt->bindParam(':mail', $mail);

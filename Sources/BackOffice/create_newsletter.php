@@ -23,7 +23,7 @@ include_once 'header.php'
                 </div>
                 </div>
             </div>
-            <button class="custom-button" id="add_btn" type="submit">Créer et envoyer</button>
+            <button class="custom-button" id="add_btn" type="submit">Créer</button>
         </form>
         <button class="custom-button" onclick="window.location.href='newsletter.php'" id="cancel_btn">Annuler</button>
     </div>

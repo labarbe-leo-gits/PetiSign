@@ -64,7 +64,8 @@ CREATE TABLE TEAM_ACTIVITY(
     city VARCHAR(30),
     postal_code VARCHAR(5),
     rue VARCHAR(30),
-    num INT
+    num INT,
+    max_participants INT
 );
 
 CREATE TABLE DONATION (
@@ -175,4 +176,17 @@ CREATE TABLE REPORT(
     id_target INT,
     reason TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE DON(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_user INT REFERENCES USER(id),
+    amount INT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ACTIVITY_INSCRIPTION(
+    id_user INT REFERENCES USER(id),
+    id_activity INT REFERENCES TEAM_ACTIVITY(id),
+    PRIMARY KEY (id_user, id_activity)
 );

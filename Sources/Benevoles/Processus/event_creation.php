@@ -56,6 +56,15 @@ if($is_benevole !=0){
                 $stmt->execute();
             }
 
+            $max_participants = filter_input(INPUT_POST, 'max_participants', FILTER_SANITIZE_NUMBER_INT);
+
+            if(!empty($max_participants)){
+                $stmt = $pdo->prepare("UPDATE TEAM_ACTIVITY SET max_participants = :max_participants WHERE id = :id");
+                $stmt->bindParam(':max_participants', $max_participants);
+                $stmt->bindParam(':id', $activity_id);
+                $stmt->execute();
+            }
+
             echo "Event created successfully";
             exit();
 

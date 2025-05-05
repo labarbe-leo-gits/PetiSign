@@ -8,6 +8,17 @@ if(!isset($_SESSION['mail'])){
     exit();
 }
 
+
+if(isset($_GET['error'])){
+    $json_file = file_get_contents('json/error_register.json');
+    $error_manager = json_decode($json_file, true);
+    if(array_key_exists($_GET['error'], $error_manager)){
+        $insertVal = $_GET['error'];
+    }
+}
+
+$error_details = $error_manager[$insertVal];
+
 $mail = $_SESSION['mail'];
 
 include_once 'Processus/sessionlocked_security.php';
@@ -119,11 +130,20 @@ try{
         <p id="description_profile"><?=$outputed_description?></p>
         <button class="custom-button dl_btn">Télécharger mes données</button>
     </div>
-    <!-- utile ? -->
     <div class="login_form" id="register_form">
+        <?php
+            if(isset($_GET['error'])){
+                echo '
+                <div class="error">
+                    <div class="error_message">
+                        <p class="txterror">' . $error_details .'</p>
+                    </div>
+                </div>
+                ';
+            }
+        ?>
         <h1 id="loginhigh" class="highlighted-text">Mes informations</h1>
         <hr id="loginhr">
-
         <form method="post" class="login" id="profile_form" action="Processus/profile_updater.php">
             <div class="entries">
                 <div class="space"></div>

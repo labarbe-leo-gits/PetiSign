@@ -6,5 +6,6 @@
     "VerifCode": "Le code de vérification est invalide.",
     "WrongCreds": "Nom d'utilisateur ou mot de passe incorrect.",
     "UsrAlreadyExists": "Ce nom d'utilisateur existe déjà.",
-    "EmailAlreadyExists": "Cette adresse e-mail est déjà utilisée."
+    "EmailAlreadyExists": "Cette adresse e-mail est déjà utilisée.",
+    "AgeTooYoung": "Vous devez avoir au moins 18 ans pour être sur PétiSign."
 }

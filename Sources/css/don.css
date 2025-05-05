@@ -1,0 +1,47 @@
+stripe-buy-button {
+    display: block;
+    margin: 20px auto; 
+    position: relative; 
+    top: auto;
+    left: auto;
+    transform: none; 
+    width: auto;
+    max-width: 300px;
+    padding: 10px;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+stripe-buy-button:hover {
+    transform: scale(1.05); 
+}
+
+.donation {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 800px;
+}
+
+.donation h1{
+    font-size: 36px;
+    color: #1A414E;
+    margin-bottom: 20px;
+}
+p {
+    text-align: center;
+    color: #1A414E;
+}
+.donation p {
+    font-size: 12px;
+    color: #1A414E;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
