@@ -40,11 +40,15 @@ include_once "../database/database.php";
                     echo "<td class='actions'>";
                     echo "<a href='view_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='Processus/edit_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Delete'></a>";
-                    echo "<a href='' class='void'>&nbsp;</a>";
+                    if($new['status'] == 0){
+                        echo "<a href='Processus/edit_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Delete'></a>";
+                        echo "<a href='' class='void'>&nbsp;</a>";
+                    }
                     echo "<a href='Processus/delete_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
-                    echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='Processus/send_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Send'></a>";
+                    if($new['status'] == 0){
+                        echo "<a href='' class='void'>&nbsp;</a>";
+                        echo "<a href='Processus/send_newsletter.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Send'></a>";
+                    }
                     echo "</td>";
                     echo "</tr>";
                 }

@@ -12,6 +12,16 @@ if ($is_admin != 0) {
         $newsletter_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
         $filtered_id = filter_var($newsletter_id, FILTER_SANITIZE_NUMBER_INT);
 
+        $get_current_status = $pdo->prepare("SELECT status FROM NEWSLETTER WHERE id = :id");
+        $get_current_status->bindParam(':id', $filtered_id);
+        $get_current_status->execute();
+        $current_status = $get_current_status->fetchColumn();
+
+        if ($current_status == 1) {
+            header("Location: ../newsletter.php");
+            exit();
+        }
+
         $title = $pdo->prepare("SELECT title FROM NEWSLETTER WHERE id = :id");
         $title->bindParam(':id', $filtered_id);
         $title->execute();
@@ -35,6 +45,10 @@ if ($is_admin != 0) {
             $abonnement_stmt->bindParam(':id_newsletter', $filtered_id);
             $abonnement_stmt->execute();
         }
+
+        $update_stmt = $pdo->prepare("UPDATE NEWSLETTER SET status = 1 WHERE id = :id");
+        $update_stmt->bindParam(':id', $filtered_id);
+        $update_stmt->execute();
 
         header("Location: ../newsletter.php");
         exit();

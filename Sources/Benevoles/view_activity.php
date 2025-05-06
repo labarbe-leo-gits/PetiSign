@@ -36,6 +36,41 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
         $team_id = $get_team_of_activity->fetchColumn();
         ?>
         <a href="team.php?id=<?php echo $team_id ?>" class="quick"><img src="/Resources/img/ui_icons/back.png" alt="leader" class="btn_img">&nbsp;&nbsp;Retour</a>
+        <?php
+        $get_activity_max = $pdo->prepare("SELECT max_participants FROM TEAM_ACTIVITY WHERE id = :id");
+        $get_activity_max->bindParam(':id', $_GET['id']);
+        $get_activity_max->execute();
+        $activity_max = $get_activity_max->fetchColumn();
+
+        $current_participants = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id");
+        $current_participants->bindParam(':id', $_GET['id']);
+        $current_participants->execute();
+        $current_participants_count = $current_participants->fetchColumn();
+
+        if($activity_max != null && $current_participants_count < $activity_max){
+            $check_if_already_subscribed = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id AND id_user = :user_id");
+            $check_if_already_subscribed->bindParam(':id', $_GET['id']);
+            $check_if_already_subscribed->bindParam(':user_id', $get_user_id);
+            $check_if_already_subscribed->execute();
+            $already_subscribed = $check_if_already_subscribed->fetchColumn();
+
+            echo '<div class="void">&nbsp;</div>';
+
+            if($already_subscribed == 0){
+                echo '<a href="Processus/inscription_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;S\'inscrire</a>';
+            } else {
+                echo '<a href="Processus/unsubscribe_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Se désinscrire</a>';
+            }
+
+        }
+
+        $utilisateur_inscrit = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id AND id_user = :user_id");
+        $utilisateur_inscrit->bindParam(':id', $_GET['id']);
+        $utilisateur_inscrit->bindParam(':user_id', $get_user_id);
+        $utilisateur_inscrit->execute();
+        $inscrit = $utilisateur_inscrit->fetchColumn();
+
+        ?>
     </div>
     </div>
 </div>
@@ -93,6 +128,29 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
                     <img src="/Resources/img/ui_icons/empty.png"  alt="empty">
                     <p class="txt">Aucune information sur la date</p>
                 </div>';
+        }
+
+        $max_participants = $pdo->prepare("SELECT max_participants FROM TEAM_ACTIVITY WHERE id = :id");
+        $max_participants->bindParam(':id', $_GET['id']);
+        $max_participants->execute();
+        $max_participants = $max_participants->fetchColumn();
+
+        $current_participants = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id"); 
+        $current_participants->bindParam(':id', $_GET['id']);
+        $current_participants->execute();
+        $current_participants_count = $current_participants->fetchColumn();
+
+        if ($max_participants != null) {
+            
+            echo "<hr class='line left_line'>";
+            echo "<p class='max_participants'>$current_participants_count / $max_participants participants autorisés</p>";
+            if($current_participants_count > 0){
+                echo "<a href='Processus/download_list.php' target='_blank' class='maps-link'>
+            <img src='/Resources/img/ui_icons/download.png' alt='map'>
+            Télécharger la liste
+          </a>";
+          echo "<div class='void'>&nbsp;</div>";
+            }
         }
 
         ?>
