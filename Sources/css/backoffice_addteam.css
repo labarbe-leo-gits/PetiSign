@@ -28,3 +28,12 @@ body {
     align-items: center;
     justify-items: center;
 }
+
+#comment{
+    margin-left:0px;
+    width:100%;
+}
+
+.limit{
+    margin-left: 0px;
+}

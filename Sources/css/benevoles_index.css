@@ -8,6 +8,12 @@
     margin-top:20px;
 }
 
+@media screen and (max-width: 480px) {
+    .test{
+        width:80vw;
+    }
+}
+
 .main_hr{
     width:10%;
 }

@@ -42,7 +42,8 @@ body.dark-mode {
     color: var(--text-color);
 }
 
- body.dark-mode .links > a {
+ body.dark-mode .links > a,
+ body.dark-mode .grid > .signatures_container > .objectif {
     color: var(--text-color);
   }
 
@@ -54,15 +55,17 @@ body.dark-mode {
   body.dark-mode .targetElement,
   body.dark-mode .stat_value_container,
   body.dark-mode .no-discussion-message,
-  body.dark-mode .donation {
+  body.dark-mode .donation{
     background: var(--bg-secondary);
     transition: var(--transition);
   }
 
   body.dark-mode .highlighted-text::before,
   body.dark-mode .self_msg,
+  body.dark-mode .other_msg,
   body.dark-mode .category,
-  body.dark-mode a.mypet.desktop {
+  body.dark-mode a.mypet.desktop,
+  body.dark-mode .action_btn {
     background-color: var(--highlight);
     transition: var(--transition);
   }
@@ -71,9 +74,15 @@ body.dark-mode {
   body.dark-mode .login_form,
   body.dark-mode label,
   body.dark-mode .sample_pet,
-  body.dark-mode #chat-messages{
+  body.dark-mode #chat-messages,
+  body.dark-mode .comment,
+  body.dark-mode .comment_text,
+  body.dark-mode .custom-button,
+  body.dark-mode textarea#comment,
+  body.dark-mode .positioned{
     background-color: var(--bg-button);
     transition: var(--transition);
+    color: var(--text-color);
   }
   body.dark-mode .container,
   body.dark-mode .chat_access,
@@ -82,7 +91,8 @@ body.dark-mode {
     transition: var(--transition);
 }
 
-  body.dark-mode nav {
+  body.dark-mode nav,
+  body.dark-mode .custom-button.loginbtn{
     background-color: var(--bg-secondary);
     transition: var(--transition);
   }
@@ -105,8 +115,10 @@ body.dark-mode {
     transition: var(--transition);
     border: 1px solid var(--bg-secondary);
   }
-  body.dark-mode .custom-button,
-  body.dark-mode .editable {
+  body.dark-mode .editable,
+  body.dark-mode   .sign_petition_btn,
+  body.dark-mode  .quick,
+  body.dark-mode .comment_section{
     background-color: var(--bg-secondary);
     color: var(--text-color);
     transition: var(--transition);
@@ -163,7 +175,7 @@ body.dark-mode {
     transition: all 0.3s ease;
   }
   
-  body.dark-mode .search-container {
+  body.dark-mode .search-container{
     display: flex;
     align-items: center;
     background-color: var(--bg-secondary);
@@ -236,6 +248,43 @@ body.dark-mode.chat-page::before {
   z-index: -1; 
   pointer-events: none; 
 }
+body.dark-mode .entries,
+body.dark-mode .main_container,
+body.dark-mode .grid > .signatures_container,
+body.dark-mode .grid > .petition_information{
+  background-color: var(--bg-button);
+  transition: var(--transition);
+}
+
+body.dark-mode .entries input,
+body.dark-mode .entries textarea,
+body.dark-mode .entries select {
+  background-color: var(--bg-button);
+  color: var(--text-color);
+  border: 1px solid var(--bg-secondary);
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+body.dark-mode .entries label{
+  color: var(--text-color);
+  transition: var(--transition);
+}
+body.dark-mode label[for="mail"],
+body.dark-mode label[for="password"],
+body.dark-mode label[for="username"],
+body.dark-mode label[for="confpassword"] {
+    transition: all 0.3s ease;
+}
+body.dark-mode input:focus + label,
+body.dark-mode input:not(:placeholder-shown) + label,
+body.dark-mode label[for="description"],
+body.dark-mode label[for="gender"]{
+    background-color: var(--bg-button);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
 }
 
 @media only screen and (min-width: 0rem) {

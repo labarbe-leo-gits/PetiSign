@@ -39,37 +39,37 @@ else{
 
     <div class="back_container">
         <div class="left_panel">
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'database_gestion.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/database.png" alt="">
                 <div class="space">●</div>
                 <a href="database_gestion.php" class="navigation_menu_item">Gestion de la Base de Données (BDD)</a>
             </div>
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'users.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/unlogged_user.png" alt="">
                 <div class="space">●</div>
                 <a href="users.php" class="navigation_menu_item">Gestion des utilisateurs</a>
             </div>
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'teams.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/team.png" alt="">
                 <div class="space">●</div>
                 <a href="teams.php" class="navigation_menu_item">Gestion des équipes bénévoles</a>
             </div>
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'captcha.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/captcha.png" alt="">
                 <div class="space">●</div>
                 <a href="captcha.php" class="navigation_menu_item">Captcha</a>
             </div>
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'newsletter.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/newsletter.png" alt="">
                 <div class="space">●</div>
                 <a href="newsletter.php" class="navigation_menu_item">Newsletter</a>
             </div>
-            <div class="item">
+            <div class="item" onclick="window.location.href = 'logs.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/log.png" alt="">
                 <div class="space">●</div>
                 <a href="logs.php" class="navigation_menu_item">Logs</a>
             </div>
-            <div class="item" id="exit_btn_container">
+            <div class="item no_click" id="exit_btn_container">
                 <button class="custom-button" id="exit_btn" onclick="window.location.href = '../index.php'">Retourner sur PétiSign</button>
             </div>
         </div>

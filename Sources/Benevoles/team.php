@@ -72,7 +72,7 @@ if ($team['leader'] == $user_id) {
     } else {
         echo '
         <div class="btn">
-            <a href="modify_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img">&nbsp;&nbsp;Quitter l\'équipe</a>
+            <a href="Processus/leave_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img">&nbsp;&nbsp;Quitter l\'équipe</a>
         </div>
         ';
     }

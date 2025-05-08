@@ -43,6 +43,7 @@ body{
 }
 
 .back_container > .left_panel > .item{
+    cursor: pointer;
     border: 1px solid #ccc;
     display: flex;
     align-items: center;
@@ -325,4 +326,12 @@ body{
     .back_container > .left_panel > .item:nth-child(5) { animation-delay: 0.3s; }
     .back_container > .left_panel > .item:nth-child(6) { animation-delay: 0.35s; }
     .back_container > .left_panel > .item:nth-child(7) { animation-delay: 0.4s; }
+}
+
+#exit_btn_container{
+    cursor: default;
+}
+
+.no_click > #exit_btn{
+    cursor: pointer;
 }

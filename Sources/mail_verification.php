@@ -15,6 +15,8 @@ $password = htmlspecialchars(filter_input(INPUT_POST, 'password', FILTER_SANITIZ
 $confpassword = htmlspecialchars(filter_input(INPUT_POST, 'confpassword', FILTER_SANITIZE_STRING));
 $answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_STRING));
 $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
+$bday = new dateTime($_POST['anniv']);
+$date= $bday->format('Y-m-d');
 
 $filename = 'json/banned_username.json';
 if (file_exists($filename)) {
@@ -35,13 +37,20 @@ if (isset($data['banned_usernames'])) {
 }
 
 
-if (empty($mail) || empty($username) || empty($password) || empty($confpassword) || empty($answer) || empty($id)) {
+if (empty($mail) || empty($username) || empty($password) || empty($confpassword) || empty($answer) || empty($id) || empty($bday)) {
     header('Location: register.php?error=EmptyFields&referer=mail_verification');
     exit();
 }
 
 if ($password != $confpassword) {
     header('Location: register.php?error=PasswordMismatch&referer=mail_verification');
+    exit();
+}
+
+$eighteen_years_ago = date('Y-m-d', strtotime('-18 years'));
+
+if($date > $eighteen_years_ago){
+    header("Location: register.php?error=AgeTooYoung&referer=mail_verification");
     exit();
 }
 
@@ -88,6 +97,7 @@ EnvoieMail($mail_sent, $mail, $verification_code);
     <input type="hidden" name="confpassword" value="<?php echo $confpassword; ?>">
     <input type="hidden" name="answer" value="<?php echo $answer; ?>">
     <input type="hidden" name="id" value="<?php echo $id; ?>">
+    <input type="hidden" name="anniv" value="<?php echo $date; ?>">
     </form>
 </div>
 

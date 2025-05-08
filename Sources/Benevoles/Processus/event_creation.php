@@ -1,11 +1,10 @@
 <?php
+
 include_once '../../loading.php';
 include_once 'security.php';
-include_once '../database/database.php';
+include_once '../../database/database.php';
 
 if($is_benevole !=0){
-
-    echo $_POST['date'];
 
     try{
 
@@ -19,9 +18,18 @@ if($is_benevole !=0){
             }
 
             $event_name = htmlspecialchars($_POST['title']);
-            $event_date = $_POST['date'];
+            $event_date = new dateTime($_POST['date']);
+            $date= $event_date->format('Y-m-d');
             $event_description = htmlspecialchars($_POST['description']);
 
+            $today = new DateTime();
+            $today = $today->format('Y-m-d');
+
+            if($today > $date){
+                header('Location: ./Sources/error.php?error=The date must be in the future');
+                exit();
+            }
+            
             $user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
             $user_id->bindParam(':mail', $_SESSION['mail']);
             $user_id->execute();
@@ -29,7 +37,7 @@ if($is_benevole !=0){
 
             $stmt = $pdo->prepare("INSERT INTO TEAM_ACTIVITY (name, event_date, description, id_user, id_team) VALUES (:name, :date, :description, :id_user, :id_team)");
             $stmt->bindParam(':name', $event_name);
-            $stmt->bindParam(':date', $event_date);
+            $stmt->bindParam(':date', $date);
             $stmt->bindParam(':description', $event_description);
             $stmt->bindParam(':id_user', $user_id);
             $stmt->bindParam(':id_team', $team_id);
@@ -65,7 +73,7 @@ if($is_benevole !=0){
                 $stmt->execute();
             }
 
-            echo "Event created successfully";
+            header('Location: ../view_activity.php?id='.$activity_id);
             exit();
 
             

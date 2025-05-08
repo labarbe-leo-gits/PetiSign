@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once '../loading.php';
 
 session_start();
@@ -16,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $verif = htmlspecialchars(filter_input(INPUT_POST, 'verif', FILTER_SANITIZE_NUMBER_INT));
     $original_code = $_SESSION['verification_code'] ?? null;
     $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
+    $bday = new dateTime($_POST['anniv']);
+    $date= $bday->format('Y-m-d');
 
     $stmt = $pdo->prepare("SELECT * FROM CAPTCHA WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -53,10 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $user = $stmt->fetch();
 
                 if (!$user) {
-                    $stmt = $pdo->prepare("INSERT INTO USER (email, username, password) VALUES (:mail, :username, :password)");
+
+                    
+                    $stmt = $pdo->prepare("INSERT INTO USER (email, username, password, birthdate) VALUES (:mail, :username, :password, :bday)");
                     $stmt->bindParam(':mail', $mail);
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
+                    $stmt->bindParam(':bday', $date);
                     $stmt->execute();
 
                     session_unset();

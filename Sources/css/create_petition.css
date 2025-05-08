@@ -190,3 +190,75 @@ input:not(:placeholder-shown) + label {
     z-index: 1000;
     display: none;
 }
+
+
+
+@media screen and (max-width: 480px) {
+    .page_container {
+        width: 90%;
+        margin-top: 10%;
+        padding: 12px;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    input, #description, #category {
+        font-size: 15px;
+        padding: 10px;
+    }
+    
+    #description {
+        height: 180px;
+    }
+    
+    .limit {
+        width: fit-content;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .positioned {
+        width: fit-content;
+        margin-top: -1px;
+    }
+    
+    .limit > p {
+        font-size: 0.82rem;
+        padding: 6px 8px;
+        width:100%;
+        margin: 0;
+        text-align: left;
+        box-sizing: border-box;
+    }
+    
+    .entries {
+        margin-top: 15px;
+    }
+    
+    .space {
+        margin: 12px;
+    }
+    
+    .validate, .cancel {
+        width: 100%;
+        margin: 8px 0;
+        font-size: 16px;
+    }
+    
+    .form_hr {
+        margin-top: 20px;
+    }
+    
+    label {
+        font-size: 13px;
+    }
+    
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+        font-size: 11px;
+    }
+}

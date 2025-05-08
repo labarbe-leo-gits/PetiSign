@@ -9,6 +9,18 @@ if($is_admin != 0){
 
         try {
 
+            $stmt = $pdo->prepare("DELETE FROM ACTIVITY_COMMENT WHERE id_activity IN (SELECT id FROM TEAM_ACTIVITY WHERE id_team = :id)");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $pdo->prepare("DELETE FROM ACTIVITY_INSCRIPTION WHERE id_activity IN (SELECT id FROM TEAM_ACTIVITY WHERE id_team = :id)");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $pdo->prepare("DELETE FROM TEAM_ACTIVITY WHERE id_team = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
             $stmt = $pdo->prepare("DELETE FROM TEAM_MEMBER WHERE id_team = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();

@@ -128,7 +128,10 @@ try{
             </div>
         <h2 id="nomdp"><?=$user?></h2>
         <p id="description_profile"><?=$outputed_description?></p>
-        <button class="custom-button dl_btn">Télécharger mes données</button>
+        <button class="custom-button dl_btn" onclick="window.location.href='Processus/download_my_data.php'">
+    Télécharger mes données
+</button>
+
     </div>
     <div class="login_form" id="register_form">
         <?php

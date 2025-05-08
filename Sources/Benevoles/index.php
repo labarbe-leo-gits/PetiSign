@@ -14,12 +14,17 @@ try{
 ?>
 
 <link rel="stylesheet" href="../css/benevoles_index.css">
+<link rel="stylesheet" href="../css/benevoles_team.css">
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h1>Mes équipes</h1>
             <hr class="main_hr">
+
+            <div class="btn" id="create_team">
+                <a href="" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;Créer mon équipe</a>
+            </div>
             
             <?php
 

@@ -55,6 +55,11 @@ if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mai
                 <input name="username" id="username" type="text" required placeholder=" ">
                 <label for="username">Nom d'utilisateur</label>
             </div>
+            <div class="space"></div>
+            <div class="entries">
+                    <input class="editable" name="anniv" id="anniv" type="date" required>
+                    <label for="anniv">Date de naissance</label>
+                </div>
             <hr id="register_separator">
             <div class="entries">
                 <input name="password" id="password" type="password" required placeholder=" ">

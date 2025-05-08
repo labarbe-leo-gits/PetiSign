@@ -281,3 +281,30 @@ address{
     margin-top:30px;
     border: #ccc solid 1px;
 }
+
+.right_panel > .captcha_form{
+    width: 50%;
+}
+
+#create_team{
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 480px){
+    .container{
+        flex-direction: column;
+    }
+    
+    .smaller_container {
+        flex-direction: column;
+    }
+    
+    .smaller {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .complete {
+        width: 100%;
+    }
+}
