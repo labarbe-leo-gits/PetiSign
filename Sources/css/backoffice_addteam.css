@@ -37,3 +37,7 @@ body {
 .limit{
     margin-left: 0px;
 }
+
+.right_panel > .secondform{
+    width: 50%;
+}

@@ -59,7 +59,7 @@ if(empty($comment) || !is_numeric($user_id) || !is_numeric($petition_id) || !$co
 
 try{
 
-    $stmt = $pdo->prepare("INSERT INTO COMMENT (id_user, id_petition, content) VALUES (:user_id, :petition_id, :comment)");
+    $stmt = $pdo->prepare("INSERT INTO COMMENT (id_user, id_target, content, target_type) VALUES (:user_id, :petition_id, :comment, 1)");
     $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':petition_id', $petition_id);
     $stmt->bindParam(':comment', $comment);

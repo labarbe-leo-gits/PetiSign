@@ -186,7 +186,7 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
 
     <?php
 
-    $comments_stmt = $pdo->prepare('SELECT * FROM ACTIVITY_COMMENT WHERE id_activity = :id ORDER BY date DESC');
+    $comments_stmt = $pdo->prepare('SELECT * FROM COMMENT WHERE id_target = :id AND target_type = 2 ORDER BY date DESC');
     $comments_stmt->bindParam(':id', $_GET['id']);
     $comments_stmt->execute();
     $comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);

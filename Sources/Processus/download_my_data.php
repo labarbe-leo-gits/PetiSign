@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-require_once '/../../FPDF/fpdf.php';
-require_once '/../../database/database.php';
-include_once '/security.php';
+require_once '../FPDF/fpdf.php';
+require_once '../database/database.php';
 
 if (!isset($_SESSION['mail'])) {
     echo "Accès non autorisé.";
@@ -11,11 +10,6 @@ if (!isset($_SESSION['mail'])) {
 }
 
 $email = $_SESSION['mail'];
-
-if (!isset($pdo)) {
-    echo "Erreur de connexion à la base de données.";
-    exit;
-}
 
 $stmt = $pdo->prepare("SELECT id, username, email, gender, birthdate, description FROM USER WHERE email = :email");
 $stmt->bindParam(':email', $email);
@@ -29,6 +23,7 @@ if (!$user) {
 
 $user_id = $user['id'];
 
+
 $stmt_pet = $pdo->prepare("SELECT COUNT(*) FROM PETITION WHERE user = :id");
 $stmt_pet->bindParam(':id', $user_id);
 $stmt_pet->execute();
@@ -39,12 +34,14 @@ $stmt_sig->bindParam(':id', $user_id);
 $stmt_sig->execute();
 $nb_signatures = $stmt_sig->fetchColumn() ?: 0;
 
+$description = html_entity_decode($user['description'] ?? 'Aucune description renseignée.');
+
 class StyledPDF extends FPDF {
     function Footer() {
         $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 9);
+        $this->SetFont('Arial','I',9);
         $this->SetTextColor(120, 120, 120);
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
     }
 }
 
@@ -61,7 +58,6 @@ $pdf->Ln(10);
 $pdf->MultiCell(0, 10, utf8_decode("Voici les informations personnelles associées à votre compte :"), 0);
 
 $pdf->Ln(5);
-$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(60, 10, utf8_decode("Nom d'utilisateur :"), 0);
 $pdf->Cell(0, 10, utf8_decode($user['username']), 0, 1);
 
@@ -75,19 +71,18 @@ $pdf->Cell(60, 10, utf8_decode("Date de naissance :"), 0);
 $pdf->Cell(0, 10, utf8_decode($user['birthdate']), 0, 1);
 
 $pdf->Ln(5);
-$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(60, 10, utf8_decode("Pétitions créées :"), 0);
-$pdf->Cell(0, 10, $nb_petitions, 0, 1);
+$pdf->Cell(0, 10, utf8_decode($nb_petitions), 0, 1);
 
 $pdf->Cell(60, 10, utf8_decode("Pétitions signées :"), 0);
-$pdf->Cell(0, 10, $nb_signatures, 0, 1);
+$pdf->Cell(0, 10, utf8_decode($nb_signatures), 0, 1);
 
 $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(0, 10, utf8_decode("Description :"), 0, 1);
 
 $pdf->SetFont('Arial', '', 11);
-$pdf->MultiCell(0, 10, utf8_decode($user['description'] ?: 'Aucune description renseignée.'), 0);
+$pdf->MultiCell(0, 10, utf8_decode($description), 0);
 
 $pdf->Ln(10);
 $pdf->SetFont('Arial', 'I', 10);

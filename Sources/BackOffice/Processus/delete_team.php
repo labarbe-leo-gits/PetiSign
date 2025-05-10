@@ -9,7 +9,7 @@ if($is_admin != 0){
 
         try {
 
-            $stmt = $pdo->prepare("DELETE FROM ACTIVITY_COMMENT WHERE id_activity IN (SELECT id FROM TEAM_ACTIVITY WHERE id_team = :id)");
+            $stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id_target IN (SELECT id FROM TEAM_ACTIVITY WHERE id_team = :id) AND target_type = 2");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 

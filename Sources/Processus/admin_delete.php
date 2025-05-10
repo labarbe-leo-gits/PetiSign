@@ -28,7 +28,7 @@ if($is_admin != 0){
         $delete_signature_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
         $delete_signature_stmt->execute();
 
-        $delete_comment_stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id_petition = :id");
+        $delete_comment_stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id_target = :id AND target_type = 1");
         $delete_comment_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
         $delete_comment_stmt->execute();
 

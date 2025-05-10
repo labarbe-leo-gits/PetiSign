@@ -23,7 +23,7 @@ try{
             <hr class="main_hr">
 
             <div class="btn" id="create_team">
-                <a href="" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;Créer mon équipe</a>
+                <a href="create_my_team.php" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;Créer mon équipe</a>
             </div>
             
             <?php

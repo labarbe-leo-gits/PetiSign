@@ -78,8 +78,15 @@ if ($newsletter_exists == 0) {
                     <p class="role_selector_text">Destinataires</p>
                     <div class="readonly-field"><p>
                         <?php 
-                        foreach($recipients_email as $recipient) {
-                            echo "<a href='mailto:". htmlspecialchars($recipient['email']) ."'>" . htmlspecialchars($recipient['email']) ."</a></br>";
+
+                        if(count($recipients_email) == 0) {
+                            echo "Aucun destinataire";
+                        } else {
+
+
+                            foreach($recipients_email as $recipient) {
+                                echo "<a href='mailto:". htmlspecialchars($recipient['email']) ."'>" . htmlspecialchars($recipient['email']) ."</a></br>";
+                            }
                         }
 
                         ?>

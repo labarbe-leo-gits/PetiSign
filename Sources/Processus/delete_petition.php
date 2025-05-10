@@ -41,7 +41,7 @@ try {
     $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = $pdo->prepare('DELETE FROM COMMENT WHERE id_petition = :id');
+    $stmt = $pdo->prepare('DELETE FROM COMMENT WHERE id_target = :id AND target_type = 1');
     $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->execute();
 

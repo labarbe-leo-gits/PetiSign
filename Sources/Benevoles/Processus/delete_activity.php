@@ -24,7 +24,7 @@ if($is_benevole !=0){
         $delete_all_inscriptions->bindParam(':id_activity', $filtered_id, PDO::PARAM_INT);
         $delete_all_inscriptions->execute();
 
-        $delete_all_comments = $pdo->prepare("DELETE FROM ACTIVITY_COMMENT WHERE id_activity = :id_activity");
+        $delete_all_comments = $pdo->prepare("DELETE FROM COMMENT WHERE id_target = :id_activity AND target_type = 2");
         $delete_all_comments->bindParam(':id_activity', $filtered_id, PDO::PARAM_INT);
         $delete_all_comments->execute();
 

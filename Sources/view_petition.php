@@ -244,7 +244,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 
     <?php
 
-    $comments_stmt = $pdo->prepare('SELECT * FROM COMMENT WHERE id_petition = :id ORDER BY date DESC');
+    $comments_stmt = $pdo->prepare('SELECT * FROM COMMENT WHERE id_target = :id AND target_type = 1 ORDER BY date DESC');
     $comments_stmt->bindParam(':id', $_GET['id']);
     $comments_stmt->execute();
     $comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);

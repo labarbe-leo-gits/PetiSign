@@ -23,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bday = new dateTime($_POST['anniv']);
     $date= $bday->format('Y-m-d');
 
+    $trimed_username = trim($username);
+    $no_spaces_username = preg_replace('/\s+/', '', $trimed_username);
+
     $stmt = $pdo->prepare("SELECT * FROM CAPTCHA WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
@@ -63,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     $stmt = $pdo->prepare("INSERT INTO USER (email, username, password, birthdate) VALUES (:mail, :username, :password, :bday)");
                     $stmt->bindParam(':mail', $mail);
-                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':username', $no_spaces_username);
                     $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
                     $stmt->bindParam(':bday', $date);
                     $stmt->execute();

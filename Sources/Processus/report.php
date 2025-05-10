@@ -71,6 +71,8 @@ else if($report_type == 3){
         exit();
     }
 
+   echo "type 3";
+
 }
 
 $check_if_already_reported_stmt = $pdo->prepare('SELECT COUNT(*) FROM REPORT WHERE id_target = :target_id AND id_user = :user_id AND report_type = :report_type');

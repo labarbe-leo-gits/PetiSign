@@ -9,6 +9,11 @@ $usernamestmt->bindParam(':id', $id, PDO::PARAM_INT);
 $usernamestmt->execute();
 $username = $usernamestmt->fetchColumn();
 
+$mailstmt = $pdo->prepare("SELECT email FROM USER WHERE id = :id");
+$mailstmt->bindParam(':id', $id, PDO::PARAM_INT);
+$mailstmt->execute();
+$mail = $mailstmt->fetchColumn();
+
 $is_adminstmt = $pdo->prepare("SELECT is_admin FROM USER WHERE id = :id");
 $is_adminstmt->bindParam(':id', $id, PDO::PARAM_INT);
 $is_adminstmt->execute();
@@ -37,6 +42,11 @@ if ($username === false || $is_admin === false || $is_benevole === false) {
                 <div class="entries">
                     <input name="username" id="username" type="text" required value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>" maxlength="255">
                     <label for="username">Nom d'utilisateur</label>
+                </div>
+                <div class="space"></div>
+                <div class="entries">
+                    <input name="emailaddress" id="emailaddress" type="email" required value="<?= htmlspecialchars($mail, ENT_QUOTES, 'UTF-8') ?>">
+                    <label for="emailaddress">Adresse e-mail</label>
                 </div>
                 <div class="space"></div>
                 <div class="entries">

@@ -54,6 +54,11 @@ else{
                 <div class="space">●</div>
                 <a href="teams.php" class="navigation_menu_item">Gestion des équipes bénévoles</a>
             </div>
+            <div class="item" onclick="window.location.href = 'moderation.php'">
+                <img class="back_office_nav_img" src="../../Resources/img/ui_icons/moderator.png" alt="">
+                <div class="space">●</div>
+                <a href="teams.php" class="navigation_menu_item">Modération</a>
+            </div>
             <div class="item" onclick="window.location.href = 'captcha.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/captcha.png" alt="">
                 <div class="space">●</div>
