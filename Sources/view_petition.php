@@ -14,6 +14,7 @@ if(isset($_SESSION['mail'])){
 
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'checker.php';
 
 $validating_petition = $pdo->prepare('SELECT * FROM PETITION WHERE id = :id');
 $validating_petition->bindParam(':id', $_GET['id']);
@@ -311,8 +312,8 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 <div class="comment_content">
                     <p class="comment_date">'.$formatted_date.' &#x25CF; '.$formated_time.' &#x25CF ';
 
-                    if($is_admin == 1){
-                        echo '<a href="Processus/admin_delete_com.php?id='.$comment['id'].'" class="quick2">
+                    if($is_admin == 1 || $comment['id_user'] == $get_user_id){
+                        echo '<a href="Processus/delete_com.php?id='.$comment['id'].'" class="quick2">
                         <img src="../Resources/img/ui_icons/trash.png" alt=""></a>';
                     }
 

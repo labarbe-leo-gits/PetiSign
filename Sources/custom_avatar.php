@@ -1,7 +1,6 @@
 <?php
 include_once 'header.php';
 
-// Retrieve selected attributes (default to 1 if not set)
 $hat_id = isset($_POST['hat']) ? $_POST['hat'] : 1;
 $eyes_id = isset($_POST['eyes']) ? $_POST['eyes'] : 1;
 $mouth_id = isset($_POST['mouth']) ? $_POST['mouth'] : 1;

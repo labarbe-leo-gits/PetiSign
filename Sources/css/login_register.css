@@ -89,7 +89,7 @@ input:not(:placeholder-shown) + label {
     font-size: 14px;
     color: #1A414E;
     width: auto;
-    background-color: rgba(255, 255, 255, 0.621);
+    background-color: rgba(255, 255, 255);
 }
 
 .loginbtn {

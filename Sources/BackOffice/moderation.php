@@ -76,6 +76,12 @@ include_once "../database/database.php";
                         $go_to_target_link = "view_profile.php?id=" . $target_id;
                     } elseif($new['report_type'] == 2){
                         $go_to_target_link = "view_petition.php?id=" . $target_id;
+                    }elseif($new['report_type'] == 3){
+                        $petition_stmt = $pdo->prepare("SELECT id_target FROM COMMENT WHERE id = :id_target AND target_type = 1");
+                        $petition_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
+                        $petition_stmt->execute();
+                        $petition_id = $petition_stmt->fetchColumn();
+                        $go_to_target_link = "view_petition.php?id=" . $petition_id;
                     }
 
                     echo "<tr>";
@@ -84,8 +90,8 @@ include_once "../database/database.php";
                     echo "<td class='content'>".$target."</td>";
                     echo "<td class='content'>".$new['reason']."</td>";
                     echo "<td class='actions'>";
-                    if($type != "Commentaire"){
-                        echo "<a href='/Sources/". $go_to_target_link ."' class='action'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
+                    if($type){
+                        echo "<a href='/Sources/". $go_to_target_link ."' class='action' target='blank_'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
                         echo "<a href='' class='void'>&nbsp;</a>";
                     }
                     echo "<a href='Processus/delete_report.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";  

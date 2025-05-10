@@ -65,10 +65,18 @@ try{
     $stmt->bindParam(':comment', $comment);
     $stmt->execute();
 
-    $mail_sent = new PHPMailer(true);
+    $get_petition_owner_mail_notif = $pdo->prepare("SELECT mail_notification FROM USER WHERE id = :owner_id");
+    $get_petition_owner_mail_notif->bindParam(':owner_id', $petition_owner);
+    $get_petition_owner_mail_notif->execute();
+    $mail_notif = $get_petition_owner_mail_notif->fetchColumn();
 
-    echo "Comment added successfully!";
-    EnvoieMail($mail_sent, $owner_email, $owner_name, "Nouveau commentaire !", "$username_user a commenté votre pétition : $petition_title \nVous pouvez le consulter ici : http://5.196.4.238/Sources/view_petition.php?id=$petition_id");
+    if($mail_notif == 1){
+
+        $mail_sent = new PHPMailer(true);
+
+        echo "Comment added successfully!";
+        EnvoieMail($mail_sent, $owner_email, $owner_name, "Nouveau commentaire !", "$username_user a commenté votre pétition : $petition_title \nVous pouvez le consulter ici : http://5.196.4.238/Sources/view_petition.php?id=$petition_id");
+    }
     header('Location: ../view_petition.php?id=' . $petition_id);
 
 }catch(PDOException $e){

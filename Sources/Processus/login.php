@@ -109,6 +109,13 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     //$create_session_instance->bindParam(':user_id', $user_id);
     //$create_session_instance->bindParam(':ip_address', $ip);
     //$create_session_instance->execute();
+
+    $currentTimestamp = date('Y-m-d H:i:s');
+
+    $update_last_activity = $pdo->prepare("UPDATE USER SET last_activity = :tmp WHERE id = :mail");
+    $update_last_activity->bindParam(':tmp', $currentTimestamp);
+    $update_last_activity->bindParam(':mail', $user_id);
+    $update_last_activity->execute();
     
     write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 

@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const newsletter_checkbox = document.getElementById('newsletter');
     const news_label = document.getElementById('news_label');
     const newsletter_value = document.getElementById('newsletter_value');
+    const notifs_checkbox = document.getElementById('mails_notif');
+    const notifs_label = document.getElementById('mails_label');
     emailError.style.color = 'red';
     emailError.style.fontSize = '0.8em';
     emailError.style.display = 'none';
@@ -48,6 +50,8 @@ document.addEventListener("DOMContentLoaded", function() {
         date_field.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         newsletter_checkbox.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         news_label.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        notifs_checkbox.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        notifs_label.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
 
         if(button.textContent === 'Enregistrer') {

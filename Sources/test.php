@@ -1,240 +1,132 @@
 <?php
 
-session_start();
+include_once 'database/database.php';
 
-$jsonFilePath = '../Sources/json/banned_username.json';
+function getActiveUsers($pdo) {
 
-function getBannedUsernames() {
-    global $jsonFilePath;
-    if (file_exists($jsonFilePath)) {
-        $jsonContent = file_get_contents($jsonFilePath);
-        $data = json_decode($jsonContent, true);
-        return isset($data['banned_usernames']) ? $data['banned_usernames'] : [];
-    }
-    return [];
+    $tenMinutesAgo = date('Y-m-d H:i:s', time() - (10 * 60));
+
+    $query = "SELECT * FROM USER WHERE last_activity >= ?";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$tenMinutesAgo]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Save banned usernames to file
-function saveBannedUsernames($usernames) {
-    global $jsonFilePath;
-    $data = ['banned_usernames' => $usernames];
-    $jsonContent = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents($jsonFilePath, $jsonContent);
+$activeUsers = getActiveUsers($pdo);
+
+if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
+    header('Content-Type: application/json');
+    echo json_encode($activeUsers);
+    exit;
 }
-
-$message = '';
-$messageType = '';
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $bannedUsernames = getBannedUsernames();
-    
-    if (isset($_POST['add_username']) && !empty($_POST['new_username'])) {
-        $newUsername = trim($_POST['new_username']);
-        
-        if (!in_array($newUsername, $bannedUsernames)) {
-            $bannedUsernames[] = $newUsername;
-            sort($bannedUsernames); // Keep the list alphabetically sorted
-            saveBannedUsernames($bannedUsernames);
-            $message = "Username '{$newUsername}' has been banned.";
-            $messageType = 'success';
-        } else {
-            $message = "Username '{$newUsername}' is already banned.";
-            $messageType = 'warning';
-        }
-    }
-    
-    if (isset($_POST['delete_username']) && isset($_POST['username'])) {
-        $usernameToDelete = $_POST['username'];
-        $key = array_search($usernameToDelete, $bannedUsernames);
-        
-        if ($key !== false) {
-            unset($bannedUsernames[$key]);
-            $bannedUsernames = array_values($bannedUsernames); // Reindex array
-            saveBannedUsernames($bannedUsernames);
-            $message = "Username '{$usernameToDelete}' has been unbanned.";
-            $messageType = 'success';
-        }
-    }
-}
-
-$bannedUsernames = getBannedUsernames();
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Banned Usernames</title>
+    <title>Active Users</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
         }
-        .container {
-            display: flex;
-            gap: 30px;
+        #polling-status {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
         }
-        .left-panel {
-            flex: 1;
-        }
-        .right-panel {
-            flex: 2;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .alert {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-        .search-box {
-            padding: 8px;
-            width: 100%;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-        .count-badge {
-            background-color: #6c757d;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            margin-left: 10px;
+        #polling-interval {
+            width: 60px;
         }
     </style>
 </head>
 <body>
-    <h1>Manage Banned Usernames <span class="count-badge"><?php echo count($bannedUsernames); ?></span></h1>
-    
-    <?php if (!empty($message)): ?>
-        <div class="alert alert-<?php echo $messageType; ?>">
-            <?php echo htmlspecialchars($message); ?>
-        </div>
-    <?php endif; ?>
-    
-    <div class="container">
-        <div class="left-panel">
-            <h2>Add New Banned Username</h2>
-            <form method="post" action="">
-                <div class="form-group">
-                    <label for="new_username">Username:</label>
-                    <input type="text" id="new_username" name="new_username" required>
-                </div>
-                <button type="submit" name="add_username" class="btn btn-primary">Ban Username</button>
-            </form>
-        </div>
-        
-        <div class="right-panel">
-            <h2>Current Banned Usernames</h2>
-            
-            <input type="text" id="usernameSearch" class="search-box" placeholder="Search usernames..." onkeyup="filterUsernames()">
-            
-            <?php if (empty($bannedUsernames)): ?>
-                <p>No banned usernames found.</p>
-            <?php else: ?>
-                <table id="usernamesTable">
-                    <thead>
-                        <tr>
-                            <th>Pseudo</th>
-                            <th width="100">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($bannedUsernames as $username): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($username); ?></td>
-                                <td>
-                                    <form method="post" action="" style="display: inline;">
-                                        <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
-                                        <button type="submit" name="delete_username" class="btn btn-danger"
-                                         onclick="return confirm('Are you sure you want to unban this username?')">
-                                            Supprimer
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-        </div>
+    <div id="data-container">
+        <h2>Users active in the last 10 minutes:</h2>
+        <?php if (count($activeUsers) > 0): ?>
+            <ul>
+                <?php foreach ($activeUsers as $user): ?>
+                    <li><?= $user['username'] ?> - Last active: <?= $user['last_activity'] ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No users were active in the last 10 minutes.</p>
+        <?php endif; ?>
     </div>
-    
+
+    <div>
+        <label for="polling-interval">Refresh interval (ms):</label>
+        <input type="number" id="polling-interval" value="1000" min="500" max="10000">
+        <button id="update-interval">Update</button>
+    </div>
+    <div id="polling-status">Polling every 1000ms</div>
+    <div id="last-updated"></div>
+
     <script>
-        function filterUsernames() {
-            const input = document.getElementById('usernameSearch');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('usernamesTable');
-            const tr = table.getElementsByTagName('tr');
+        let pollingInterval = 100;
+        let pollingTimer;
+
+        function updateUI(users) {
+            const container = document.getElementById('data-container');
             
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[0];
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
+            let html = '<h2>Users active in the last 10 minutes:</h2>';
+            
+            if (users.length > 0) {
+                html += '<ul>';
+                users.forEach(function(user) {
+                    html += `<li>${user.username} - Last active: ${user.last_activity}</li>`;
+                });
+                html += '</ul>';
+            } else {
+                html += '<p>No users were active in the last 10 minutes.</p>';
             }
+            
+            container.innerHTML = html;
+            
+            document.getElementById('last-updated').textContent = 
+                'Last updated: ' + new Date().toLocaleTimeString();
         }
+
+        function fetchData() {
+            fetch('test.php?fetch_data=true')
+                .then(response => response.json())
+                .then(data => {
+                    updateUI(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                })
+                .finally(() => {
+
+                    pollingTimer = setTimeout(fetchData, pollingInterval);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.getElementById('last-updated').textContent = 
+                'Last updated: ' + new Date().toLocaleTimeString();
+                
+
+            fetchData();
+
+            document.getElementById('update-interval').addEventListener('click', function() {
+                const newInterval = parseInt(document.getElementById('polling-interval').value);
+                if (newInterval >= 500) {
+                    pollingInterval = newInterval;
+                    document.getElementById('polling-status').textContent = 
+                        'Polling every ' + pollingInterval + 'ms';
+                    
+                    clearTimeout(pollingTimer);
+                    fetchData();
+                } else {
+                    alert('Minimum interval is 500ms');
+                    document.getElementById('polling-interval').value = 500;
+                }
+            });
+        });
     </script>
 </body>
 </html>

@@ -29,14 +29,7 @@ CREATE TABLE USER (
     signature INT REFERENCES SIGNATURE(id_petition),
     newsletter INT DEFAULT 1,
     mail_notification INT DEFAULT 1,
-    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE SESSION(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    id_user INT REFERENCES USER(id),
-    ip_address VARCHAR(45),
-    last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    last_activity DATETIME
 );
 
 CREATE TABLE TEAM(

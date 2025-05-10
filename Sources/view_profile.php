@@ -7,6 +7,7 @@ if($_SERVER['REQUEST_METHOD'] !== 'GET' || !isset($_GET['id'])) {
 
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'checker.php';
 
 $get_username_by_id_stmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
 $get_username_by_id_stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);

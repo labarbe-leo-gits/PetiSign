@@ -5,7 +5,6 @@ if(isset($_SESSION['mail'])){
     $mail = $_SESSION['mail'];
     $is_admin = $_SESSION['is_admin'];
     $is_benevole = $_SESSION['is_benevole'];
-
 }
 else{
     $mail = null;
