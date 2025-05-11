@@ -1,8 +1,21 @@
 <?php
+
 include_once 'header.php';
+
+if(isset($_GET['code'])){
+    $json_file = file_get_contents('../json/success_register.json');
+    $error_manager = json_decode($json_file, true);
+    if(array_key_exists($_GET['code'], $error_manager)){
+        $insertVal = $_GET['code'];
+    }
+}
+
+$error_details = $error_manager[$insertVal];
+
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
+<link rel="stylesheet" href="../css/backoffice_image_management.css">
 
 <div class="right_panel">
     <div class="title">
@@ -54,7 +67,56 @@ include_once 'header.php';
     <div class="database_actions_container">
         <a class="captcha_database_action" href="upload_image.php"><img src="../../Resources/img/ui_icons/upload.png" alt="Nouveau Captcha">&nbsp;&nbsp;Upload</a>
     </div>
+    
+    <?php
+
+    
+    if(isset($_GET['code']) && $_GET['code'] != ''){
+        echo '
+        <div class="message">
+            <div class="success">
+                <p class="error_text">' . $error_details .'</p>
+            </div>
+        </div>
+        ';
+    }
+
+    ?>
+    <div class="image-gallery">
+    <?php
+    $imageDir = "../../Resources/img/petition_selection";
+    $allFiles = scandir($imageDir);
+    $imageFiles = [];
+    
+    foreach ($allFiles as $file) {
+        if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg)$/i', $file)) {
+            $imageFiles[] = $file;
+        }
+    }
+    natsort($imageFiles);
+    
+    foreach ($imageFiles as $file) {
+    $imagePath = $imageDir . '/' . $file;
+    echo '<div class="image-container">';
+    echo '<img src="' . $imagePath . '" alt="' . $file . '" class="petition-image">';
+    echo '<div class="image-info">';
+    echo '<span class="image-name">' . $file . '</span>';
+    echo '<div class="action-buttons">';
+    echo '<a href="/Resources/img/petition_selection/'. $file .'" target="_blank" class="download">';
+    echo '<img src="../../Resources/img/ui_icons/download.png" alt="Download" class="delete-icon">';
+    echo '</a>';
+    echo '<a href="Processus/delete_image.php?image=' . urlencode($file) . '" class="delete-image" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer cette image?\');">';
+    echo '<img src="../../Resources/img/ui_icons/trash.png" alt="Delete" class="delete-icon">';
+    echo '</a>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}
+    ?>
 </div>
+</div>
+</div>
+<script src="/Sources/js/message_hider.js"></script>
 
 <?php
 include_once 'footer.php';
