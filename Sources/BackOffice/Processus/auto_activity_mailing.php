@@ -1,8 +1,10 @@
 <?php
-
+use PHPMailer\PHPMailer\PHPMailer;
 $database_path = "/var/www/html/Sources/database/database.php";
+$mail_notification_path = "/var/www/html/Sources/send_notif.php";
 
 include_once($database_path);
+include_once($mail_notification_path);
 
 $envfile = "/var/www/html/Sources/BackOffice/Processus/key.env";
 $env = parse_ini_file($envfile);
@@ -27,12 +29,31 @@ try {
         echo "Error: Database connection not available.\n";
         exit();
     }
+
+    $get_last_login_from_users = $pdo->prepare("SELECT last_login, username, email FROM USER");
+    $get_last_login_from_users->execute();
+    $last_logins = $get_last_login_from_users->fetchAll(PDO::FETCH_ASSOC);
+
+    echo "Found " . count($last_logins) . " users to check.\n";
     
-    $get_all_bans = $pdo->prepare("SELECT id, id_user, expiration FROM BAN");
-    $get_all_bans->execute();
-    $all_bans = $get_all_bans->fetchAll(PDO::FETCH_ASSOC);
+    foreach($last_logins as $user) {
+        $last_login = $user['last_login'];
+        $current_date = new DateTime();
+        $last_login_date = new DateTime($last_login);
+        
+        $interval = $current_date->diff($last_login_date);
+        $days_since_last_login = $interval->days;
+        
+        if ($days_since_last_login > 30) {
+            $mail_sent = new PHPMailer(true);
+            echo "User ". $user['username'] ." has not logged in for more than 30 days.\n";
+            EnvoieMail($mail_sent, $user['email'], $user['username'], "Rappel de connexion", "Nous avons remarqué que vous n'avez pas été actif sur notre plateforme depuis ". $days_since_last_login ." jours.<br />Nous aimerions vous rappeler de vous connecter pour profiter de nos services.<br />Si vous le souhaitez, vous pouvez également supprimer votre compte via votre page de profil PétiSign?<br /><br />Cordialement,<br />L'équipe de support.");
+            echo "Email sent to ". $user['username'] ."\n";
+        } else {
+            echo "User ". $user['username'] ." has logged in within the last 30 days.\n";
+        }
+    }
     
-    echo "Found " . count($all_bans) . " bans to check.\n";
     
     foreach($all_bans as $ban) {
         $ban_id = $ban['id'];
@@ -58,7 +79,7 @@ try {
                 $delete_ban->execute();
                 echo "Le ban de l'utilisateur " . $username . " a été supprimé avec succès.\n";
                 
-                if (file_put_contents($logFile, date('d/m/Y H:i') . " UTC - [SYSTEM] - CronTab - 0.0.0.0 - Déban de ". $username ."\n", FILE_APPEND) === false) {
+                if (file_put_contents($logFile, date('d/m/Y H:i') . " UTC - [SYSTEM] - CronTab - 0.0.0.0 - Rappel de connexion de ". $username ."\n", FILE_APPEND) === false) {
                     echo "Warning: Failed to write to log file.\n";
                 }
             } catch (PDOException $e) {

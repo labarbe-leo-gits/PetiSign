@@ -57,7 +57,12 @@ else{
             <div class="item" onclick="window.location.href = 'moderation.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/moderator.png" alt="">
                 <div class="space">●</div>
-                <a href="teams.php" class="navigation_menu_item">Modération</a>
+                <a href="moderation.php" class="navigation_menu_item">Modération</a>
+            </div>
+            <div class="item" onclick="window.location.href = '/glpi/'">
+                <img class="back_office_nav_img" src="../../Resources/img/ui_icons/glpi.png" alt="">
+                <div class="space">●</div>
+                <a href="/glpi/" class="navigation_menu_item">GLPI</a>
             </div>
             <div class="item" onclick="window.location.href = 'captcha.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/captcha.png" alt="">

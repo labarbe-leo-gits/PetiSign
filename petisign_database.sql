@@ -29,7 +29,8 @@ CREATE TABLE USER (
     signature INT REFERENCES SIGNATURE(id_petition),
     newsletter INT DEFAULT 1,
     mail_notification INT DEFAULT 1,
-    last_activity DATETIME
+    last_activity DATETIME,
+    last_login DATE DEFAULT '2025-04-01'
 );
 
 CREATE TABLE TEAM(

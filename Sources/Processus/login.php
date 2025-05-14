@@ -111,9 +111,13 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     //$create_session_instance->execute();
 
     $currentTimestamp = date('Y-m-d H:i:s');
+    $current_date = new DateTime();
 
-    $update_last_activity = $pdo->prepare("UPDATE USER SET last_activity = :tmp WHERE id = :mail");
+    $current_date = $current_date->format('Y-m-d');
+
+    $update_last_activity = $pdo->prepare("UPDATE USER SET last_activity = :tmp, last_login = :lst_log WHERE id = :mail");
     $update_last_activity->bindParam(':tmp', $currentTimestamp);
+    $update_last_activity->bindParam(':lst_log', $current_date);
     $update_last_activity->bindParam(':mail', $user_id);
     $update_last_activity->execute();
     
