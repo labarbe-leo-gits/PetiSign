@@ -1,5 +1,6 @@
 <?php
 include_once 'header.php';
+include_once '../checker.php';
 
 $get_current_admin_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
 $get_current_admin_id->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);
@@ -149,6 +150,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
             ?>
         </table>
     </div>
+
     <div class="title">
         <h2 class="highlighted-text" id="subtitle">Utilisateurs connectés en temps réel</h2>
     </div>
@@ -158,30 +160,13 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
                 <th>ID</th>
                 <th>Nom d'utilisateur</th>
             </tr>
-            <?php
-
-            $sessions_stmt = $pdo->prepare("SELECT * FROM SESSION");
-            $sessions_stmt->execute();
-            $sessions = $sessions_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach($sessions as $session){
-                $user_stmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
-                $user_stmt->bindParam(':id', $session['id_user'], PDO::PARAM_INT);
-                $user_stmt->execute();
-                $user = $user_stmt->fetchColumn();
-
-                echo "<tr>";
-                echo "<td class='id'>".$session['id_user']."</td>";
-                echo "<td class='content'>".$user."</td>";
-                echo "</tr>";
-            }
-
-            ?>
+            
         </table>
     </div>
 </div>
 </div>
 
+<script src="/Sources/js/real_time.js"></script>
 <script src="/Sources/js/message_hider.js"></script>
 
 <?php

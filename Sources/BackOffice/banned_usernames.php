@@ -1,5 +1,6 @@
 <?php
 include_once 'header.php';
+include_once '../checker.php';
 
 $banned_usernames_json_path = '../json/banned_username.json';
 

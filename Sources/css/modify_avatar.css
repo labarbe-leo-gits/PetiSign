@@ -282,3 +282,105 @@ form button {
     margin:0 auto;
     border: none;
 }
+
+@media (max-width: 480px) {
+    body {
+        overflow: auto;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .prev_container {
+        width: 100%;
+        max-width: 280px;
+        padding: 15px;
+        padding-top: 50px;
+    }
+    
+    .preview {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    
+    .creator {
+        padding: 15px;
+        margin-right: 0;
+        margin-top: 10px;
+        height: auto;
+        max-height: 70vh;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container_ {
+        flex-direction: column;
+        margin-top: 20px;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .black-squares {
+        display: grid;
+        grid-template-columns: repeat(2, 60px);
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .colored-squares {
+        display: grid;
+        grid-template-columns: repeat(3, 60px);
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .black-squares div,
+    .colored-squares div {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .hat {
+        width: 120px;
+    }
+    
+    .eyes, .mouth {
+        width: 80px;
+    }
+    
+    .title_ {
+        margin-top: 30px;
+        flex-direction: column;
+    }
+    
+    .divider {
+        display: none;
+    }
+    
+    .title_ hr {
+        width: 100%;
+    }
+    
+    .creator form:last-child {
+        padding: 5px 0;
+    }
+    
+    form button {
+        padding: 8px;
+        font-size: 14px;
+    }
+}

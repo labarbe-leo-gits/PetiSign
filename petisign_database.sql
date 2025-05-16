@@ -26,7 +26,6 @@ CREATE TABLE USER (
     avatar_mouth_color INT DEFAULT 1,
     avatar_eyes_color INT DEFAULT 1,
     avatar_skin_color INT DEFAULT 6,
-    signature INT REFERENCES SIGNATURE(id_petition),
     newsletter INT DEFAULT 1,
     mail_notification INT DEFAULT 1,
     last_activity DATETIME,

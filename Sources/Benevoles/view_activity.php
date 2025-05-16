@@ -145,7 +145,7 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
             echo "<hr class='line left_line'>";
             echo "<p class='max_participants'>$current_participants_count / $max_participants participants autorisés</p>";
             if($current_participants_count > 0){
-                echo "<a href='Processus/download_list.php' target='_blank' class='maps-link'>
+                echo "<a href='Processus/download_list.php?id=". $_GET['id'] ."' target='_blank' class='maps-link'>
             <img src='/Resources/img/ui_icons/download.png' alt='map'>
             Télécharger la liste
           </a>";

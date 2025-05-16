@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once '../database/database.php';
+include_once '../checker.php';
 
 $newsletterId = $_GET['id'] ?? null;
 $filteredId = filter_var($newsletterId, FILTER_SANITIZE_NUMBER_INT);

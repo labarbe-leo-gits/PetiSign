@@ -5,6 +5,54 @@ include_once 'database/database.php';
 include_once 'Processus/write_logs.php';
 include_once 'checker.php';
 
+echo "
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const toggleBtn = document.createElement('div');
+    toggleBtn.className = 'menu-toggle';
+    toggleBtn.innerHTML = '<span></span>';
+    document.body.appendChild(toggleBtn);
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+    
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarHeader = document.createElement('div');
+    sidebarHeader.className = 'sidebar-header';
+    sidebarHeader.textContent = 'Conversations';
+    sidebar.insertBefore(sidebarHeader, sidebar.firstChild);
+    
+    toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        toggleBtn.classList.toggle('active');
+    });
+    
+    overlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        toggleBtn.classList.remove('active');
+    });
+    
+    const chatLinks = document.querySelectorAll('.chat_access');
+    chatLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            toggleBtn.classList.remove('active');
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('discussion_id')) {
+        sidebar.classList.remove('active');
+    }
+});
+
+</script>
+";
 
 if(!isset($_SESSION['mail'])) {
     header('Location: login.php');

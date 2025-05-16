@@ -1,6 +1,7 @@
 <?php
 
 include_once 'header.php';
+include_once '../checker.php';
 
 if(isset($_GET['code'])){
     $json_file = file_get_contents('../json/success_register.json');

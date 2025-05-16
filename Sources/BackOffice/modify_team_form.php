@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once '../database/database.php';
+include_once '../checker.php';
 
 $id = $_GET['id'] ?? null;
 $filtered_id = filter_var($id, FILTER_VALIDATE_INT);

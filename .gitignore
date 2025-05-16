@@ -2,3 +2,4 @@ Sources/database/.env
 Sources/PHPMailer/.env
 Sources/logs
 Sources/BackOffice/Processus/key.env
+/Sources/glpi.env

@@ -2,6 +2,7 @@
 
 include_once 'header.php';
 include_once "../database/database.php";
+include_once '../checker.php';
 
 $id = $_GET['id'] ?? null;
 

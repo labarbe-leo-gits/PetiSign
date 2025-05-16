@@ -8,6 +8,7 @@ if(!isset($_SESSION['mail'])){
 
 include_once 'header.php';
 include_once 'database/database.php';
+include_once 'checker.php';
 
 $user_id_stmt = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
 $user_id_stmt->bindParam(':mail', $_SESSION['mail']);
