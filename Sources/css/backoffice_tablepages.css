@@ -194,3 +194,75 @@ tr:first-child{background-color: #E0BD78;}
 .hidden{
     display: none;
 }
+
+.filters {
+    background-color: #F0EFE7;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 10px;
+
+    box-shadow: 0 3px 6px rgba(30, 58, 71, 0.15);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.filter_section{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.filter_section > p{
+    text-align: center;
+    margin-top: 0;
+}
+
+.filter_section > input[type="checkbox"]{
+    cursor: pointer;
+}
+
+.filter_section > input[type="checkbox"]:checked{
+    background-color: #E0BD78;
+    color: #1E3A47;
+}
+
+
+.filter_section > label{
+    cursor: pointer;
+}
+
+.filter_section_1{
+    margin-left:10px;
+    border-right: 1px solid #1E3A47;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
+.filter_section_3{
+    margin-right:10px;
+    border-left: 1px solid #1E3A47;
+    padding-left: 10px;
+    margin-top: 10px;
+    
+}
+
+.filter_section > select{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #1E3A47;
+    background-color: #F0EFE7;
+    color: #1E3A47;
+    cursor: pointer;
+}
+
+.filter_section > input[type="text"]{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #1E3A47;
+    background-color: #F0EFE7;
+    color: #1E3A47;
+}

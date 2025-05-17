@@ -16,6 +16,8 @@ try{
 <link rel="stylesheet" href="../css/benevoles_index.css">
 <link rel="stylesheet" href="../css/benevoles_team.css">
 
+<?php if($is_benevole != 0):?>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -68,14 +70,30 @@ try{
                 }
             }else{
                 echo '
-                to do error
+                <div class="test" id="error_msg">
+                    <h2>Vous n\'avez pas encore d\'équipe !</h2>
+                    <p class="name">Vous pouvez en créer une en cliquant sur le bouton ci-dessus.</p>
+                </div>
                 ';
             }
 
             ?>
         </div>
     </div>
+<?php endif?>
+<?php if($is_benevole == 0):?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Postulez pour être bénévole dès maintenant ! </h1>
+                <hr class="main_hr">
+                <div class="form_container">
+                    <form action="index.php" method="POST">
+                        <button type="submit"><img src="/Resources/img/ui_icons/hour-glass.png" alt=""> Envoyer ma candidature</button>
+                    </form>
+                </div>
 
+<?php endif?>
     
 
 <?php

@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!in_array($username, $banned)){
             $banned[] = $username;
             saveToFile($banned);
-            echo "<script>alert('Username added successfully!');</script>";
+            echo "<script>alert('Ajout réussi');</script>";
         } else {
             echo "<script>alert('Username already exists!');</script>";
         }
@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             unset($banned[$key]);
             $banned = array_values($banned);
             saveToFile($banned);
-            echo "<script>alert('Username deleted successfully!');</script>";
+            echo "<script>alert('Pseudo supprimé avec succès');</script>";
         }
     }
 }
@@ -55,23 +55,26 @@ $banned = getBannedUsernames();
 ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
+<link rel="stylesheet" href="../css/backoffice_addcaptcha.css">
 <link rel="stylesheet" href="../css/backoffice_banned_usernames.css">
 
 <div class="right_panel">
 
     <div class="container">
-        <h2>Gestion des noms d'utilisateur interdits</h2>
+        <h2 class="highlighted-text" id="page_title">Gestion des noms d'utilisateur interdits</h2>
         <form method="POST" action="">
-            <div class="input-group">
-                <label for="new_username">Nom d'utilisateur :</label>
-                <input type="text" id="new_username" name="new_username" required>
-                <button type="submit" name="add_username">Ajouter</button>
+            <div class="entries">
+                <input type="text" id="new_username" name="new_username" required placeholder="">
+                <label for="new_username">Nom d'utilisateur</label>
+                <button type="submit" name="add_username" class="custom-button smaller">Ajouter</button>
             </div>
         </form>
         <div class="current">
-            <h3>Noms d'utilisateur interdits actuels :</h3>
-            <input type="text" name="" id="usernameSearch" class="search-box" placeholder="Rechercher un nom d'utilisateur" onkeyup="filterUsernames()">
-
+            <div class="entries">
+                <input type="text" name="" id="usernameSearch" class="search-box" placeholder="" onkeyup="filterUsernames()">
+                <label for="usernameSearch">Recherche</label>
+            </div>
+            
             <?php
 
             if(empty($banned)){
@@ -86,7 +89,7 @@ $banned = getBannedUsernames();
                     echo "<td>
                             <form method='POST' action=''>
                                 <input type='hidden' name='username' value='" . htmlspecialchars($username) . "'>
-                                <button type='submit' name='delete_username'>Supprimer</button>
+                                <button type='submit' name='delete_username' class='delete_btn'>Supprimer</button>
                             </form>
                           </td>";
                     echo "</tr>";

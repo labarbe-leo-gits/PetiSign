@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once '../database/database.php';
+include_once 'security.php';
 
 $current_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
 $current_user_id->bindParam(':mail', $_SESSION['mail'], PDO::PARAM_STR);

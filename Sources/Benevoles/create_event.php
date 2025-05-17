@@ -1,6 +1,9 @@
 <?php
 include_once 'header.php';
+include_once 'security.php';
 ?>
+
+<link rel="stylesheet" href="/Sources/css/benevoles_form.css">
 
 <form action="Processus/event_creation.php" method="post">
     <input type="text" name="title" id="title" placeholder="Event Title" required>

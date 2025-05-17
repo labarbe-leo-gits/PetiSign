@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -6,7 +7,6 @@ $env = parse_ini_file('glpi.env');
 $app_token = $env["APP_TOKEN"];
 $user_token = $env["USER_TOKEN"];
 
-// Paramètres de configuration
 $glpi_url = 'https://petisign.cloud/glpi/apirest.php';
 $app_token = $app_token;
 $user_token = $user_token;
@@ -95,7 +95,7 @@ function initSession() {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL (uniquement pour le développement!)
+    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
     $response = curl_exec($ch);
     $curl_error = curl_error($ch);
@@ -187,9 +187,6 @@ function createTicket($data, $requester_id, $session_token) {
     return false;
 }
 
-/**
- * Termine la session GLPI
- */
 function killSession($session_token) {
     global $glpi_url, $app_token;
     

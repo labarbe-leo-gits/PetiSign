@@ -2,6 +2,7 @@
 
 include_once 'header.php';
 include_once '../database/database.php';
+include_once 'security.php';
 
 $team_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 

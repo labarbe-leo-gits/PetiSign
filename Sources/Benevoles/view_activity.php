@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once '../database/database.php';
+include_once 'security.php';
 
 $get_activity_name = $pdo->prepare("SELECT name FROM TEAM_ACTIVITY WHERE id = :id");
 $get_activity_name->bindParam(':id', $_GET['id']);

@@ -72,6 +72,31 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
         }
     ?>
     </div>
+    <div class="filters">
+        <div class="filter_section filter_section_1">
+                <p>Rôle</p>
+                <input type="checkbox" name="benevole" id="benevole" value="benevole">
+                <label for="benevole">Bénévole</label>
+                <input type="checkbox" name="admin" id="admin" value="admin">
+                <label for="admin">Administrateur</label>
+                <input type="checkbox" name="user" id="user" value="user">
+                <label for="user">Utilisateur</label>
+        </div>
+        <div class="filter_section">
+            <p>Recherche</p>
+            <select name="type" id="type">
+                <option value="id">ID</option>
+                <option value="username">Nom d'utilisateur</option>
+                <option value="email">Email</option>
+            </select>
+            <input type="text" name="search" id="search" placeholder="Rechercher...">
+        </div>
+        <div class="filter_section filter_section_3">
+            <p>Filtrage avancé</p>
+            <input type="checkbox" name="banned" id="banned" value="banned">
+            <label for="banned">Banni</label>
+        </div>
+    </div>
     <div class="tableau">
         <table>
             <tr>
@@ -151,6 +176,8 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
         </table>
     </div>
 
+    
+
     <div class="title">
         <h2 class="highlighted-text" id="subtitle">Utilisateurs connectés en temps réel</h2>
     </div>
@@ -168,6 +195,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
 
 <script src="/Sources/js/real_time.js"></script>
 <script src="/Sources/js/message_hider.js"></script>
+<script src="/Sources/js/user_filters.js"></script>
 
 <?php
 include_once 'footer.php';

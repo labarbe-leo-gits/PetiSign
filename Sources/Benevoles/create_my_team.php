@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once '../database/database.php';
+include_once 'security.php';
 
 $get_all_benevoles_stmt = $pdo->prepare("SELECT id, username FROM USER WHERE is_benevole != 0");
 $get_all_benevoles_stmt->execute();
