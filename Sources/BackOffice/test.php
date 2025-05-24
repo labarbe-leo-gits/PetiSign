@@ -1,6 +1,6 @@
 <?php
 
-include_once 'database/database.php';
+include_once '../database/database.php';
 
 function getActiveUsers($pdo) {
 
@@ -16,33 +16,17 @@ function getActiveUsers($pdo) {
 $activeUsers = getActiveUsers($pdo);
 
 if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
+    session_write_close();
     header('Content-Type: application/json');
     echo json_encode($activeUsers);
     exit;
 }
+
+include_once 'header.php';
+
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Active Users</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        #polling-status {
-            font-size: 12px;
-            color: #888;
-            margin-top: 10px;
-        }
-        #polling-interval {
-            width: 60px;
-        }
-    </style>
-</head>
-<body>
+
+<div class="right_panel">
     <div id="data-container">
         <h2>Users active in the last 10 minutes:</h2>
         <?php if (count($activeUsers) > 0): ?>
@@ -65,7 +49,7 @@ if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
     <div id="last-updated"></div>
 
     <script>
-        let pollingInterval = 100;
+        let pollingInterval = 1000; // Fix: Set to 1000 to match the input default
         let pollingTimer;
 
         function updateUI(users) {
@@ -90,7 +74,7 @@ if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
         }
 
         function fetchData() {
-            fetch('test.php?fetch_data=true')
+            fetch('test.php?fetch_data=true') // Fix: Use the current file with query parameter
                 .then(response => response.json())
                 .then(data => {
                     updateUI(data);
@@ -99,7 +83,6 @@ if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
                     console.error('Error fetching data:', error);
                 })
                 .finally(() => {
-
                     pollingTimer = setTimeout(fetchData, pollingInterval);
                 });
         }
@@ -127,9 +110,8 @@ if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
                 }
             });
         });
-
-        
-
     </script>
+</div>
+</div>
 </body>
 </html>

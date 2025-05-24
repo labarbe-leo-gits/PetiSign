@@ -1,4 +1,24 @@
 <?php
+
+include_once '../database/database.php';
+
+function getActiveUsers($pdo) {
+    $tenMinutesAgo = date('Y-m-d H:i:s', time() - (10 * 60));
+    $query = "SELECT * FROM USER WHERE last_activity >= ?";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$tenMinutesAgo]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$activeUsers = getActiveUsers($pdo);
+
+if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
+    session_write_close();
+    header('Content-Type: application/json');
+    echo json_encode($activeUsers);
+    exit;
+}
+
 include_once 'header.php';
 include_once '../checker.php';
 
@@ -11,7 +31,6 @@ $error_details = '';
 $success_details = '';
 
 if(isset($_GET['error']) && isset($_GET['referer'])){
-
     $json_file = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Sources/json/error_register.json');
     $error_manager = json_decode($json_file, true);
     
@@ -23,7 +42,6 @@ if(isset($_GET['error']) && isset($_GET['referer'])){
 }
 
 if(isset($_GET['success']) && isset($_GET['referer'])){
-
     $json_file = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Sources/json/success_register.json');
     $success_manager = json_decode($json_file, true);
     
@@ -37,8 +55,6 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
 
-
-
 <div class="right_panel">
     <div class="title">
         <h2 class="highlighted-text" id="page_title">Gestion des utilisateurs</h2>
@@ -48,12 +64,8 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
         <a class="captcha_database_action" href="create_admin.php"><img src="../../Resources/img/ui_icons/plus.png" alt="Ajouter un admin"> Ajouter un compte administrateur</a>
         <a class="captcha_database_action" href="Processus/export_users.php" target="_blank"><img src="../../Resources/img/ui_icons/download.png" alt="Exporter utilisateurs">&nbsp;&nbsp;Extraire la liste utilisateur</a>
         <a class="captcha_database_action" href="banned_usernames.php"><img src="../../Resources/img/ui_icons/ban.png" alt="Exporter utilisateurs">&nbsp;&nbsp;Pseudos interdits</a>
-</a>
-
-</a>
-
-
     </div>
+    
     <div class="message">
     <?php
         if(isset($_GET['error']) && isset($_GET['referer'])){
@@ -72,6 +84,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
         }
     ?>
     </div>
+    
     <div class="filters">
         <div class="filter_section filter_section_1">
                 <p>Rôle</p>
@@ -97,6 +110,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
             <label for="banned">Banni</label>
         </div>
     </div>
+    
     <div class="tableau">
         <table>
             <tr>
@@ -112,7 +126,6 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($users as $user){
-
                     $user_ban = $pdo->prepare("SELECT COUNT(*) FROM BAN WHERE id_user = :id");
                     $user_ban->bindParam(':id', $user['id'], PDO::PARAM_INT);
                     $user_ban->execute();
@@ -138,7 +151,6 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
                     echo "<a href='modify_user_form.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/crayon.png' alt='Modify'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
 
-
                     if($current_admin_id != $user['id']) {
                         echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                         echo "<a href='' class='void'>&nbsp;</a>";
@@ -156,39 +168,51 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
 
                     if($current_admin_id != $user['id']){
                         echo "<a href='' class='void'>&nbsp;</a>";
-                        echo "<a href='' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Modify'></a>";
+                        echo "<a href='private_mail.php?user_id=". $user['id'] ."' class='action'><img src='../../Resources/img/ui_icons/newsletter.png' alt='Modify'></a>";
                     }
 
                     echo "</td>";
                     echo "</tr>";
                 }
             } catch (PDOException $e) {
-                    echo "<tr>";
-                    echo "<td class='id'>N/A</td>";
-                    echo "<td class='content'>Error</td>";
-                    echo "<td class='content'>".$e."</td>";
-                    echo "<td class='actions'>";
-                    echo "</td>";
-                    echo "</tr>";
-
+                echo "<tr>";
+                echo "<td class='id'>N/A</td>";
+                echo "<td class='content'>Error</td>";
+                echo "<td class='content'>".$e."</td>";
+                echo "<td class='actions'>";
+                echo "</td>";
+                echo "</tr>";
             }
             ?>
         </table>
     </div>
 
-    
-
     <div class="title">
         <h2 class="highlighted-text" id="subtitle">Utilisateurs connectés en temps réel</h2>
     </div>
     <div class="tableau">
-        <table>
+        <table id="active-users-table">
             <tr>
                 <th>ID</th>
                 <th>Nom d'utilisateur</th>
+                <th>Dernière activité</th>
             </tr>
-            
+            <?php if (count($activeUsers) > 0): ?>
+                <?php foreach ($activeUsers as $user): ?>
+                    <tr>
+                        <td class="id"><?= $user['id'] ?></td>
+                        <td class="content"><?= $user['username'] ?></td>
+                        <td class="content"><?= $user['last_activity'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr><td colspan="3" class="content">Aucun utilisateur actif ces 10 dernières minutes.</td></tr>
+            <?php endif; ?>
         </table>
+    </div>
+    
+    <div class="refresh-controls">
+        <div id="last-updated"></div>
     </div>
 </div>
 </div>
@@ -196,6 +220,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
 <script src="/Sources/js/real_time.js"></script>
 <script src="/Sources/js/message_hider.js"></script>
 <script src="/Sources/js/user_filters.js"></script>
+<script src="/Sources/js/real_time_users.js"></script>
 
 <?php
 include_once 'footer.php';

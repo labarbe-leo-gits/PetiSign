@@ -266,3 +266,7 @@ tr:first-child{background-color: #E0BD78;}
     background-color: #F0EFE7;
     color: #1E3A47;
 }
+
+.refresh-controls{
+    display: none;
+}

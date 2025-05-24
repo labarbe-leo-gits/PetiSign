@@ -19,7 +19,6 @@ include_once '../checker.php';
                 <th>Type</th>
                 <th>Signaleur</th>
                 <th>Cible</th>
-                <th>Raison</th>
                 <th>Action</th>
             </tr>
             <?php
@@ -89,7 +88,6 @@ include_once '../checker.php';
                     echo "<td class='id'>".$type."</td>";
                     echo "<td class='content'><a href='/Sources/view_profile.php?id=". $user_id ."' target='blank_'>".$username."</a></td>";
                     echo "<td class='content'>".$target."</td>";
-                    echo "<td class='content'>".$new['reason']."</td>";
                     echo "<td class='actions'>";
                     if($type){
                         echo "<a href='/Sources/". $go_to_target_link ."' class='action' target='blank_'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
