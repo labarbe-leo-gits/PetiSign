@@ -66,7 +66,7 @@ $number_of_cards = 5;
             </div>
             <div class="cardcontent">
                 <div class="left">
-                    <h3>' . $petition['title'] . '</h3>
+                    <h3>' . html_entity_decode($petition['title']) . '</h3>
                 </div>
                 <div class="right">
                     <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
@@ -145,7 +145,7 @@ foreach ($categories as $category) {
                 </div>
                 <div class="cardcontent">
                     <div class="left">
-                        <h3>' . $petition['title'] . '</h3>
+                        <h3>' . html_entity_decode($petition['title']) . '</h3>
                     </div>
                     <div class="right">
                         <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>

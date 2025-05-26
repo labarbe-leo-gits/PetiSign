@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once 'header.php';
 include_once '../database/database.php';
 include_once 'security.php';
@@ -254,14 +259,26 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
                 <div class="comment_content">
                     <p class="comment_date">'.$formatted_date.' &#x25CF; '.$formated_time.' &#x25CF ';
 
-                    if($is_admin == 1){
-                        echo '<a href="Processus/admin_delete_com.php?id='.$comment['id'].'" class="quick2">
+                    if($is_admin == 1 || $comment['id_user'] == $get_user_id){
+                        echo '<a href="/Sources/Processus/delete_com.php?id='.$comment['id'].'" class="quick2">
                         <img src="/Resources/img/ui_icons/trash.png" alt=""></a>';
                     }
 
-                    echo '
-                    <a href="Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
-                    <img src="/Resources/img/ui_icons/red-flag.png" alt=""></a>';
+                    $check_if_user_already_reported_this_comment = $pdo->prepare("SELECT COUNT(*) FROM REPORT WHERE id_target = :id AND report_type = 3");
+                    $check_if_user_already_reported_this_comment->bindParam(':id', $comment['id']);
+                    $check_if_user_already_reported_this_comment->execute();
+                    $already_reported = $check_if_user_already_reported_this_comment->fetchColumn();
+
+                    if($already_reported == 0){
+
+                        echo '
+                        <a href="/Sources/Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
+                        <img src="/Resources/img/ui_icons/red-flag.png" alt=""></a>';
+                    }else{
+                        echo '
+                        <a class="quick2 disabled_action">
+                        <img src="/Resources/img/ui_icons/red-flag.png" alt=""></a>';
+                    }
 
                     echo '</p>
                     <div class="comment_text">'.$comment['content'].'</div>

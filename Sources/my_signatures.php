@@ -90,7 +90,7 @@ $card_num = 0;
             <div class="sample_pet">
                 <div class="header">
                     <img src="../Resources/img/petition_selection/'. $pet_img_id .'.jpg" alt="Image de couverture pétition">
-                    <p class="category">' . $category_name . '</p>
+                    <p class="category" onclick="window.location.href=\'search.php?category_id='. $category_id .'\'">' . $category_name . '</p>
                 </div>
                 <div class="content">
                 <p>

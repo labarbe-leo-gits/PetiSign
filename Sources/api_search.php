@@ -10,7 +10,7 @@ $category = isset($_GET['category']) ? $_GET['category'] : '';
 $sql = "SELECT * FROM PETITION WHERE 1=1";
 
 if (!empty($query)) {
-    $sql .= " AND (title LIKE :query)";
+    $sql .= " AND (title LIKE :query OR description LIKE :query)";
 }
 
 if (!empty($category) && $category != 'all') {

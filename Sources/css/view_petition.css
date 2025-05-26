@@ -519,3 +519,12 @@ body {
         max-width: none;
     }
 }
+
+.disabled_action {
+    cursor: not-allowed;
+    background-color: grey;
+}
+
+.disabled_action:hover {
+    background-color: rgb(101, 101, 101);
+}

@@ -45,11 +45,21 @@ $get_comment_owner->bindParam(':id', $com_id, PDO::PARAM_INT);
 $get_comment_owner->execute();
 $comment_owner = $get_comment_owner->fetchColumn();
 
-
-
 if($is_admin != 0 || $logged_user_id == $comment_owner){
 
     try {
+
+        $check_if_report_exists_stmt = $pdo->prepare("SELECT COUNT(*) FROM REPORT WHERE id_target = :id AND report_type = 3");
+        $check_if_report_exists_stmt->bindParam(':id', $com_id, PDO::PARAM_INT);
+        $check_if_report_exists_stmt->execute();
+        $report_exists = $check_if_report_exists_stmt->fetchColumn();
+
+        if($report_exists > 0){
+            $delete_report_stmt = $pdo->prepare("DELETE FROM REPORT WHERE id_target = :id AND report_type = 3");
+            $delete_report_stmt->bindParam(':id', $com_id, PDO::PARAM_INT);
+            $delete_report_stmt->execute();
+        }
+
         $stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id = :id");
         $stmt->bindParam(':id', $com_id, PDO::PARAM_INT);
         $stmt->execute();

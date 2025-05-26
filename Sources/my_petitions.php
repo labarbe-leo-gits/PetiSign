@@ -58,7 +58,7 @@ $card_num = 0;
         <div class="sample_pet">
             <div class="header">
                 <img src="../Resources/img/petition_selection/' . $petition['image_id'] .'.jpg" alt="Image de couverture pétition">
-                <p class="category">' . $category_name . '</p>
+                <p class="category" onclick="window.location.href=\'search.php?category_id='. $petition['category'] .'\'">' . $category_name . '</p>
             </div>
             <div class="content">
                 <h2 class="title">' . $petition['title'] . '</h2>

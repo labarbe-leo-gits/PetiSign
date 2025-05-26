@@ -77,11 +77,27 @@ include_once '../checker.php';
                     } elseif($new['report_type'] == 2){
                         $go_to_target_link = "view_petition.php?id=" . $target_id;
                     }elseif($new['report_type'] == 3){
-                        $petition_stmt = $pdo->prepare("SELECT id_target FROM COMMENT WHERE id = :id_target AND target_type = 1");
-                        $petition_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
-                        $petition_stmt->execute();
-                        $petition_id = $petition_stmt->fetchColumn();
-                        $go_to_target_link = "view_petition.php?id=" . $petition_id;
+
+                        $target_type_stmt = $pdo->prepare("SELECT target_type FROM COMMENT WHERE id = :id_target");
+                        $target_type_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
+                        $target_type_stmt->execute();
+                        $target_type = $target_type_stmt->fetchColumn();
+
+                        if($target_type == 1){
+                            $petition_stmt = $pdo->prepare("SELECT id_target FROM COMMENT WHERE id = :id_target AND target_type = 1");
+                            $petition_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
+                            $petition_stmt->execute();
+                            $petition_id = $petition_stmt->fetchColumn();
+                            $go_to_target_link = "view_petition.php?id=" . $petition_id;
+                        }else{
+                            $petition_stmt = $pdo->prepare("SELECT id_target FROM COMMENT WHERE id = :id_target AND target_type = 2");
+                            $petition_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
+                            $petition_stmt->execute();
+                            $petition_id = $petition_stmt->fetchColumn();
+                            $go_to_target_link = "Benevoles/view_activity.php?id=" . $petition_id;
+                        }
+
+                        //$go_to_target_link = "view_petition.php?id=" . $petition_id;
                     }
 
                     echo "<tr>";

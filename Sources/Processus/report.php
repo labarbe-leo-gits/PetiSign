@@ -88,11 +88,11 @@ if($already_reported > 0){
 }
 
 try{
-    $create_report_stmt = $pdo->prepare('INSERT INTO REPORT (report_type, id_target, id_user, reason) VALUES (:report_type, :target_id, :user_id, :report_reason)');
+    $create_report_stmt = $pdo->prepare('INSERT INTO REPORT (report_type, id_target, id_user) VALUES (:report_type, :target_id, :user_id)');
     $create_report_stmt->bindValue(':report_type', $report_type, PDO::PARAM_INT);
     $create_report_stmt->bindValue(':target_id', $target_id, PDO::PARAM_INT);
     $create_report_stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $create_report_stmt->bindValue(':report_reason', $report_reason, PDO::PARAM_STR);
+    //$create_report_stmt->bindValue(':report_reason', $report_reason, PDO::PARAM_STR);
     $create_report_stmt->execute();
 } catch (PDOException $e) {
     // Handle error

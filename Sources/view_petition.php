@@ -136,8 +136,8 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         <div class="petition_header">
             <p>&nbsp;</p>
             <div class="text">
-                <h1 class="petition_name highlighted-text" id="lmm"><?=$pet_name?></h1>
-                <a class="pet_category" href=""><?=$pet_category_name?></a>
+                <h1 class="petition_name highlighted-text" id="lmm"><?= html_entity_decode($pet_name)?></h1>
+                <a class="pet_category" href="search.php?category_id=<?=$pet_category?>"><?=$pet_category_name?></a>
             </div>
         </div>
 
