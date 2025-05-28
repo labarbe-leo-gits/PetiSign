@@ -9,9 +9,13 @@ if(!isset($_SESSION['mail'])) {
 
 include_once '../database/database.php';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) && isset($_GET['target_user_id']))) {
 
     $user_to_contact_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+
+    if(isset($_GET['target_user_id'])) {
+        $user_to_contact_id = filter_input(INPUT_GET, 'target_user_id', FILTER_SANITIZE_NUMBER_INT);
+    }
     
     $verify_if_user_exist = $pdo->prepare("SELECT COUNT(*) FROM USER WHERE id = :user_id");
     $verify_if_user_exist->bindParam(':user_id', $user_to_contact_id);

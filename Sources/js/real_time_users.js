@@ -1,4 +1,4 @@
-let pollingInterval = 1000; // Poll every 10 seconds by default
+let pollingInterval = 1000;
 let pollingTimer;
 
 function updateUI(users) {
@@ -25,7 +25,13 @@ function updateUI(users) {
             
             const activityCell = row.insertCell(2);
             activityCell.className = 'content';
-            activityCell.textContent = user.last_activity;
+            const date = new Date(user.last_activity);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear().toString().slice(-2);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            activityCell.textContent = `${day}/${month}/${year} ${hours}:${minutes}`;
         });
     } else {
         const row = table.insertRow(-1);

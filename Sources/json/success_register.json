@@ -1,4 +1,9 @@
 {
     "UsrCreated": "Utilisateur créé avec succès",
-    "DeleteSuccess": "Ressource supprimée avec succès"
+    "DeleteSuccess": "Ressource supprimée avec succès",
+    "BanSuccess": "L'utilisateur a été banni avec succès.",
+    "UnbanSuccess": "L'utilisateur a été débanni avec succès.",
+    "CannotBanSelf": "Vous ne pouvez pas vous bannir vous-même.",
+    "DeleteUserSuccess": "L'utilisateur a été supprimé avec succès.",
+    "DeleteError": "Une erreur est survenue lors de la suppression de l'utilisateur."
 }

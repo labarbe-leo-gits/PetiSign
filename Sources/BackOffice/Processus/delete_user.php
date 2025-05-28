@@ -115,7 +115,7 @@ if($is_admin != 0){
 
             $pdo->commit();
 
-            header("Location: ../users.php");
+            header("Location: ../users.php?success=DeleteUserSuccess&referer=admin");
             exit();
         } catch (PDOException $e) {
             $pdo->rollBack();

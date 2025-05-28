@@ -32,7 +32,7 @@ $check_if_user_in_team->bindParam(':team_id', $team_id, PDO::PARAM_INT);
 $check_if_user_in_team->execute();
 $check_if_user_in_team = $check_if_user_in_team->fetchColumn();
 
-if ($check_if_user_in_team != 1) {
+if ($check_if_user_in_team != 1 && $is_admin != 1) {
     echo "You are not a member of this team.";
     exit;
 }

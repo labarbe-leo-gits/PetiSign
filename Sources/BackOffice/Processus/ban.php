@@ -39,7 +39,7 @@ if($is_admin != 0){
         $stmt->execute();
 
         echo "User banned successfully.";
-        header("Location: ../users.php");
+        header("Location: ../users.php?success=BanSuccess&referer=admin");
         exit();
     } else {
         echo "Invalid request method.";

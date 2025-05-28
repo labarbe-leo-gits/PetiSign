@@ -59,3 +59,78 @@ h1{
 #error_msg{
     text-align: center;
 }
+
+.container{
+    border-radius: 8px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container > .information{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    background-color: green;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.container > .information > img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+    
+}
+
+.container > .information > p{
+    color: white;
+}
+
+.ben_btn{
+    display: block;
+    margin: 0 auto;
+}
+
+.container > .row > .col-md-12 > .form_container > form{
+    width: fit-content;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+body::after{
+    background: none;
+}
+
+#become_benevole_form{
+    width: 40vw;
+    margin: 0 auto;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#become_benevole_form > button{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#become_benevole_form > button > img{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+.question{
+    margin-top: 20px;
+    text-align: center;
+}

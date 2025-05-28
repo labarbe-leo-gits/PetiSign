@@ -11,6 +11,8 @@ if($is_admin != 0){
         $admin = filter_input(INPUT_POST, 'administrator', FILTER_SANITIZE_NUMBER_INT);
         $benevole = filter_input(INPUT_POST, 'benevole', FILTER_SANITIZE_NUMBER_INT);
         $new_pswd = filter_input(INPUT_POST, 'new_pswd', FILTER_SANITIZE_STRING);
+        $newmail = filter_input(INPUT_POST, 'emailaddress', FILTER_SANITIZE_EMAIL);
+        $newmail = filter_var($newmail, FILTER_VALIDATE_EMAIL);
 
         if ($new_pswd != "" or $new_pswd != null) {
             $new_pswd = password_hash($new_pswd, PASSWORD_DEFAULT);
@@ -24,12 +26,13 @@ if($is_admin != 0){
             }
         }
 
-        if (isset($id, $username, $admin, $benevole)) {
+        if (isset($id, $username, $admin, $benevole, $newmail)) {
             try {
-                $stmt = $pdo->prepare("UPDATE USER SET is_admin = :is_admin, is_benevole = :is_benevole, username = :username WHERE id = :id");
+                $stmt = $pdo->prepare("UPDATE USER SET is_admin = :is_admin, is_benevole = :is_benevole, username = :username, email = :email WHERE id = :id");
                 $stmt->bindParam(':is_admin', $admin);
                 $stmt->bindParam(':is_benevole', $benevole);
                 $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':email', $newmail);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
                 header("Location: ../users.php");

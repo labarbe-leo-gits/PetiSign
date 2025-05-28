@@ -51,11 +51,9 @@ if(isset($_SESSION['ban'])){
                 ">Back Office</a>';
                 echo '<p class="dot navcontent">&#x25CF;</p>';
             }
-            if($is_benevole != null){
-                echo '<a href="Benevoles" class="navcontent
-                ">Espace Bénévoles</a>';
-                echo '<p class="dot navcontent">&#x25CF;</p>';
-            }
+            echo '<a href="Benevoles" class="navcontent
+            ">Espace Bénévoles</a>';
+            echo '<p class="dot navcontent">&#x25CF;</p>';
             ?>
             <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
             <p class="dot navcontent">&#x25CF;</p>

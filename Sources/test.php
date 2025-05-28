@@ -132,4 +132,4 @@ if (isset($_GET['fetch_data']) && $_GET['fetch_data'] === 'true') {
 
     </script>
 </body>
-</html>
+</html> 

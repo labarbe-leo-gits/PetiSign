@@ -16,7 +16,7 @@ if($is_admin != 0){
         $delete_ban->bindParam(':id', $_GET['id']);
         $delete_ban->execute();
 
-        header("Location: ../users.php");
+        header("Location: ../users.php?success=UnbanSuccess&referer=admin");
         exit;
     }
 }else{
