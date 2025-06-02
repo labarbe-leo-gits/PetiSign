@@ -71,6 +71,9 @@ include_once '../checker.php';
         $successfulConnections = countKeywordOccurrences($logLines, 'AUTH01');
         $new_account_count = countKeywordOccurrences($logLines, 'AUTH03');
         $new_pet_count = countKeywordOccurrences($logLines, 'N3WP3T');
+        $new_sign_count = countKeywordOccurrences($logLines, 'N3WS1N');
+        $new_report_count = countKeywordOccurrences($logLines, 'N3WREP');
+        $new_coms_count = countKeywordOccurrences($logLines, 'N3WC0M');
         $discover_count = countUniqueIPs($logLines, 'D1SC0V', $uniqueIPs);
         $profile_count = countUniqueIPs($logLines, 'PROF1L', $uniqueIPs);
         $mysign_count = countUniqueIPs($logLines, 'MYS1GN', $uniqueIPs);
@@ -92,13 +95,13 @@ include_once '../checker.php';
                 <p>Pétitions : <strong id="new-pet-count"><?php echo $new_pet_count ?></strong></p>
             </div>
             <div class="stat">
-                <p>Signatures : <strong id="new-sign-count"><?php echo "0" ?></strong></p>
+                <p>Signatures : <strong id="new-sign-count"><?php echo $new_sign_count ?></strong></p>
             </div>
             <div class="stat">
-                <p>Commentaires : <strong id="new-coms-count"><?php echo "0" ?></strong></p>
+                <p>Commentaires : <strong id="new-coms-count"><?php echo $new_coms_count ?></strong></p>
             </div>
             <div class="stat">
-                <p>Signalements : <strong id="new-report-count"><?php echo "0" ?></strong></p>
+                <p>Signalements : <strong id="new-report-count"><?php echo $new_report_count ?></strong></p>
             </div>
         </div>
         <hr class="stat_hr">

@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(isset($_SESSION['ban'])){
+    header("Location: ban.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -147,13 +155,11 @@
         document.getElementById('ticket-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Vérification des champs requis
     let form = this;
     let isValid = true;
     
-    // Envoyer le formulaire si tout est valide
     if (isValid) {
-        // Créer un objet avec les données du formulaire
+
         const formData = {
             name: document.getElementById('name').value,
             firstname: document.getElementById('firstname').value,
@@ -178,7 +184,6 @@
                 document.getElementById('success-message').style.display = 'block';
                 form.reset();
                 
-                // Redirection après 3 secondes
                 setTimeout(function() {
                     window.location.href = "https://petisign.cloud";
                 }, 3000);

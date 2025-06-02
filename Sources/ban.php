@@ -72,6 +72,11 @@ include_once 'special_header.php';
         $get_all_website_admin_stmt->execute();
         $all_website_admin = $get_all_website_admin_stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $create_a_request_stmt = $pdo->prepare("INSERT INTO USER_CANDIDATE (id_user, motivation, current_status, candidate_type) VALUES ((SELECT id FROM USER WHERE email = :mail), :motivation, 'En Attente', 2)");
+        $create_a_request_stmt->bindParam(':mail', $confirmed_mail);
+        $create_a_request_stmt->bindParam(':motivation', $mail_message);
+        $create_a_request_stmt->execute();
+
         $mail_sent = new PHPMailer(true);
         
         foreach($all_website_admin as $admin) {
@@ -120,6 +125,16 @@ include_once 'special_header.php';
 
 <link rel="stylesheet" href="css/backoffice_ban_user.css">
 
+<?php
+$check_if_already_submitted_stmt = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE id_user = (SELECT id FROM USER WHERE email = :mail) AND candidate_type = 2 AND current_status = 'En Attente'");
+$check_if_already_submitted_stmt->bindParam(':mail', $_SESSION['mail']);
+$check_if_already_submitted_stmt->execute();
+$check_if_already_submitted = $check_if_already_submitted_stmt->fetchColumn();
+
+// echo "<script>alert('".$check_if_already_submitted."');</script>";
+
+?>
+<?php if($check_if_already_submitted <= 0):?>
 <div class="ban_container">
     <h2>Contactez-nous</h2>
     <form action="ban.php" method="POST">
@@ -129,7 +144,7 @@ include_once 'special_header.php';
                 <label for="mail">Adresse e-mail</label>
             </div>
             <div class="entries">
-                <input name="obj" id="obj" type="text" required placeholder=" " class="form-input">
+                <input name="obj" id="obj" type="text" required placeholder=" " value="Demande de débanissement" class="form-input">
                 <label for="obj">Objet</label>
             </div>
             <div class="area">
@@ -140,6 +155,14 @@ include_once 'special_header.php';
         </div>
     </form>
 </div>
+<?php else: ?>
+<div class="ban_container">
+    <div class="message">
+    <img src="/Resources/img/ui_icons/validate.png" alt="Success Icon" class="success_icon">
+    <p class="header_text">Votre demande a été prise en compte et sera traitée dans les plus brefs délais.</p>
+    </div>
+</div>
+<?php endif; ?>
 
 <?php
 include_once 'footer.php';

@@ -8,6 +8,7 @@ if (!isset($_SESSION['mail'])) {
 }
 
 include_once '../database/database.php';
+include_once 'write_logs.php';
 
 
 $get_id_from_mail_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
@@ -94,8 +95,15 @@ try{
     $create_report_stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     //$create_report_stmt->bindValue(':report_reason', $report_reason, PDO::PARAM_STR);
     $create_report_stmt->execute();
+
+    $user = $pdo->prepare('SELECT username FROM USER WHERE id = :id');
+    $user->bindValue(':id', $user_id, PDO::PARAM_INT);
+    $user->execute();
+    $user = $user->fetchColumn();
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    write_logs('../logs/log.txt', 'N3WR3P', $user, $ip, 'Nouveau signalement');
 } catch (PDOException $e) {
-    // Handle error
     echo "Error: " . $e->getMessage();
     exit();
 }

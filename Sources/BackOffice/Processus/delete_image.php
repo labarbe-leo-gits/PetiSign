@@ -7,6 +7,10 @@ if($id_admin != 0){
 
     $file = filter_input(INPUT_GET, 'image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+    $file_name_without_extension = pathinfo($file, PATHINFO_FILENAME);
+
+    $num = ($file_name_without_extension == 1) ? rand(2, 10) : rand(1, $file_name_without_extension - 1);
+
     $path_to_file = "../../../Resources/img/petition_selection/";
     $full_path = $path_to_file . $file;
     
@@ -43,6 +47,21 @@ if($id_admin != 0){
         
         
         if ($deleted || !file_exists($real_path)) {
+
+            $get_petitions_that_have_this_img = $pdo->prepare("SELECT id FROM PETITION WHERE image_id = :id");
+            $get_petitions_that_have_this_img->bindParam(':id', $file_name_without_extension, PDO::PARAM_INT);
+            $get_petitions_that_have_this_img->execute();
+            $petitions = $get_petitions_that_have_this_img->fetchAll(PDO::FETCH_ASSOC);
+
+            if(count($petitions) > 0){
+                foreach ($petitions as $petition) {
+                    $delete_petition = $pdo->prepare("UPDATE PETITION SET image_id = :img_id WHERE id = :id");
+                    $delete_petition->bindParam(':img_id', $num, PDO::PARAM_INT);
+                    $delete_petition->bindParam(':id', $petition['id'], PDO::PARAM_INT);
+                    $delete_petition->execute();
+                }
+            }
+
             header('Location: /Sources/BackOffice/database_gestion.php?code=DeleteSuccess');
             exit();
         } else {

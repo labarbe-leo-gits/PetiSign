@@ -1,4 +1,4 @@
-
+<?php include_once '../database/database.php' ?>
 <?php
 session_start();
 if(isset($_SESSION['mail'])){
@@ -17,6 +17,15 @@ if(isset($_SESSION['mail'])){
 else{
     header('Location: ../login.php');
 }
+
+$count_notifications_stmt = $pdo->prepare("SELECT COUNT(id) FROM USER_CANDIDATE WHERE current_status = 'En Attente'");
+$count_notifications_stmt->execute();
+$count = $count_notifications_stmt->fetchColumn();
+
+if($count >= 99){
+    $count ='99+';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +66,7 @@ else{
             <div class="item" onclick="window.location.href = 'candidates.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/bell.png" alt="">
                 <div class="space">●</div>
-                <a href="candidates.php" class="navigation_menu_item">Candidatures</a>
+                <a href="candidates.php" class="navigation_menu_item">Notifications &nbsp;<a class="notification_dot">&nbsp;<?=$count?>&nbsp;</a></a>
             </div>
             <div class="item" onclick="window.location.href = 'moderation.php'">
                 <img class="back_office_nav_img" src="../../Resources/img/ui_icons/moderator.png" alt="">
@@ -88,6 +97,5 @@ else{
                 <button class="custom-button" id="exit_btn" onclick="window.location.href = '../index.php'">Retourner sur PétiSign</button>
             </div>
         </div>
-    <?php include_once '../database/database.php' ?>
 
     

@@ -39,7 +39,7 @@ if(isset($_POST['form_submit'])){
 
     if($captcha_answer == htmlspecialchars($_POST['objectif'])){
 
-        $candidate_insertion = $pdo->prepare("INSERT INTO USER_CANDIDATE (id_user, motivation, current_status) VALUES (:id_user, :motivation, 'En Attente')");
+        $candidate_insertion = $pdo->prepare("INSERT INTO USER_CANDIDATE (id_user, motivation, current_status, candidate_type) VALUES (:id_user, :motivation, 'En Attente', 1)");
         $candidate_insertion->bindParam(':id_user', $get_user_id);
         $candidate_insertion->bindParam(':motivation', $filtered_motivation);
         $candidate_insertion->execute();

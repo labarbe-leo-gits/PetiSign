@@ -1,6 +1,7 @@
 <?php
 include_once '../loading.php';
 use PHPMailer\PHPMailer\PHPMailer;
+include_once 'write_logs.php';
 
 try{
 
@@ -114,6 +115,19 @@ try{
             }
 
         }
+
+        $user = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+        $user->bindParam(':id', $user_id);
+        $user->execute();
+        $user = $user->fetchColumn();
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $pet_title = $pdo->prepare("SELECT title FROM PETITION WHERE id = :id");
+        $pet_title->bindParam(':id', $petition_id);
+        $pet_title->execute();
+        $title_pet = $pet_title->fetchColumn();
+
+        write_logs('../logs/log.txt', 'N3WS1N', $user, $ip, 'Pétition signée');
 
         header('Location: ../view_petition.php?id=' . $petition_id);
         exit();

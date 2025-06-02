@@ -9,6 +9,7 @@ if($is_admin != 0){
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
         $id_user = intval($_GET['user_id']);
+        $request_type = filter_input(INPUT_GET, 'request_type', FILTER_VALIDATE_INT);
 
         try {
 
@@ -21,6 +22,14 @@ if($is_admin != 0){
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 
+            if($request_type == 1){
+                $mail_object = "Votre candidature Bénévole PétiSign";
+                $mail_content = "Votre candidature en tant que bénévole a été refusée. Nous vous remercions pour votre intérêt et vous souhaitons le meilleur pour vos projets futurs.";
+            }else if($request_type == 2){
+                $mail_object = "Votre demande de débanissement";
+                $mail_content = "Notre équipe a examiné votre demande de débanissement et a décidé de la refuser. Nous vous remercions pour votre compréhension et vous souhaitons le meilleur pour vos projets futurs.";
+            }
+
             if($status == 'En Attente'){
                 $filtered_mail_stmt = $pdo->prepare("SELECT email, username FROM USER WHERE id = :id");
                 $filtered_mail_stmt->bindParam(':id', $id_user, PDO::PARAM_INT);
@@ -31,7 +40,7 @@ if($is_admin != 0){
                 $filtered_username = filter_var($filtered_mail['username'], FILTER_SANITIZE_STRING);
 
                 $mail_sent = new PHPMailer(true);
-                EnvoieMail($mail_sent, $mail, $filtered_username, "Votre candidature Bénévole PétiSign", "Votre candidature en tant que bénévole a été refusée. Nous vous remercions pour votre intérêt et vous souhaitons le meilleur pour vos projets futurs.");
+                EnvoieMail($mail_sent, $mail, $filtered_username, $mail_object, $mail_content);
             }
 
             header("Location: ../candidates.php");

@@ -335,3 +335,10 @@ body{
 .no_click > #exit_btn{
     cursor: pointer;
 }
+
+.notification_dot {
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 10px;
+}

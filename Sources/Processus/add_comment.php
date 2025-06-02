@@ -11,6 +11,8 @@ if(!isset($_SESSION['mail'])) {
 use PHPMailer\PHPMailer\PHPMailer;
 include_once '../database/database.php';
 include_once '../send_notif.php';
+include_once 'write_logs.php';
+
 try{
     $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
@@ -77,6 +79,14 @@ try{
         echo "Comment added successfully!";
         EnvoieMail($mail_sent, $owner_email, $owner_name, "Nouveau commentaire !", "$username_user a commenté votre pétition : $petition_title \nVous pouvez le consulter ici : http://5.196.4.238/Sources/view_petition.php?id=$petition_id");
     }
+
+    $user = $pdo->prepare("SELECT username FROM USER WHERE id = :user_id");
+    $user->bindParam(':user_id', $user_id);
+    $user->execute();
+    $user = $user->fetchColumn();
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    write_logs('../logs/log.txt', 'N3WC0%', $user, $ip, 'Nouveau commentaire');
     header('Location: ../view_petition.php?id=' . $petition_id);
 
 }catch(PDOException $e){

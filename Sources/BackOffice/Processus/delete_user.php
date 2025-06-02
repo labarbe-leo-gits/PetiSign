@@ -108,6 +108,10 @@ if($is_admin != 0){
             $deleteBansStmt = $pdo->prepare("DELETE FROM BAN WHERE id_user = :id");
             $deleteBansStmt->bindParam(':id', $id, PDO::PARAM_INT);
             $deleteBansStmt->execute();
+
+            $delete_candidate_stmt = $pdo->prepare("DELETE FROM USER_CANDIDATE WHERE id_user = :id");
+            $delete_candidate_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $delete_candidate_stmt->execute();
             
             $deleteUserStmt = $pdo->prepare("DELETE FROM USER WHERE id = :id");
             $deleteUserStmt->bindParam(':id', $id, PDO::PARAM_INT);
