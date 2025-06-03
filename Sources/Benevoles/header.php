@@ -9,6 +9,10 @@ if(isset($_SESSION['mail'])){
 else{
     header('Location: ../login.php');
 }
+
+include_once '../database/database.php';
+include_once '../checker.php';
+
 ?>
 
 <!DOCTYPE html>

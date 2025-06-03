@@ -46,5 +46,18 @@
     margin-top: 20px;
 }
 
+.category-select{
+    text-align: center;
+    margin-top: 20px;
+}
 
-
+.category-select > select {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #1A414E;
+    padding: 5px;
+    background-color: #fcfcfc;
+    font-size: 16px;
+    margin: 0 auto;
+}

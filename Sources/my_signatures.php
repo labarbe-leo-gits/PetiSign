@@ -94,9 +94,9 @@ $card_num = 0;
                 </div>
                 <div class="content">
                 <p>
-                    <h2 class="title">' . $petition . '</h2>
+                    <h2 class="title">' . html_entity_decode($petition) . '</h2>
                     <hr class="pet_sep">
-                    <p class="description">' . $description . '</p>
+                    <p class="description">' . html_entity_decode($description) . '</p>
                 </div>
                 <div class="footer">
                     <p class="sign">'. $sign_count .' / ' . $sign_goal . ' Signatures</p>

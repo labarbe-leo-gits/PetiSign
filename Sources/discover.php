@@ -123,7 +123,7 @@ foreach ($categories as $category) {
         if ($number_of_pet_in_category >= 5) {
             echo '
                 <div class="header_right">
-                    <a href="">Tout Afficher</a>
+                    <a href="search.php?category_id='. $category_id .'">Tout Afficher</a>
                 </div>';
         }
 
@@ -131,7 +131,7 @@ foreach ($categories as $category) {
             </div>
             <div class="scrollable">';
 
-        $petitions_stmt = $pdo->prepare("SELECT * FROM PETITION WHERE category = :category LIMIT :limit");
+        $petitions_stmt = $pdo->prepare("SELECT * FROM PETITION WHERE category = :category ORDER BY date DESC LIMIT :limit");
         $petitions_stmt->bindParam(':category', $category_id, PDO::PARAM_INT);
         $petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);
         $petitions_stmt->execute();

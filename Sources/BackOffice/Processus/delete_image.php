@@ -11,6 +11,13 @@ if($id_admin != 0){
 
     $num = ($file_name_without_extension == 1) ? rand(2, 10) : rand(1, $file_name_without_extension - 1);
 
+    $exists = file_exists("../../../Resources/img/petition_selection/" . $num . ".jpg");
+
+    while(!$exists){
+        $num = ($file_name_without_extension == 1) ? rand(2, 10) : rand(1, $file_name_without_extension - 1);
+        $exists = file_exists("../../../Resources/img/petition_selection/" . $num . ".jpg");
+    }
+
     $path_to_file = "../../../Resources/img/petition_selection/";
     $full_path = $path_to_file . $file;
     

@@ -70,7 +70,7 @@ if ($team['leader'] == $user_id) {
             <a href="modify_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/crayon.png" alt="leader" class="btn_img">&nbsp;&nbsp;Modifier l\'équipe</a>
         </div>
         <div class="btn">
-            <a href="delete_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img">&nbsp;&nbsp;Supprimer l\'équipe</a>
+            <a href="Processus/delete_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img">&nbsp;&nbsp;Supprimer l\'équipe</a>
         </div>
         ';
     } else {

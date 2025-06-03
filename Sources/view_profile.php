@@ -137,6 +137,30 @@ if(isset($_SESSION['mail'])){
         <img src="../Resources/avatar/eyes/eye<?=$avatar_eyes?>c<?=$avatar_eyes_color?>.png" class="eyes" alt="Eyes" id="eyes">
         <img src="../Resources/avatar/mouth/smile<?=$avatar_mouth?>c<?=$avatar_mouth_color?>.png" class="mouth" alt="Mouth" id="mouth">
     </div>
+
+    <?php
+        $check_if_current_user_already_reported_target = $pdo->prepare("SELECT COUNT(*) FROM REPORT WHERE id_target = :id_target AND id_user = :id_user AND report_type = 1");
+        $check_if_current_user_already_reported_target->bindParam(':id_target', $_GET['id'], PDO::PARAM_INT);
+        $check_if_current_user_already_reported_target->bindParam(':id_user', $user_id, PDO::PARAM_INT);
+        $check_if_current_user_already_reported_target->execute();
+        $already_reported = $check_if_current_user_already_reported_target->fetchColumn();
+
+        if($already_reported <= 0){
+            echo "
+            <div class='report'>
+                <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+            </div>
+            ";
+        }else{
+            echo "
+            <div class='report disabled_report'>
+                <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+            </div>
+            ";
+        }
+
+    ?>
+
 </div>
 
 <div class="user_public_information">

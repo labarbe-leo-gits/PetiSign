@@ -61,9 +61,9 @@ $card_num = 0;
                 <p class="category" onclick="window.location.href=\'search.php?category_id='. $petition['category'] .'\'">' . $category_name . '</p>
             </div>
             <div class="content">
-                <h2 class="title">' . $petition['title'] . '</h2>
+                <h2 class="title">' . html_entity_decode($petition['title']) . '</h2>
                 <hr class="pet_sep">
-                <p class="description">' . $petition['description'] . '</p>
+                <p class="description">' . html_entity_decode($petition['description']) . '</p>
             </div>
             <div class="footer">
                 <p class="sign">'. $petition['signature_count'] .' / ' . $petition['signature_goal'] . ' Signatures</p>
