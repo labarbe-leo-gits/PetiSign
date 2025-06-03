@@ -74,9 +74,7 @@ if(isset($_SESSION['ban'])){
             if($is_admin != null){
                 echo '<div class="menu_item"><a href="BackOffice">Back Office</a></div>';
             }
-            if($is_benevole != null){
-                echo '<div class="menu_item"><a href="Benevoles">Espace Bénévoles</a></div>';
-            }
+            echo '<div class="menu_item"><a href="Benevoles">Espace Bénévoles</a></div>';
             ?>
             <div class="menu_item"><a href="discover.php">Découvrir PétiSign</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>">Mes Signatures</a></div>

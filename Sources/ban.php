@@ -68,7 +68,7 @@ include_once 'special_header.php';
         $mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
         $confirmed_mail = filter_var($mail, FILTER_VALIDATE_EMAIL);
 
-        $get_all_website_admin_stmt = $pdo->prepare("SELECT username, email FROM USER WHERE is_admin = 1");
+        $get_all_website_admin_stmt = $pdo->prepare("SELECT username, email FROM USER WHERE is_admin = 1 AND mail_notification = 1");
         $get_all_website_admin_stmt->execute();
         $all_website_admin = $get_all_website_admin_stmt->fetchAll(PDO::FETCH_ASSOC);
 

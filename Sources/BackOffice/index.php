@@ -33,11 +33,6 @@ try{
             <h4>Nombre de pétitions :</h4>
             <p><?=$petitions?></p>
         </div>
-        <div class="stat">
-            <h4>Somme total des dons récoltés :</h4>
-            <p>0</p>
-            <p>€</p>
-        </div>
     </div>
 </div>
 </div>

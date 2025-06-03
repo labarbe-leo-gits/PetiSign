@@ -14,6 +14,39 @@ if($is_admin != 0){
         $newmail = filter_input(INPUT_POST, 'emailaddress', FILTER_SANITIZE_EMAIL);
         $newmail = filter_var($newmail, FILTER_VALIDATE_EMAIL);
 
+        $get_username_before = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+        $get_username_before->bindParam(':id', $id, PDO::PARAM_INT);
+        $get_username_before->execute();
+        $username_before = $get_username_before->fetchColumn();
+
+        if ($username_before != $username) {
+            $check_if_username_exists = $pdo->prepare("SELECT COUNT(id) FROM USER WHERE username = :username");
+            $check_if_username_exists->bindParam(':username', $username);
+            $check_if_username_exists->execute();
+            $username_exists = $check_if_username_exists->fetchColumn();
+
+            if ($username_exists > 0) {
+                header("Location: ../modify_user_form.php?id=$id&error=username_exists");
+                exit();
+            }
+        }
+
+        $get_mail_before = $pdo->prepare("SELECT email FROM USER WHERE id = :id");
+        $get_mail_before->bindParam(':id', $id, PDO::PARAM_INT);
+        $get_mail_before->execute();
+        $mail_before = $get_mail_before->fetchColumn();
+
+        if($mail_before != $newmail){
+            $check_if_mail_exists = $pdo->prepare("SELECT COUNT(id) FROM USER WHERE email = :email");   
+            $check_if_mail_exists->bindParam(':email', $newmail);
+            $check_if_mail_exists->execute();
+            $mail_exists = $check_if_mail_exists->fetchColumn();
+            if ($mail_exists > 0) {
+                header("Location: ../modify_user_form.php?id=$id&error=mail_exists");
+                exit();
+            }
+        }
+
         if ($new_pswd != "" or $new_pswd != null) {
             $new_pswd = password_hash($new_pswd, PASSWORD_DEFAULT);
             try {

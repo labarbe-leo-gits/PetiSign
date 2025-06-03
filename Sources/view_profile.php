@@ -155,7 +155,6 @@ if(isset($_SESSION['mail'])){
         <div class="stat_container">
     <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
     <p class="stat_value_container"><?=$number_of_signature?> Signatures</p>
-    <p class="stat_value_container">X € De dons</p>
 </div>
 <div class="description">
         <div class="desc_header">
