@@ -59,10 +59,19 @@ $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
 $captcha = $stmt->fetch();
 
-if($captcha['answer'] != $answer){
+$lowercase_form_answer = strtolower($answer);
+$lowercase_captcha_answer = strtolower($captcha['answer']);
+
+if($lowercase_form_answer != $lowercase_captcha_answer){
     header('Location: register.php?error=Captcha&referer=mail_verification');
     exit();
 }
+
+/* if($captcha['answer'] != $answer){
+    header('Location: register.php?error=Captcha&referer=mail_verification');
+    exit();
+}
+ */
 
 use PHPMailer\PHPMailer\PHPMailer;
 require_once 'SendMailFunction.php';

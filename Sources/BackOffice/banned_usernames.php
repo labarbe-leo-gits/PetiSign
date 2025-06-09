@@ -30,6 +30,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!in_array($username, $banned)){
             $banned[] = $username;
             saveToFile($banned);
+
+            $check_if_a_user_have_this_username = $pdo->prepare("SELECT id FROM USER WHERE username = :usrname");
+            $check_if_a_user_have_this_username->bindParam(':usrname', $username);
+            $check_if_a_user_have_this_username->execute();
+            $existing_user = $check_if_a_user_have_this_username->fetchColumn();
+
+            if($existing_user){
+                $rename_said_user = $pdo->prepare("UPDATE USER SET username = CONCAT(username, '__banned_username') WHERE id = :id");
+                $rename_said_user->bindParam(':id', $existing_user);
+                $rename_said_user->execute();
+            }
+
             echo "<script>alert('Ajout réussi');</script>";
         } else {
             echo "<script>alert('Username already exists!');</script>";
@@ -66,7 +78,7 @@ $banned = getBannedUsernames();
             <div class="entries">
                 <input type="text" id="new_username" name="new_username" required placeholder="">
                 <label for="new_username">Nom d'utilisateur</label>
-                <button type="submit" name="add_username" class="custom-button smaller">Ajouter</button>
+                <button type="submit" name="add_username" class="custom-button smaller add_btn"><img src="/Resources/img/ui_icons/plus.png" alt=""></button>
             </div>
         </form>
         <div class="current">

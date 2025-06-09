@@ -37,7 +37,10 @@ if(isset($_POST['form_submit'])){
     $get_captcha_answer_from_id->execute();
     $captcha_answer = $get_captcha_answer_from_id->fetchColumn();
 
-    if($captcha_answer == htmlspecialchars($_POST['objectif'])){
+    $lowercase_captcha_answer = strtolower($captcha_answer);
+    $lowercase_objectif = strtolower(htmlspecialchars($_POST['objectif']));
+
+    if(/* $captcha_answer == htmlspecialchars($_POST['objectif']) */  $lowercase_captcha_answer == $lowercase_objectif){
 
         $candidate_insertion = $pdo->prepare("INSERT INTO USER_CANDIDATE (id_user, motivation, current_status, candidate_type) VALUES (:id_user, :motivation, 'En Attente', 1)");
         $candidate_insertion->bindParam(':id_user', $get_user_id);

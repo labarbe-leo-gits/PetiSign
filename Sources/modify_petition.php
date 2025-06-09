@@ -48,7 +48,7 @@ if($petition_info){
     <hr>
     <form method="post" action="Processus/update_petition.php">
         
-        <div class="entries">
+        <div class="entries_modify">
             <div class="entries">
                 <input name="name" id="name" type="text" required placeholder=" " value="<?php echo $petition_title ?>" maxlength=60 onkeyup="count('name_counter',this,60)">
                 <label for="name">Nom de la Pétition</label>
@@ -57,7 +57,7 @@ if($petition_info){
                 <p>Limite de caractères : 0 / 60</p>
             </div>
             <div class="space"></div>
-            <div class="entries">
+            <div class="entries_modify">
                 <div class="area">
                     <textarea required name="description" id="description" maxlength=800 onkeyup="count('desc_counter',this,800)"><?php echo $petition_description ?></textarea>
                     <label for="description" class="textarea_label">Description de la Pétition</label>

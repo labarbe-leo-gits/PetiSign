@@ -72,3 +72,11 @@ tbody > tr:first-child {
     padding: 0px 20px;
 }
 
+.add_btn > img{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+    filter: invert(98%) sepia(100%) saturate(0%) hue-rotate(338deg) brightness(104%) contrast(103%);
+}
+

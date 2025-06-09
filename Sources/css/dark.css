@@ -37,19 +37,30 @@ body.dark-mode {
     color: var(--text-color);
     transition: var(--transition);
   }
-  body.dark-mode ::selection {
-    background-color: var(--bg-secondary);
+  body.dark-mode ::selection,
+  body.dark-mode .page_container,
+  body.dark-mode .sidebar-header {
+    background-color: var(--dark);
     color: var(--text-color);
 }
 
  body.dark-mode .links > a,
- body.dark-mode .grid > .signatures_container > .objectif {
+ body.dark-mode .grid > .signatures_container > .objectif,
+ body.dark-mode .grid > .petition_information > .entries_modify{
     color: var(--text-color);
   }
 
   body.dark-mode .dark {
     display: block !important;
   }
+  body.dark-mode .entries_modify textarea {
+    background-color: var(--bg-button);
+    color: var(--text-color);
+    border: 1px solid var(--bg-secondary);
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
 
   body.dark-mode #updates,
   body.dark-mode .targetElement,
@@ -284,7 +295,13 @@ body.dark-mode label[for="gender"]{
     color: var(--text-color);
     transition: all 0.3s ease;
 }
-
+body.dark-mode .action_btn_viewpetition > .action_btn {
+    background-color: transparent;
+    transition: var(--transition);
+}
+body.dark-mode .entries:has(#message) {
+    background-color: transparent !important;
+}
 }
 
 @media only screen and (min-width: 0rem) {

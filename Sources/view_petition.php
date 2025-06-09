@@ -209,9 +209,10 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             <p class="creation_date">Publiée le <?=$pet_date?></p>
         </div>
     </div>
-
+    <div class="action_btn_viewpetition">
     <div class="action_btn">
         <button class="custom-button" onclick="window.history.back()" id="back">Revenir en arrière</button>
+    </div>
     </div>
 </div>
 
