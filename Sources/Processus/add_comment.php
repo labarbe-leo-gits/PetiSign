@@ -77,7 +77,7 @@ try{
         $mail_sent = new PHPMailer(true);
 
         echo "Comment added successfully!";
-        EnvoieMail($mail_sent, $owner_email, $owner_name, "Nouveau commentaire !", "$username_user a commenté votre pétition : $petition_title \nVous pouvez le consulter ici : http://5.196.4.238/Sources/view_petition.php?id=$petition_id");
+        EnvoieMail($mail_sent, $owner_email, $owner_name, "Nouveau commentaire !", "$username_user a commenté votre pétition : $petition_title \nVous pouvez le consulter ici : https://petisign.cloud/Sources/view_petition.php?id=$petition_id");
     }
 
     $user = $pdo->prepare("SELECT username FROM USER WHERE id = :user_id");
@@ -86,7 +86,7 @@ try{
     $user = $user->fetchColumn();
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    write_logs('../logs/log.txt', 'N3WC0%', $user, $ip, 'Nouveau commentaire');
+    write_logs('../logs/log.txt', 'N3WC0M', $user, $ip, 'Nouveau commentaire');
     header('Location: ../view_petition.php?id=' . $petition_id);
 
 }catch(PDOException $e){

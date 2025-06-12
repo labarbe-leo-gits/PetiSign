@@ -20,13 +20,13 @@ if(isset($_SESSION['ban'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FED78B">
     <meta name="description" content="PétiSign est une plateforme de pétitions en ligne.">
-    <title>PétiSign</title>
+    <title>PétiSign - Plateforme de pétitions en ligne</title>
     <link rel="shortcut icon" href="../Resources/img/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dark.css">
@@ -34,6 +34,21 @@ if(isset($_SESSION['ban'])){
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    
+    <meta name="description" content="Créez un compte ou connectez-vous à PétiSign. Changez le monde de demain.">
+    <meta name="keywords" content="pétition, petition online, plateforme pétition, PétiSign, causes, mobilisation">
+    <link rel="canonical" href="https://www.petisign.cloud">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+    <meta property="og:title" content="PétiSign - Une plateforme de pétition en ligne">
+    <meta property="og:description" content="Créez un compte ou connectez-vous à PétiSign. Changez le monde de demain.">
+    <meta property="og:image" content="https://www.petisign.cloud/Resources/img/logo/logocompletsf.png">
+    <meta property="og:site_name" content="PétiSign">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.petisign.cloud">
+    <meta property="og:title" content="PétiSign - Une plateforme de pétition en ligne">
+    <meta property="og:description" content="Créez un compte ou connectez-vous à PétiSign. Changez le monde de demain.">
 </head>
 <body>
     <script src="js/menu.js"></script>
@@ -55,7 +70,14 @@ if(isset($_SESSION['ban'])){
             ">Espace Bénévoles</a>';
             echo '<p class="dot navcontent">&#x25CF;</p>';
             ?>
-            <a href="discover.php" class="navcontent">Découvrir PétiSign</a>
+            <div class="dropdown">
+                <a href="discover.php" class="navcontent dropdown-toggle">Découvrir PétiSign</a>
+                <div class="dropdown-menu">
+                    <a href="discover.php" class="dropdown-item">Explorer les pétitions</a>
+                    <hr class="dropdown-divider">
+                    <a href="download.php" class="dropdown-item">Obtenir l'application mobile</a>
+                </div>
+            </div>
             <p class="dot navcontent">&#x25CF;</p>
             <a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>" class="navcontent">Mes Signatures</a>
             <p class="dot navcontent">&#x25CF;</p>

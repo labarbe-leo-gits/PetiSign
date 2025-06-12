@@ -40,7 +40,7 @@ if(isset($_POST['form_submit'])){
     $lowercase_captcha_answer = strtolower($captcha_answer);
     $lowercase_objectif = strtolower(htmlspecialchars($_POST['objectif']));
 
-    if(/* $captcha_answer == htmlspecialchars($_POST['objectif']) */  $lowercase_captcha_answer == $lowercase_objectif){
+    if($lowercase_captcha_answer == $lowercase_objectif){
 
         $candidate_insertion = $pdo->prepare("INSERT INTO USER_CANDIDATE (id_user, motivation, current_status, candidate_type) VALUES (:id_user, :motivation, 'En Attente', 1)");
         $candidate_insertion->bindParam(':id_user', $get_user_id);
@@ -105,7 +105,7 @@ if(isset($_POST['form_submit'])){
                         <h2>'. $team['name'] .'</h2>
                         <p class="name">Gérée par <a target="_blank" href="/Sources/view_profile.php?id='. $team['leader'] .'" class="link_to_profile">'. $team['leader_username'] .'</a></p>
                         <hr>
-                        <p>'. $team['description'] .'</p>
+                        <p>'. nl2br(htmlspecialchars($team['description'])) .'</p>
                         <hr>
                         <button type="button" onclick="window.location.href=\'team.php?id='. $team['id'] .'\';" class="custom-button select_team"><img src="/Resources/img/ui_icons/greater.png" alt="">&nbsp;Go !</button>
                     </div>
@@ -135,7 +135,7 @@ if(isset($_POST['form_submit'])){
                         <h2>'. $team['name'] .'</h2>
                         <p class="name">Gérée par <a target="_blank" href="/Sources/view_profile.php?id='. $team['leader'] .'" class="link_to_profile">'. $team['leader_username'] .'</a></p>
                         <hr>
-                        <p>'. $team['description'] .'</p>
+                        <p>'. nl2br(htmlspecialchars($team['description'])) .'</p>
                         <hr>
                         <button type="button" onclick="window.location.href=\'/Sources/Processus/create_chat_feed.php?create_direct_feed=true&target_user_id='.$team['leader'].'\';" class="custom-button select_team"><img src="/Resources/img/ui_icons/greater.png" alt="">&nbsp;Contacter le gérant</button>
                     </div>

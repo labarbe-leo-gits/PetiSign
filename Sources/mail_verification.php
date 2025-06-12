@@ -1,4 +1,10 @@
 <?php
+
+/* //php debug lines
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL); */
+
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -10,10 +16,10 @@ include_once 'header.php';
 include_once 'database/database.php';
 
 $mail = htmlspecialchars(filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL));
-$username = htmlspecialchars(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
-$password = htmlspecialchars(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING));
-$confpassword = htmlspecialchars(filter_input(INPUT_POST, 'confpassword', FILTER_SANITIZE_STRING));
-$answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_STRING));
+$username = htmlspecialchars(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+$password = htmlspecialchars(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+$confpassword = htmlspecialchars(filter_input(INPUT_POST, 'confpassword', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+$answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
 $bday = new dateTime($_POST['anniv']);
 $date= $bday->format('Y-m-d');
@@ -32,10 +38,15 @@ if (isset($data['banned_usernames'])) {
     if (in_array($username, $banned_usernames)) {
         header('Location: register.php?error=BannedUsername&referer=mail_verification');
         exit;
-    }
-    
-}
+    }    
 
+    foreach ($banned_usernames as $banned_username) {
+        if (str_contains($username, $banned_username)) {
+            header('Location: register.php?error=BannedUsername&referer=mail_verification');
+            exit;
+        }
+    }
+}
 
 if (empty($mail) || empty($username) || empty($password) || empty($confpassword) || empty($answer) || empty($id) || empty($bday)) {
     header('Location: register.php?error=EmptyFields&referer=mail_verification');

@@ -266,3 +266,7 @@ h1 {
     color: white;
     text-align: center;
 }
+
+.ban_reason_container{
+    margin-right: 20px;
+}

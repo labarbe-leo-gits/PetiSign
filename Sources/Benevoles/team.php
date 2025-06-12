@@ -59,7 +59,7 @@ if ($team['leader'] == $user_id) {
 
 <div class="team_header">
     <h1><?=$team['name']?></h1>
-    <p><?=$team['description']?></p>
+    <p><?=nl2br(htmlspecialchars($team['description']))?></p>
     <hr class="line_header">
     <div class="btn_container">
     <?php
@@ -135,7 +135,7 @@ if ($team['leader'] == $user_id) {
             if ($next_activity) {
                 $formatted_date = date('d/m/Y', strtotime($next_activity['event_date']));
                 $next_activity['event_date'] = $formatted_date;
-                echo '<div class="event_container">';
+                echo '<div class="event_container"  onclick="window.location.href=\'view_activity.php?id='.$next_activity['id'].'\'">';
                 echo '<p>'.$next_activity['name'].' &#x25CF; '.$next_activity['event_date'].' &#x25CF; <a href="view_activity.php?id='.$next_activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/eye.png" alt=""></a>';
                 if($user_id == $next_activity['id_user'] || $user_id == $team['leader']) {
                     echo ' &#x25CF; <a href="Processus/delete_activity.php?id='.$next_activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/trash.png" alt=""></a>';
@@ -181,7 +181,7 @@ if ($team['leader'] == $user_id) {
             foreach ($activities as $activity) {
                 $formatted_date = date('d/m/Y', strtotime($activity['event_date']));
                 $activity['event_date'] = $formatted_date;
-                echo '<div class="event_container">';
+                echo '<div class="event_container" onclick="window.location.href=\'view_activity.php?id='.$activity['id'].'\'">';
                 echo '<p>'.$activity['name'].' &#x25CF; '.$activity['event_date'].' &#x25CF; <a href="view_activity.php?id='.$activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/eye.png" alt=""></a>';
                 if($user_id == $activity['id_user'] || $user_id == $team['leader']) {
                     echo ' &#x25CF; <a href="Processus/delete_activity.php?id='.$activity['id'].'" class="quick_action"><img src="/Resources/img/ui_icons/trash.png" alt=""></a>';

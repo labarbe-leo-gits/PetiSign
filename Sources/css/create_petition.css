@@ -262,3 +262,11 @@ input:not(:placeholder-shown) + label {
         font-size: 11px;
     }
 }
+
+.right_panel > .captcha_form > .login > .entries > .entries_modify > .area > .txt_bis{
+    position: absolute;
+    top: 0;
+    color : black;
+    margin-top: 145px;
+    width: fit-content;
+}

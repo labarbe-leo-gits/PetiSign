@@ -155,16 +155,19 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             $check_if_already_reported_stmt->execute();
             $already_reported = $check_if_already_reported_stmt->fetchColumn();
 
-            if($already_reported == 0){
-                echo '<a href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
-                <img src="../Resources/img/ui_icons/red-flag.png" alt="">
-                &nbsp;Signaler un abus
-            </a>';
-            }else{
-                echo '<p class="quick disabled">
-                <img src="../Resources/img/ui_icons/red-flag.png" alt="">
-                &nbsp;Signalement déjà effectué
-            </p>';
+            if($get_user_id != $pet_author_id){
+
+                if($already_reported == 0){
+                    echo '<a href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                    &nbsp;Signaler un abus
+                </a>';
+                }else{
+                    echo '<p class="quick disabled">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                    &nbsp;Signalement déjà effectué
+                </p>';
+                }
             }
 
             ?>
@@ -318,12 +321,14 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         <img src="../Resources/img/ui_icons/trash.png" alt=""></a>';
                     }
 
-                    echo '
+                    if($comment['id_user'] != $get_user_id){
+                        echo '
                     <a href="Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
                     <img src="../Resources/img/ui_icons/red-flag.png" alt=""></a>';
+                    }
 
                     echo '</p>
-                    <div class="comment_text">'.$comment['content'].'</div>
+                    <div class="comment_text">'.html_entity_decode(nl2br(htmlspecialchars($comment['content']))).'</div>
                 </div>
             </div>';
     }

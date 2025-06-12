@@ -37,6 +37,7 @@ $team_infos = $team_infos->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
+<link rel="stylesheet" href="../css/create_petition.css">
 <link rel="stylesheet" href="../css/backoffice_addcaptcha.css">
 <link rel="stylesheet" href="../css/backoffice_addteam.css">
 <link rel="stylesheet" href="../css/benevoles_team.css">
@@ -56,6 +57,16 @@ $team_infos = $team_infos->fetch(PDO::FETCH_ASSOC);
                     <input name="sector" id="sector" type="text" value="<?=$team_infos['sector']?>" placeholder=" ">
                     <label for="sector">Secteur</label>
                 </div>
+                <div class="space"></div>
+                <div class="entries_modify">
+                <div class="area">
+                    <textarea name="description" id="description" maxlength=300 onkeyup="count('desc_counter',this,300)"><?php echo $team_infos['description'] ?></textarea>
+                    <label for="description" class="textarea_label txt_bis">Description de l'équipe</label>
+                </div>
+                <div class="limit positioned" id="desc_counter">
+                    <p>Limite de caractères : 0 / 300</p>
+                </div>
+            </div>
                 <div class="space"></div>
                 <h2>Membres de l'équipe</h2>
                 <div class="entries benevoles_selector">
@@ -88,6 +99,16 @@ $team_infos = $team_infos->fetch(PDO::FETCH_ASSOC);
     </div>
 </div>
 </div>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    count('desc_counter', document.getElementById('description'), 300);
+  });
+
+</script>
+
+<script src="../js/count_characters.js"></script>
 
 <script src="../js/team_updater.js"></script>
 

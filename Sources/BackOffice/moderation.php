@@ -2,6 +2,16 @@
 include_once "header.php";
 include_once "../database/database.php";
 include_once '../checker.php';
+
+$env_file = 'Processus/key.env';
+// read env file with parse_ini_file
+if (file_exists($env_file)) {
+    $env = parse_ini_file($env_file);
+} else {
+    die("Error: .env file not found.");
+}
+$admin_key = $env['CrontabKey'] ?? null;
+
  ?>
 
 <link rel="stylesheet" href="../css/backoffice_tablepages.css">
@@ -11,7 +21,8 @@ include_once '../checker.php';
         <h2 class="highlighted-text" id="page_title">Signalements</h2>
     </div>
     <div class="database_actions_container">
-        <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
+        <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page">&nbsp;Actualiser</a>
+        <a class="captcha_database_action" href="Processus/delete_all_checked.php"><img src="../../Resources/img/ui_icons/trash.png" alt="Actualiser la page">&nbsp;Effacer les signalements traités</a>
     </div>
     <div class="tableau">
         <table>
@@ -57,6 +68,11 @@ include_once '../checker.php';
                         $target_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
                         $target_stmt->execute();
                         $target = $target_stmt->fetchColumn();
+                        $check_id_user_is_banned_already = $pdo->prepare("SELECT COUNT(id) FROM BAN WHERE id_user = :id_user");
+                        $check_id_user_is_banned_already->bindParam(':id_user', $target_id, PDO::PARAM_INT);
+                        $check_id_user_is_banned_already->execute();
+                        $is_banned = $check_id_user_is_banned_already->fetchColumn();
+
                     } elseif($new['report_type'] == 2){
                         $target_stmt = $pdo->prepare("SELECT title FROM PETITION WHERE id = :id_target");
                         $target_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
@@ -71,12 +87,27 @@ include_once '../checker.php';
                         $target_stmt = null;
                     }
 
+                    if($target == null){
+                        $target = "Cible supprimée";
+                        $update_report_status = $pdo->prepare("UPDATE REPORT SET current_status = 'CLOSED' WHERE id = :id_report");
+                        $update_report_status->bindParam(':id_report', $new['id'], PDO::PARAM_INT);
+                        $update_report_status->execute();
+                    }
+
                     $go_to_target_link = "";
+                    $action_link = "";
+                    $target_title = "";
                     if($new['report_type'] == 1){
                         $go_to_target_link = "view_profile.php?id=" . $target_id;
+                        $action_link = "Processus/ban.php?user_id=" . $target_id . "&admin_key=" . $admin_key . "&report_id=" . $new['id'];
+                        $target_title = "Bannir l'utilisateur";
                     } elseif($new['report_type'] == 2){
                         $go_to_target_link = "view_petition.php?id=" . $target_id;
+                        $action_link = "../Processus/delete_petition.php?id=" . $target_id;
+                        $target_title = "Supprimer la pétition";
                     }elseif($new['report_type'] == 3){
+
+                        $action_link = "../Processus/delete_com.php?id=" . $target_id;
 
                         $target_type_stmt = $pdo->prepare("SELECT target_type FROM COMMENT WHERE id = :id_target");
                         $target_type_stmt->bindParam(':id_target', $target_id, PDO::PARAM_INT);
@@ -109,7 +140,12 @@ include_once '../checker.php';
                         echo "<a href='/Sources/". $go_to_target_link ."' class='action' target='blank_'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
                         echo "<a href='' class='void'>&nbsp;</a>";
                     }
-                    echo "<a href='Processus/delete_report.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";  
+                    echo "<a href='Processus/delete_report.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>"; 
+                    
+                    if($new['current_status'] == 'OPEN' && ($target != "Cible supprimée") && ($is_banned <= 0)){
+                        echo "<a href='' class='void'>&nbsp;</a>";
+                        echo "<a href='" . $action_link . "' class='action' title='". $target_title ."'><img src='../../Resources/img/ui_icons/targets.png' alt='Delete'></a>";  
+                    }
                     echo "</td>";
                     echo "</tr>";
                 }

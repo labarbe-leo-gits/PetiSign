@@ -21,6 +21,10 @@ ErrorDocument 403 /Sources/error.php?code=403
     Deny from all
     ErrorDocument 403 /Sources/error.php?code=403
 </FilesMatch>
+<Files "robots.txt">
+    Order Allow,Deny
+    Allow from all
+</Files>
 <Files "header.php">
   Order Allow,Deny
   Deny from all

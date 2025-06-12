@@ -12,6 +12,7 @@ if ($id_benevole != 0) {
             $sector = filter_input(INPUT_POST, 'sector', FILTER_SANITIZE_STRING);
             $selectedBenevoles = filter_input(INPUT_POST, 'selected_benevoles', FILTER_SANITIZE_STRING);
             $team_id = filter_input(INPUT_POST, 'team_id', FILTER_SANITIZE_NUMBER_INT);
+            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 
             $all_bases_benevoles = $pdo->prepare("SELECT id_user FROM TEAM_MEMBER WHERE id_team = :id_team");
             $all_bases_benevoles->bindParam(':id_team', $team_id);
@@ -38,6 +39,18 @@ if ($id_benevole != 0) {
             if($sector != $base_infos['sector']) {
                 $update_team = $pdo->prepare("UPDATE TEAM SET sector = :sector WHERE id = :id_team");
                 $update_team->bindParam(':sector', $sector);
+                $update_team->bindParam(':id_team', $team_id);
+                $update_team->execute();
+            }
+
+            if($description != $base_infos['description']) {
+
+                if(empty($description)) {
+                    $description = "Aucune description disponible";
+                }
+
+                $update_team = $pdo->prepare("UPDATE TEAM SET description = :description WHERE id = :id_team");
+                $update_team->bindParam(':description', $description);
                 $update_team->bindParam(':id_team', $team_id);
                 $update_team->execute();
             }

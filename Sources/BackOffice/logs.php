@@ -36,6 +36,7 @@ include_once '../checker.php';
     $mysign_count = 0;
     $mypet_count = 0;
     $msg_count = 0;
+    $dl_count = 0;
     $index_count = 0;
 
     function countKeywordOccurrences($logLines, $keyword) {
@@ -74,12 +75,14 @@ include_once '../checker.php';
         $new_sign_count = countKeywordOccurrences($logLines, 'N3WS1N');
         $new_report_count = countKeywordOccurrences($logLines, 'N3WREP');
         $new_coms_count = countKeywordOccurrences($logLines, 'N3WC0M');
+        $new_report_count = countKeywordOccurrences($logLines, 'N3WR3P');
         $discover_count = countUniqueIPs($logLines, 'D1SC0V', $uniqueIPs);
         $profile_count = countUniqueIPs($logLines, 'PROF1L', $uniqueIPs);
         $mysign_count = countUniqueIPs($logLines, 'MYS1GN', $uniqueIPs);
         $mypet_count = countUniqueIPs($logLines, 'MYP3TS', $uniqueIPs);
         $msg_count = countUniqueIPs($logLines, 'MSG1NG', $uniqueIPs);
         $index_count = countUniqueIPs($logLines, 'AC3UIL', $uniqueIPs);
+        $dl_count = countUniqueIPs($logLines, 'D0WNLD', $uniqueIPs);
     }
     ?>
     <div class="stat_container">
@@ -124,6 +127,9 @@ include_once '../checker.php';
             </div>
             <div class="stat">
                 <p>'Messagerie' : <strong id="msg-count"><?php echo $msg_count; ?></strong></p>
+            </div>
+            <div class="stat">
+                <p>'Téléchargement' : <strong id="dl_count"><?php echo $dl_count; ?></strong></p>
             </div>
         </div>
     </div>

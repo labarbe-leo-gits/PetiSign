@@ -23,6 +23,18 @@ $get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
 $get_user_id_stmt->execute();
 $get_user_id = $get_user_id_stmt->fetchColumn();
 
+$get_activity_event_date = $pdo->prepare("SELECT event_date FROM TEAM_ACTIVITY WHERE id = :id");
+$get_activity_event_date->bindParam(':id', $_GET['id']);
+$get_activity_event_date->execute();
+$activity_event_date = $get_activity_event_date->fetchColumn();
+
+$today = date('Y-m-d');
+
+$activity_owner = $pdo->prepare("SELECT id_user FROM TEAM_ACTIVITY WHERE id = :id");
+$activity_owner->bindParam(':id', $_GET['id']);
+$activity_owner->execute();
+$activity_owner_id = $activity_owner->fetchColumn();
+
 ?>
 
 <link rel="stylesheet" href="../css/view_petition.css">
@@ -62,12 +74,21 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
 
             echo '<div class="void">&nbsp;</div>';
 
-            if($already_subscribed == 0){
+            if($activity_event_date > $today){
+                if($already_subscribed == 0) {
                 echo '<a href="Processus/inscription_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;S\'inscrire</a>';
             } else {
                 echo '<a href="Processus/unsubscribe_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Se désinscrire</a>';
             }
+            } else {
+                echo '<a class="quick disabled_action" title="L\'activité est passée ou a lieu aujourd\'hui."><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Inscription Impossible</a>';
+            }
 
+        }
+
+        if($get_user_id == $activity_owner_id || $is_admin == 1){
+            echo '<div class="void">&nbsp;</div>';
+            echo '<a href="Processus/delete_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img">&nbsp;&nbsp;Supprimer</a>';
         }
 
         $utilisateur_inscrit = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id AND id_user = :user_id");
@@ -281,7 +302,7 @@ $get_user_id = $get_user_id_stmt->fetchColumn();
                     }
 
                     echo '</p>
-                    <div class="comment_text">'.$comment['content'].'</div>
+                    <div class="comment_text">'. html_entity_decode(nl2br(htmlspecialchars($comment['content']))).'</div>
                 </div>
             </div>';
     }

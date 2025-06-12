@@ -109,5 +109,7 @@ try{
 }
 
 echo "success";
+header('Location: '. $_SERVER['HTTP_REFERER']);
+exit();
 
 ?>

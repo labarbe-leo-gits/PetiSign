@@ -145,18 +145,21 @@ if(isset($_SESSION['mail'])){
         $check_if_current_user_already_reported_target->execute();
         $already_reported = $check_if_current_user_already_reported_target->fetchColumn();
 
-        if($already_reported <= 0){
-            echo "
-            <div class='report'>
-                <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
-            </div>
-            ";
-        }else{
-            echo "
-            <div class='report disabled_report'>
-                <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
-            </div>
-            ";
+        if($ban <= 0){
+
+            if($already_reported <= 0){
+                echo "
+                <div class='report'>
+                    <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                </div>
+                ";
+            }else{
+                echo "
+                <div class='report disabled_report'>
+                    <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                </div>
+                ";
+            }
         }
 
     ?>

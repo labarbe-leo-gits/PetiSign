@@ -103,7 +103,7 @@ include_once 'special_header.php';
             <h3>Administrateur à l'origine du bannissement :</h3>
             <p><?= $admin ?></p>
         </div>
-        <div class="details_item">
+        <div class="details_item ban_reason_container">
             <h3>Raison du bannissement :</h3>
             <p><?= $ban_reason ?></p>
         </div>

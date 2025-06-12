@@ -24,6 +24,18 @@ if($is_benevole !=0){
     $check_if_activity_is_full->execute();
     $max_participants_activity = $check_if_activity_is_full->fetchColumn();
 
+    $target_activity_event_date = $pdo->prepare("SELECT event_date FROM TEAM_ACTIVITY WHERE id = :id_activity");
+    $target_activity_event_date->bindParam(':id_activity', $filtered_activity_id, PDO::PARAM_INT);
+    $target_activity_event_date->execute();
+    $activity_event_date = $target_activity_event_date->fetchColumn();
+
+    $today = date('Y-m-d');
+
+    if($activity_event_date <= $today){
+        header("Location: ../view_activity.php?id=$filtered_activity_id");
+        exit();
+    }
+
     if($max_participants >= $max_participants_activity){
         echo "<script>alert('Inscription échouée : le nombre maximum de participants a été atteint !');</script>";
         header("Location: ../view_activity.php?id=$filtered_activity_id");

@@ -5,6 +5,9 @@ setInterval(() => {
             document.getElementById('logs_div').innerHTML = data;
             updateCount('AUTH01', 'connection-count');
             updateCount('AUTH03', 'new-account-count');
+            updateCount('N3WC0M', 'new-coms-count');
+            updateCount('N3WR3P', 'new-report-count');
+            updateCount('N3WS1N', 'new-sign-count');
             updateUniqueCount('D1SC0V', 'discover-count');
             updateUniqueCount('PROF1L', 'profile-count');
             updateUniqueCount('MYS1GN', 'mysign-count');
@@ -12,6 +15,11 @@ setInterval(() => {
             updateUniqueCount('MSG1NG', 'msg-count');
             updateUniqueCount('AC3UIL', 'index-count');
             updateUniqueCount('N3WP3T', 'new-pet-count');
+            updateUniqueCount('D0WNLD', 'dl_count');
+            //updateUniqueCount('N3WC0M', 'new-coms-count');
+            //updateUniqueCount('N3WREP', 'new-report-count');
+            //updateUniqueCount('N3WS1N', 'new-sign-count');
+
         })
         .catch(error => console.error('Error fetching logs:', error));
 }, 1000);

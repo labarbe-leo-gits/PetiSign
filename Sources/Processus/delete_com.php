@@ -55,9 +55,12 @@ if($is_admin != 0 || $logged_user_id == $comment_owner){
         $report_exists = $check_if_report_exists_stmt->fetchColumn();
 
         if($report_exists > 0){
-            $delete_report_stmt = $pdo->prepare("DELETE FROM REPORT WHERE id_target = :id AND report_type = 3");
+            /* $delete_report_stmt = $pdo->prepare("DELETE FROM REPORT WHERE id_target = :id AND report_type = 3");
             $delete_report_stmt->bindParam(':id', $com_id, PDO::PARAM_INT);
-            $delete_report_stmt->execute();
+            $delete_report_stmt->execute(); */
+            $update_report_status = $pdo->prepare("UPDATE REPORT SET current_status = 'CLOSED' WHERE id_target = :id AND report_type = 3");
+            $update_report_status->bindParam(':id', $com_id, PDO::PARAM_INT);
+            $update_report_status->execute();
         }
 
         $stmt = $pdo->prepare("DELETE FROM COMMENT WHERE id = :id");

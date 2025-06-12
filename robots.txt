@@ -1,0 +1,40 @@
+User-agent: *
+Allow: /
+Allow: /Sources/
+Allow: /Sources/index.php
+Allow: /Sources/discover.php
+Allow: /Sources/login.php
+Allow: /Sources/register.php
+Allow: /Sources/download.php
+Allow: /Sources/Benevoles/
+Allow: /Resources/img/
+
+# Block sensitive areas
+Disallow: /Sources/database/
+Disallow: /Sources/Processus/
+Disallow: /Sources/BackOffice/
+Disallow: /Sources/ban.php
+Disallow: /Sources/chat.php
+Disallow: /Sources/profile.php
+Disallow: /Sources/my_signatures.php
+Disallow: /Sources/my_petitions.php
+Disallow: /Sources/logs/
+
+# Block file types that shouldn't be indexed
+Disallow: *.php$
+Disallow: *.log$
+Disallow: *.txt$
+Disallow: *.sql$
+
+# Allow specific PHP files for SEO
+Allow: /Sources/index.php$
+Allow: /Sources/discover.php$
+Allow: /Sources/login.php$
+Allow: /Sources/register.php$
+Allow: /Sources/download.php$
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.petisign.cloud/sitemap.xml
