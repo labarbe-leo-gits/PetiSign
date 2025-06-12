@@ -130,6 +130,14 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 
     }
 
+    if($pet_author_id == $get_user_id){
+        echo '
+        <div class="warning">
+            <div class="warning_text"><p>&nbsp;&nbsp;&nbsp;Vous êtes le créateur de cette pétition. Vous pouvez la modifier et la supprimer via votre espace "<a href="my_petitions.php">Mes Pétitions</a>" ou via les boutons ci-dessous.</p></div>
+        </div>
+        ';
+    }
+
     ?>
 
     <div class="main_container">
@@ -155,6 +163,18 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             $check_if_already_reported_stmt->execute();
             $already_reported = $check_if_already_reported_stmt->fetchColumn();
 
+            if($get_user_id == $pet_author_id){
+                echo '<a href="modify_petition.php?id='.$_GET['id'].'" class="quick">
+                    <img src="../Resources/img/ui_icons/crayon.png" alt="Modifier">
+                    &nbsp;&nbsp;Modifier la pétition
+                </a>';
+                echo '<a href="Processus/delete_petition.php?id='. $_GET['id'] .'" class="quick">
+                    <img src="../Resources/img/ui_icons/trash.png" alt="Supprimer">
+                    &nbsp;&nbsp;Supprimer la pétition
+                </a>';
+
+            }
+
             if($get_user_id != $pet_author_id){
 
                 if($already_reported == 0){
@@ -173,7 +193,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             ?>
 
             <?php
-            if($is_admin == 1){
+            if($is_admin == 1 && $pet_author_id != $get_user_id){
                 echo '<a href="Processus/admin_delete.php?id='.$_GET['id'].'" class="quick">
                 <img src="../Resources/img/ui_icons/trash.png" alt="">&nbsp;Supprimer la pétition (Admin)
             </a>';
@@ -198,8 +218,14 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         if($pet_statut != 'OPEN'){
                             echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';
                         }else{
+
+                        if($get_user_id != $pet_author_id){
                             echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
                         }
+                        else{
+                            echo '<button type="button" class="sign_petition_btn disabled" disabled title="Vous êtes le créateur de cette pétition">Impossible de signer</button>';
+                        }
+                    }
                     }
                     }
                     ?>    

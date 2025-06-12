@@ -63,7 +63,7 @@ $card_num = 0;
             <div class="content">
                 <h2 class="title">' . html_entity_decode($petition['title']) . '</h2>
                 <hr class="pet_sep">
-                <p class="description">' . html_entity_decode($petition['description']) . '</p>
+                <p class="description">' . nl2br(html_entity_decode($petition['description'])) . '</p>
             </div>
             <div class="footer">
                 <p class="sign">'. $petition['signature_count'] .' / ' . $petition['signature_goal'] . ' Signatures</p>

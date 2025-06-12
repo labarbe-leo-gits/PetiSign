@@ -73,7 +73,7 @@ if($petition_info){
             <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
             <hr class="form_hr">
         </div>
-        <button type="button" class="custom-button cancel" onclick="window.location.href='my_petitions.php';">Annuler</button>
+        <button type="button" class="custom-button cancel" onclick="window.location.href='<?php echo $_SERVER['HTTP_REFERER'] ?>';">Annuler</button>
         <button type="submit" class="custom-button validate">Valider</button>
     </form>
 </div>
