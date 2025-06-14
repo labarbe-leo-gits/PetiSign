@@ -30,6 +30,7 @@ CREATE TABLE USER (
     mail_notification INT DEFAULT 1,
     user_public INT DEFAULT 1,
     last_activity DATETIME,
+    user_daily_status VARCHAR(60),
     last_login DATE DEFAULT '2025-04-01'
 );
 

@@ -84,6 +84,8 @@ if(isset($_SESSION['mail'])){
                 <div class="dropdown-menu">
                     <a href="discover.php" class="dropdown-item">Explorer les pétitions</a>
                     <hr class="dropdown-divider">
+                    <a href="user_discover.php" class="dropdown-item">PétiSigners</a>
+                    <hr class="dropdown-divider">
                     <a href="download.php" class="dropdown-item">Obtenir l'application mobile</a>
                 </div>
             </div>
@@ -111,6 +113,6 @@ if(isset($_SESSION['mail'])){
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_signatures.php' : 'login.php'; ?>">Mes Signatures</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'my_petitions.php' : 'login.php'; ?>">Mes Pétitions</a></div>
             <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'chat.php' : 'login.php'; ?>">Messagerie</a></div>
-            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>">Mon Compte</a></div>
+            <div class="menu_item"><a href="<?php echo isset($_SESSION['mail']) ? 'view_profile.php?id=' . $user_id : 'login.php'; ?>">Mon Compte</a></div>
         </div>
     </div>

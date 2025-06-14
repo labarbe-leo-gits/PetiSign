@@ -220,7 +220,8 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         echo '<button type="button" class="sign_petition_btn disabled" disabled>Pétition suspendue</button>';
                     }else{
                     if($signature_count > 0){
-                        echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Déjà signé</button>';
+                        //echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;&nbspDéjà signé</button>';
+                        echo '<button type="button" class="sign_petition_btn" onclick="window.location.href=\'Processus/delete_sign.php?id='. $_GET['id'] .'\'">Retirer ma signature</button>';
                     }else{
                         if($pet_statut != 'OPEN'){
                             echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';

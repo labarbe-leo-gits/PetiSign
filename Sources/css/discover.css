@@ -212,3 +212,93 @@
     border-radius: 8px;
     box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
 }
+
+.user_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin-top: 30px;
+}
+
+.user_item{
+    width: 30vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border-left: solid 4px #FED78B;
+    translate: 0px 0px;
+    padding: 10px;
+    transition: box-shadow 0.3s ease, translate 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.user_item:hover{
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.2);
+    translate: 0px -2px;
+    transition: box-shadow 0.3s ease, translate 0.3s ease;
+}
+
+.user_item > .right{
+    border-left: solid 1px #E0E0E0;
+    padding-left: 40px;
+    padding-right : 40px;
+}
+
+.user_item > .right > a > img{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: invert(98%) sepia(55%) saturate(269%) hue-rotate(189deg) brightness(120%) contrast(100%);
+}
+
+.user_item > .right > a{
+    text-decoration: none;
+    color: black;
+    background-color: aqua;
+    height: fit-content;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.user_item > .right > a{
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #1A414E;
+    height: fit-content;
+    padding: 8px;
+    width: 100%;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.user_item > .right > a:hover{
+    background-color: #173642;
+    transform: scale(1.05);
+}
+
+.user_item > .right > a > img{
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 4px;
+    filter: none;
+    filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(88deg) brightness(104%) contrast(101%);
+}
+
+.user_item {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.user_item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

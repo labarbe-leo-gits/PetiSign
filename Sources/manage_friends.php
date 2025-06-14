@@ -40,6 +40,8 @@ $get_all_logged_user_pending_requests = $get_all_logged_user_pending_requests_st
 
 ?>
 
+<link rel="stylesheet" href="css/manage_friends.css">
+
 <div class="container">
     <div class="left">
         <h2>Vos amis</h2>
@@ -59,17 +61,54 @@ $get_all_logged_user_pending_requests = $get_all_logged_user_pending_requests_st
                     $get_friend_username_stmt->execute();
                     $friend_username = $get_friend_username_stmt->fetchColumn();
 
-                    echo '<div class="friend">';
+                    $get_friend_user_daily_status = $pdo->prepare("SELECT user_daily_status FROM USER WHERE id = :id");
+                    $get_friend_user_daily_status->bindParam(':id', $friend_id);
+                    $get_friend_user_daily_status->execute();
+                    $friend_daily_status = $get_friend_user_daily_status->fetchColumn();
+
+                    echo '<div class="friend" onclick="window.location.href=\'view_profile.php?id=' . htmlspecialchars($friend_id) . '\'">';
+
+                    $get_avatar_data = $pdo->prepare('
+                        SELECT avatar_hat, avatar_eyes, avatar_mouth, avatar_skin, 
+                            avatar_hat_color, avatar_eyes_color, avatar_mouth_color, avatar_skin_color 
+                        FROM USER WHERE id = :id
+                    ');
+                    $get_avatar_data->bindParam(':id', $friend_id);
+                    $get_avatar_data->execute();
+                    $avatar_data = $get_avatar_data->fetch(PDO::FETCH_ASSOC);
+
+                    echo '<div class="friend-info">';
+                    echo '<div class="avatar">';
+                    echo '<img class="skin" src="../Resources/avatar/skin/skin' . $avatar_data['avatar_skin'] . 'c' . $avatar_data['avatar_skin_color'] . '.png" alt="">';
+                    echo '<img src="../Resources/avatar/hat/hat' . $avatar_data['avatar_hat'] . 'c' . $avatar_data['avatar_hat_color'] . '.png" class="hat" alt="Hat">';
+                    echo '<img src="../Resources/avatar/eyes/eye' . $avatar_data['avatar_eyes'] . 'c' . $avatar_data['avatar_eyes_color'] . '.png" class="eyes" alt="Eyes">';
+                    echo '<img src="../Resources/avatar/mouth/smile' . $avatar_data['avatar_mouth'] . 'c' . $avatar_data['avatar_mouth_color'] . '.png" class="mouth" alt="Mouth">';
+                    echo '</div>';
+
+                    echo '<div class="friend-details">';
                     echo '<p>' . htmlspecialchars($friend_username) . '</p>';
-                    echo '<form method="post" action="Processus/requests_manager.php?action=remove">';
+                    if ($friend_daily_status) {
+                        echo '<p class="daily-status"><i>' . html_entity_decode($friend_daily_status) . '</i></p>';
+                    } else {
+                        echo '<p class="daily-status"><i>Aucun statut quotidien</i></p>';
+                    }
+                    echo '</div>';
+                    echo '</div>';
+
+                    echo '<form class="btn_form" method="post" action="Processus/requests_manager.php?action=remove">';
                     echo '<input type="hidden" name="friend_id" value="' . htmlspecialchars($friend_id) . '">';
-                    echo '<button type="submit">Supprimer</button>';
+                    echo '<button type="submit" class="friend-remove-btn"><img src="/Resources/img/ui_icons/trash.png" alt="Supprimer"></button>';
                     echo '</form>';
+
                     echo '</div>';
                 }
             } else {
                 echo '<p>Aucun ami trouvé.</p>';
             }
+
+            echo "<div class='message'>";
+            echo "<button class='add-friend-btn' onclick=\"window.location.href='user_discover.php'\">Ajouter des ami</button>";
+            echo "</div>";
 
             ?>
         </div>
@@ -93,11 +132,11 @@ $get_all_logged_user_pending_requests = $get_all_logged_user_pending_requests_st
                     echo '<form method="post" action="Processus/requests_manager.php?action=accept">';
                     echo '<input type="hidden" name="request_id" value="' . htmlspecialchars($request['id']) . '">';
                     echo '<input type="hidden" name="requester_id" value="' . htmlspecialchars($requester_id) . '">';
-                    echo '<button type="submit">Accepter</button>';
+                    echo '<button type="submit" class="accept-request-btn"><img src="/Resources/img/ui_icons/validate.png" alt="Accepter"></button>';
                     echo '</form>';
                     echo '<form method="post" action="Processus/requests_manager.php?action=decline">';
                     echo '<input type="hidden" name="request_id" value="' . htmlspecialchars($request['id']) . '">';
-                    echo '<button type="submit">Rejeter</button>';
+                    echo '<button type="submit" class="decline-request-btn"><img src="/Resources/img/ui_icons/cross.png" alt="Rejeter"></button>';
                     echo '</form>';
                     echo '</div>';
                 }

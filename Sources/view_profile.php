@@ -108,10 +108,12 @@ if($user_public == 0 && ($user_id != $_GET['id']) && $is_admin != 1 && $is_frien
         </div>
 
         <div class='button_container'>
+            <button class='custom-button' onclick=\"window.location.href='$referer'\">Ajouter un ami</button>
             <button class='custom-button' onclick=\"window.location.href='index.php'\">Retour à l'accueil</button>
         </div>
         
         ";
+
         exit;
     
 }
@@ -283,6 +285,39 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
 
 </div>
 
+<?php
+
+$get_user_daily_status = $pdo->prepare("SELECT user_daily_status FROM USER WHERE id = :id");
+$get_user_daily_status->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+$get_user_daily_status->execute();  
+$user_daily_status = $get_user_daily_status->fetchColumn();
+
+if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL) {
+    $status = html_entity_decode($user_daily_status);
+}else if($user_id == $_GET['id']) {
+    $status = "Vous n'avez pas de statut, ajoutez en un !";
+}
+
+?>
+
+<?php if(($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL) || ($user_id == $_GET['id'])): ?>
+<div class="user_status">
+    <div class="status_container">
+        <p class="status_text"><?=$status?></p>
+    </div>
+    <?php
+    if($user_id == $_GET['id']) {
+        echo '
+        <div class="status_action">
+        <a href="javascript:void(0)" class="quick_status_action" onclick="openStatusPopup()"><img src="/Resources/img/ui_icons/crayon.png" alt="Modifier"></a>
+        <a href="Processus/clear_status.php" class="quick_status_action"><img src="/Resources/img/ui_icons/trash.png" alt="Supprimer"></a>
+    </div>
+        ';
+    }
+    ?>
+</div>
+<?php endif ?>
+
 <div class="user_public_information">
     <div class="description">
         <div class="desc_header">
@@ -357,7 +392,6 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                 echo '<p class="user_description">Vous ne pouvez pas vous contacter vous-même.</p>';
             } else {
                 echo '
-                <p class="user_description">Vous pouvez contacter cet utilisateur en lui envoyant un message privé.</p>
                 <form action="Processus/create_chat_feed.php" method="POST" class="contact_form">
                     <input type="hidden" name="user_id" id="user_id" value="'. $_GET['id'] .'" required>
                     <button type="submit" class="custom-button contact_btn">Envoyer un message privé</button>
@@ -372,7 +406,30 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
     <link rel="stylesheet" href="css/discover.css">
 </div>
 <?php endif; ?>
+
+<?php if($user_id == $_GET['id']): ?>
+
 <button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
+
+<div class="status_update_popup" id="statusUpdatePopup" onclick="closeStatusPopup()">
+    <div class="popup_content" onclick="event.stopPropagation()">
+        <div class="status-popup-header">
+            <h2>Mettre à jour votre statut</h2>
+            <button class="close_popup" onclick="closeStatusPopup()" title="Fermer">
+                <img src="/Resources/img/ui_icons/plus.png" alt="Fermer">
+            </button>
+        </div>
+        <form action="Processus/update_status.php" method="POST">
+            <textarea name="status" id="status" placeholder="Entrez votre nouveau statut ici..." maxlength=60 required><?php echo $user_daily_status ?></textarea>
+            <input type="hidden" name="user_id" value="<?=$_GET['id']?>">
+            <button type="submit" class="custom-button">Mettre à jour</button>
+        </form>
+    </div>
+</div>
+
+<script src="js/status_popup.js"></script>
+
+<?php endif; ?>
 <script>
     function toggleDropdown() {
         const dropdown = document.getElementById('petitionsDropdown');
