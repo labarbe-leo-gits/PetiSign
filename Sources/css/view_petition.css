@@ -528,3 +528,282 @@ body {
 .disabled_action:hover {
     background-color: rgb(101, 101, 101);
 }
+
+.signers-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.signers-popup-overlay.show {
+    opacity: 1;
+}
+
+.signers-popup {
+    width: fit-content;
+    max-width: 50vw;
+    max-height: 80vh;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    position: relative;
+    transform: translateY(-20px);
+    opacity: 0;
+    width: 50vw;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.signers-popup-overlay.show .signers-popup {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.signers-popup-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.pop_title {
+    text-align: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0;
+    color: #1A414E;
+}
+
+.close-popup {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 10;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.close-popup img {
+    rotate: 45deg;
+    width: 30px;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+    filter: invert(17%) sepia(90%) saturate(351%) hue-rotate(148deg) brightness(99%) contrast(91%);
+}
+
+.close-popup:hover img {
+    filter: invert(19%) sepia(82%) saturate(2302%) hue-rotate(331deg) brightness(94%) contrast(102%);
+}
+
+.signers-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.signers-list hr {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.signer-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    margin: 5px 0;
+    border-bottom: 1px solid #ddd;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInLeft 0.4s ease forwards;
+}
+
+.signer-item:hover {
+    background-color: #f0f0f0;
+}
+
+.signer-item:nth-child(1) { animation-delay: 0.1s; }
+.signer-item:nth-child(2) { animation-delay: 0.2s; }
+.signer-item:nth-child(3) { animation-delay: 0.3s; }
+.signer-item:nth-child(4) { animation-delay: 0.4s; }
+.signer-item:nth-child(5) { animation-delay: 0.5s; }
+
+.signer-item:last-child {
+    border-bottom: none;
+}
+
+.signer_username {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-right: 15px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left : 10px;
+}
+
+.signer_username img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: invert(20%) sepia(16%) saturate(1711%) hue-rotate(149deg) brightness(93%) contrast(90%);
+}
+
+.signer-info {
+    flex-grow: 1;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.signer-name {
+    display: block;
+    font-weight: 600;
+    color: #1A414E;
+    text-decoration: none;
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+    font-size: 16px;
+}
+
+.signer-name:hover {
+    color: #173642;
+}
+
+.signer-date {
+    color: #666;
+    font-size: 14px;
+    text-align: left;
+}
+
+.signers-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.signers-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.signers-list::-webkit-scrollbar-thumb {
+    background: #1A414E;
+    border-radius: 3px;
+}
+
+.signers-list::-webkit-scrollbar-thumb:hover {
+    background: #173642;
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.signers-list > div[style*="text-align: center"] {
+    text-align: center !important;
+    padding: 40px 20px !important;
+    color: #666 !important;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+.validated {
+    width: 20px;
+    filter: invert(20%) sepia(16%) saturate(1711%) hue-rotate(149deg) brightness(93%) contrast(90%);
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 480px) {
+    .signers-popup {
+        width: 90%;
+        max-width: none;
+        padding: 20px;
+    }
+    
+    .signers-popup-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .pop_title {
+        font-size: 24px;
+    }
+    
+    .close-popup {
+        top: -5px;
+        right: -5px;
+    }
+    
+    .close-popup img {
+        width: 25px;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .signers-popup {
+        width: 90%;
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .pop_title {
+        font-size: 24px;
+    }
+    
+    .close-popup {
+        top: -5px;
+        right: -5px;
+    }
+    
+    .close-popup img {
+        width: 25px;
+    }
+}
+
+.clickable-signature-count {
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.clickable-signature-count::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background-color: #1A414E;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.clickable-signature-count:hover {
+    color: #1A414E;
+}
+
+.clickable-signature-count:hover::after {
+    width: 20%;
+}

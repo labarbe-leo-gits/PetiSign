@@ -12,9 +12,18 @@ else{
     $is_benevole = null;
 }
 
+include_once 'database/database.php';
+
 if(isset($_SESSION['ban'])){
     header('Location: /Sources/ban.php');
     exit();
+}
+
+if(isset($_SESSION['mail'])){
+    $fetch_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+    $fetch_user_id->bindParam(':mail', $mail);
+    $fetch_user_id->execute();
+    $user_id = $fetch_user_id->fetchColumn();
 }
 
 ?>
@@ -85,7 +94,7 @@ if(isset($_SESSION['ban'])){
             <p class="dot navcontent">&#x25CF;</p>
             <a href="<?php echo isset($_SESSION['mail']) ? 'chat.php' : 'login.php'; ?>" class="navcontent">Messagerie</a>
             <p class="dot navcontent">&#x25CF;</p>
-            <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'profile.php' : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
+            <a class="navcontent pfp_img" href="<?php echo isset($_SESSION['mail']) ? 'view_profile.php?id=' . $user_id  : 'login.php'; ?>"><img class="pfp" src="../Resources/img/ui_icons/unlogged_user.png" alt=""></a>
             <!--<a id="navcontent" href="#user_list">UserMenu</a>-->
             <a class="men" id="excep" href="javascript:show_popup()"><img class="mobile_menu" src="../Resources/img/ui_icons/menu.png" alt=""></a>
         </div>

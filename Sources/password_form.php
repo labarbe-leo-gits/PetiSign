@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
+    exit();
+}
+
 include_once 'header.php';
 include_once 'database/database.php';
 include_once 'checker.php';

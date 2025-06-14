@@ -1,13 +1,21 @@
 <?php
-include_once 'header.php';
-include_once 'database/database.php';
-include_once 'Processus/write_logs.php';
-include_once 'checker.php';
+
+session_start();
 
 if(!isset($_SESSION['mail'])){
     header('Location: login.php');
     exit();
 }
+
+include_once 'header.php';
+include_once 'database/database.php';
+include_once 'Processus/write_logs.php';
+include_once 'checker.php';
+
+/* if(!isset($_SESSION['mail'])){
+    header('Location: login.php');
+    exit();
+} */
 
 
 if(isset($_GET['error'])){
@@ -55,6 +63,11 @@ try{
     $get_mail_notification_statut->bindParam(':mail', $mail);
     $get_mail_notification_statut->execute();
     $mail_notification_statut = $get_mail_notification_statut->fetchColumn();
+
+    $get_profil_statut = $pdo->prepare('SELECT user_public FROM USER WHERE email = :mail');
+    $get_profil_statut->bindParam(':mail', $mail);
+    $get_profil_statut->execute();
+    $profil_statut = $get_profil_statut->fetchColumn();
 
     $get_birthdate = $pdo->prepare('SELECT birthdate FROM USER WHERE email = :mail');
     $get_birthdate->bindParam(':mail', $mail);
@@ -106,6 +119,11 @@ try{
     $get_avatar_skin_color->execute();
     $avatar_skin_color = $get_avatar_skin_color->fetchColumn();
 
+    $user_id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
+    $user_id_stmt->bindParam(':mail', $mail);
+    $user_id_stmt->execute();
+    $user_id = $user_id_stmt->fetchColumn();
+
 }catch (PDOException $e){
     echo 'Erreur : '.$e->getMessage();
 }
@@ -119,7 +137,7 @@ try{
 <body class="dark-mode profile-page"> 
 <div class="profile-container">
     <div class="profil_gauche">
-        <h2 id="loginhigh" class="highlighted-text">Aperçu</h2>
+        <!-- <h2 id="loginhigh" class="highlighted-text">Aperçu</h2> -->
         <div class="space"></div>
             <div class="avatar">
                 <img class="skin" src="../Resources/avatar/skin/skin<?=$avatar_skin?>c<?=$avatar_skin_color?>.png" alt="">
@@ -128,7 +146,8 @@ try{
                 <img src="../Resources/avatar/mouth/smile<?=$avatar_mouth?>c<?=$avatar_mouth_color?>.png" class="mouth" alt="Mouth" id="mouth">
             </div>
         <h2 id="nomdp"><?=$user?></h2>
-        <p id="description_profile"><?=$outputed_description?></p>
+        <!-- <p id="description_profile"><?=$outputed_description?></p> -->
+        <button class="custom-button prof_btn" onclick="window.location.href='view_profile.php?id=<?=$user_id?>'">Aller à mon profil public</button>
         <button class="custom-button dl_btn" onclick="window.location.href='Processus/download_my_data.php'">
     Télécharger mes données
 </button>
@@ -195,6 +214,12 @@ try{
                     <input class="editable second_check" type="checkbox" name="mails_notif" id="mails_notif" <?php if ($mail_notification_statut == 1) echo 'checked'; ?> value="1" class="checkbox" disabled>
                     <label for="mails_notif" class="checkbox-label" id="mails_label">Notifications Mails</label>
                 </div>
+                <div class="entries checkbox-container">
+                    <input type="hidden" name="profile_status_value" id="profile_status_value" value="<?= $profil_statut == 1 ? '0' : '1'; ?>">
+                    <input class="editable second_check" type="checkbox" name="profile_status" id="profile_status" <?php if ($profil_statut == 1) echo 'checked'; ?> value="1" class="checkbox" disabled>
+                    <label for="profile_status" class="checkbox-label" id="mails_label_2">Profil public</label>
+
+                </div>
             </div>
 
             <hr id="loginhr_">
@@ -203,6 +228,7 @@ try{
             <button type="button" onclick="window.location.href='password_form.php'" class="custom-button loginbtn" id="pswd_btn">Changer mon mot de passe</button>
             <button type="button" onclick="window.location.href='modify_avatar.php'" class="custom-button loginbtn" id="avatar_btn">Modifier mon avatar</button>
             <button type="submit" id="save_btn" class="custom-button loginbtn">Enregistrer</button>
+            <button type="button" id="cancel_btn" class="custom-button loginbtn" onclick="location.reload()" >Annuler</button>
         </form>
         <hr id="btn_hr">
         <button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>

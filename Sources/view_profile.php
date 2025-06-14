@@ -6,8 +6,19 @@ if($_SERVER['REQUEST_METHOD'] !== 'GET' || !isset($_GET['id'])) {
 }
 
 include_once 'header.php';
-include_once 'database/database.php';
 include_once 'checker.php';
+
+?>
+
+<link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/view_profile.css">
+
+<?php
+
+if((!is_numeric($_GET['id']) || $_GET['id'] <= 0) && $_GET['id'] != "AnonymousUsr") {
+    echo "Invalid user ID.";
+    exit;
+}
 
 $get_username_by_id_stmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
 $get_username_by_id_stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
@@ -16,10 +27,16 @@ $get_username_by_id = $get_username_by_id_stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($get_username_by_id) {
     $username = $get_username_by_id['username'];
-} else {
+}
+ else {
     echo "User not found.";
     exit;
 }
+
+$get_user_public_stmt = $pdo->prepare('SELECT user_public FROM USER WHERE id = :id');
+$get_user_public_stmt->bindParam(':id', $_GET['id']);
+$get_user_public_stmt->execute();
+$user_public = $get_user_public_stmt->fetchColumn();
 
 $get_avatar_hat = $pdo->prepare('SELECT avatar_hat FROM USER WHERE id = :id');
 $get_avatar_hat->bindParam(':id', $_GET['id']);
@@ -60,6 +77,60 @@ $get_avatar_skin_color = $pdo->prepare('SELECT avatar_skin_color FROM USER WHERE
 $get_avatar_skin_color->bindParam(':id', $_GET['id']);
 $get_avatar_skin_color->execute();
 $avatar_skin_color = $get_avatar_skin_color->fetchColumn();
+
+$check_if_logged_user_is_friend_with_target = $pdo->prepare("SELECT COUNT(*) FROM FRIEND WHERE (id_user = :id_user AND id_friend = :id_target) OR (id_user = :id_target AND id_friend = :id_user)");
+$check_if_logged_user_is_friend_with_target->bindParam(':id_user', $user_id, PDO::PARAM_INT);
+$check_if_logged_user_is_friend_with_target->bindParam(':id_target', $_GET['id'], PDO::PARAM_INT);
+$check_if_logged_user_is_friend_with_target->execute();
+$is_friend = $check_if_logged_user_is_friend_with_target->fetchColumn();
+
+if($user_public == 0 && ($user_id != $_GET['id']) && $is_admin != 1 && $is_friend == 0) {
+        $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+        echo "
+        
+        <div class='profile_header'>
+            <div class='informations'>
+                <h2 class='username'>".$username."</h2>
+                <div class='user_tags'>
+                    <p class='admin_tag'>Profil privé</p>
+                </div>
+            </div>
+            <div class='avatar'>
+                <img class='skin' src='../Resources/avatar/skin/skin" . $avatar_skin . "c" . $avatar_skin_color . ".png' alt=''>
+                <img src='../Resources/avatar/hat/hat" . $avatar_hat . "c" . $avatar_hat_color . ".png' class='hat' alt='Hat' id='hat'>
+                <img src='../Resources/avatar/eyes/eye" . $avatar_eyes . "c" . $avatar_eyes_color . ".png' class='eyes' alt='Eyes' id='eyes'>
+                <img src='../Resources/avatar/mouth/smile" . $avatar_mouth . "c" . $avatar_mouth_color . ".png' class='mouth' alt='Mouth' id='mouth'>
+            </div>
+        </div>
+
+        <div class='disclaimer'>
+            <p>Ce profil est privé. Vous ne pouvez pas le consulter.</p>
+        </div>
+
+        <div class='button_container'>
+            <button class='custom-button' onclick=\"window.location.href='index.php'\">Retour à l'accueil</button>
+        </div>
+        
+        ";
+        exit;
+    
+}
+
+if($user_public == 0 && $user_id == $_GET['id']) {
+    echo "
+    <div class='disclaimer'>
+    <p>Votre profil est privé. Vous seul, vos amis, (ainsi que les administrateurs de la plateforme) pouvez le consulter.</p>
+</div>
+    ";
+}
+
+if($user_public == 0 && $is_admin == 1 && $user_id != $_GET['id']) {
+    echo "
+    <div class='disclaimer'>
+    <p>Cet utilisateur a défini son paramètre de confidentialité sur privé.</p>
+</div>
+    ";
+}
 
 $get_if_user_is_admin_stmt = $pdo->prepare('SELECT is_admin FROM USER WHERE id = :id');
 $get_if_user_is_admin_stmt->bindParam(':id', $_GET['id']);
@@ -109,10 +180,18 @@ if(isset($_SESSION['mail'])){
     $user_id = null;
 }
 
-?>
+$check_if_friend_request_was_already_sent = $pdo->prepare("SELECT COUNT(id) FROM USER_CANDIDATE WHERE id_user = :id_user AND target_user = :id_target AND current_status = 'En Attente'");
+$check_if_friend_request_was_already_sent->bindParam(':id_user', $user_id, PDO::PARAM_INT);
+$check_if_friend_request_was_already_sent->bindParam(':id_target', $_GET['id'], PDO::PARAM_INT);
+$check_if_friend_request_was_already_sent->execute();
+$friend_request_already_sent = $check_if_friend_request_was_already_sent->fetchColumn();
 
-<link rel="stylesheet" href="css/profile.css">
-<link rel="stylesheet" href="css/view_profile.css">
+$count_pending_requests = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE target_user = :id AND current_status = 'En Attente'");
+$count_pending_requests->bindParam(':id', $user_id, PDO::PARAM_INT);
+$count_pending_requests->execute();
+$pending_requests_count = $count_pending_requests->fetchColumn();
+
+?>
 
 <div class="profile_header">
     <div class="informations">
@@ -147,16 +226,54 @@ if(isset($_SESSION['mail'])){
 
         if($ban <= 0){
 
-            if($already_reported <= 0){
-                echo "
-                <div class='report'>
-                    <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+            if($user_id != $_GET['id']){
+                if($already_reported <= 0){
+                    echo "
+                    <div class='report'>
+                        <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                    </div>
+                    ";
+                    echo "
+                <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
+                    <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
                 </div>
                 ";
+                }else{
+                    echo "
+                    <div class='report disabled_report'>
+                        <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                    </div>
+                    ";
+                }
+                if($friend_request_already_sent <= 0 && $is_friend == 0){
+                    echo "
+                    <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
+                        <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
+                    </div>
+                    ";
+                }else if($friend_request_already_sent > 0){
+                    echo "
+                    <div class='report report_second disabled_report' title='Demande envoyée'>
+                        <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/friend_request.png' alt='Demande d\'ami déjà envoyée'></a>
+                    </div>
+                    ";
+                }else{
+                    echo "
+                    <div class='report report_second' onclick='window.location.href=\"manage_friends.php\"'>
+                        <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Gérer les amis'></a>
+                    </div>
+                    ";
+                }
+            
             }else{
                 echo "
-                <div class='report disabled_report'>
-                    <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                <div class='report' onclick='window.location.href=\"profile.php\"'>
+                    <a class='report_btn' href='profile.php'><img src='/Resources/img/ui_icons/crayon.png' alt='Modifier mon profil'></a>
+                </div>
+                ";
+                echo "
+                <div class='report report_second txt_rep' onclick='window.location.href=\"manage_friends.php\"'>
+                    <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Ajouter un ami'>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Demandes en attente : ". $pending_requests_count ."</a>
                 </div>
                 ";
             }
@@ -169,7 +286,7 @@ if(isset($_SESSION['mail'])){
 <div class="user_public_information">
     <div class="description">
         <div class="desc_header">
-            <h2 class="profile_title">Description de l'utilisateur</h2>
+            <h2 class="profile_title">Description</h2>
             <hr class="profile_hr">
         </div>
         <p class="user_description"><?=$description?></p>
@@ -183,6 +300,49 @@ if(isset($_SESSION['mail'])){
     <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
     <p class="stat_value_container"><?=$number_of_signature?> Signatures</p>
 </div>
+
+<?php if($user_id != $_GET['id']): ?>
+<div class="user_available_infos">
+    <div class="petition_card">
+        <div class="desc_header">
+            <h2 class="profile_title dropdown-toggle" onclick="toggleDropdown()">
+                <img src="/Resources/img/ui_icons/greater.png" alt="arrow" class="dropdown-arrow">
+                Pétitions
+            </h2>
+            <hr class="profile_hr" id="third">
+        </div>
+        <div class="dropdown-content" id="petitionsDropdown">
+            <?php
+            $get_petitions = $pdo->prepare("SELECT id, title, image_id FROM PETITION WHERE user = :id");
+            $get_petitions->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+            $get_petitions->execute();
+            $petitions = $get_petitions->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($petitions) > 0) {
+                foreach ($petitions as $petition) {
+                    echo '<div class="card">
+                <div class="cardheader">
+                    <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
+                </div>
+                <div class="cardcontent">
+                    <div class="left">
+                        <h3>' . html_entity_decode($petition['title']) . '</h3>
+                    </div>
+                    <div class="right">
+                        <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
+                    </div>
+                </div>
+            </div>';
+                }
+            } else {
+                echo '<p>Aucune pétition trouvée pour cet utilisateur.</p>';
+            }
+            ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<?php if($user_id != $_GET['id']): ?>
 <div class="description">
         <div class="desc_header">
             <h2 class="profile_title">Contact</h2>
@@ -209,8 +369,20 @@ if(isset($_SESSION['mail'])){
         ?>
     </div> 
     </div>
+    <link rel="stylesheet" href="css/discover.css">
 </div>
-
+<?php endif; ?>
+<button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('petitionsDropdown');
+        const toggle = document.querySelector('.profile_title.dropdown-toggle');
+        const arrow = document.querySelector('.dropdown-arrow');
+        
+        dropdown.classList.toggle('show');
+        toggle.classList.toggle('active');
+    }
+</script>
 <?php
 include_once 'footer.php'
 ?>

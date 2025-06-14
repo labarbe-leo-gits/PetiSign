@@ -78,7 +78,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 $pdf->SetFont('Arial', 'B', 18);
-$pdf->SetTextColor(255, 140, 0);
+$pdf->SetTextColor(0, 0, 0);
 $pdf->Cell(0, 20, utf8_decode("Téléchargement de mes données personnelles"), 0, 1, 'C');
 $pdf->SetTextColor(40, 40, 40);
 
@@ -143,7 +143,7 @@ if (count($all_user_petitions) > 0) {
         $petition_date = date('d/m/Y', strtotime($petition['date']));
         
         $pdf->Cell($col_widths[0], 10, $petition['id'], 1, 0, 'C', true);
-        $pdf->Cell($col_widths[1], 10, utf8_decode(substr($petition['title'], 0, 40)), 1, 0, 'C', true);
+        $pdf->Cell($col_widths[1], 10, nl2br(html_entity_decode(utf8_decode(substr($petition['title'], 0, 40)))), 1, 0, 'C', true);
         $pdf->Cell($col_widths[2], 10, $petition_date, 1, 0, 'C', true);
         $pdf->Cell($col_widths[3], 10, $petition_signatures, 1, 0, 'C', true);
         $pdf->Ln();

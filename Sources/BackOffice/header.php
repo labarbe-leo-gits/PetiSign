@@ -18,7 +18,7 @@ else{
     header('Location: ../login.php');
 }
 
-$count_notifications_stmt = $pdo->prepare("SELECT COUNT(id) FROM USER_CANDIDATE WHERE current_status = 'En Attente'");
+$count_notifications_stmt = $pdo->prepare("SELECT COUNT(id) FROM USER_CANDIDATE WHERE current_status = 'En Attente' AND candidate_type != 3");
 $count_notifications_stmt->execute();
 $count = $count_notifications_stmt->fetchColumn();
 

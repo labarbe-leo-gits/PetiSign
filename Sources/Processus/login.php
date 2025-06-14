@@ -123,7 +123,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     
     write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 
-    header("Location: ../profile.php");
+    header("Location: ../view_profile.php?id=" . $user_id);
 } else {
     header('Location: ../login.php?error=WrongCreds&referer=login');
     exit;

@@ -117,6 +117,11 @@ label {
 #save_btn{
   display: none;
 }
+
+#cancel_btn{
+  display: none;
+}
+
 .input_subtext{
   color: #1A414E;
   font-size: 14px;
@@ -229,9 +234,25 @@ body.dark-mode.profile-page::after {
   margin-top:-20px;
 }
 
+#mails_label_2{
+  margin-top:-20px;
+}
+
 .dl_btn{
   margin-top: 20px;
   margin-bottom: 20px;
+  background-color: #1A414E;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.prof_btn{
+  margin-top: 20px;
+  margin-bottom: -5px;
   background-color: #1A414E;
   color: white;
   padding: 10px 20px;
@@ -266,4 +287,25 @@ body.dark-mode.profile-page::after {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.login_form{
+  width: 50%;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+}
+
+.button_container button {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 480px) {
+    .login_form {
+        width: 80%;
+    }
+  
 }

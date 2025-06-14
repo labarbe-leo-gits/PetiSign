@@ -202,10 +202,17 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         </div>
     </div>
 
+    <?php
+    $get_all_signatures_stmt = $pdo->prepare('SELECT * FROM SIGNATURE WHERE id_petition = :petition_id');
+    $get_all_signatures_stmt->bindParam(':petition_id', $_GET['id']);
+    $get_all_signatures_stmt->execute();
+    $all_signatures = $get_all_signatures_stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
     <div class="grid">
-        <div class="signatures_container">
-            <div class="objectif"><?=$pet_signature_count?> / <?=$pet_signature_goal?> Signatures récoltées</div>
-            <div class="sign">
+<div class="signatures_container">
+    <div class="objectif clickable-signature-count" onclick="showSignersPopup()"><?=$pet_signature_count?> / <?=$pet_signature_goal?> Signatures récoltées</div>
+    <div class="sign">
                 <form method="post" action="Processus/sign.php">
                     <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
                     <?php
@@ -389,13 +396,61 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
     </div>
 </div>
 
+<div class="signers-popup-overlay" id="signersPopupOverlay">
+    <div class="signers-popup" onclick="event.stopPropagation()">
+        <div class="signers-popup-header">
+            <h2 class="pop_title">Signatures</h2>
+            <button class="close-popup" onclick="hideSignersPopup()" title="Fermer">
+                <img src="../Resources/img/ui_icons/plus.png" alt="Fermer">
+            </button>
+        </div>
+        <div class="signers-list">
+            <?php if (empty($all_signatures)): ?>
+                <div style="text-align: center; padding: 20px; color: #666;">Aucune signature pour le moment.</div>
+            <?php else: ?>
+                <?php foreach($all_signatures as $signature): ?>
+                    <div class="signer-item">
+                        <?php
+                        $check_if_public = $pdo->prepare('SELECT user_public FROM USER WHERE id = :id');
+                        $check_if_public->bindParam(':id', $signature['id_user']);
+                        $check_if_public->execute();
+                        $is_public = $check_if_public->fetchColumn();
+
+                        if($is_public == 1){
+                            $id_to_username_stmt = $pdo->prepare('SELECT username FROM USER WHERE id = :id');
+                            $id_to_username_stmt->bindParam(':id', $signature['id_user']);
+                            $id_to_username_stmt->execute();
+                            $signature['username'] = $id_to_username_stmt->fetchColumn();
+                            $user_id = $signature['id_user'];
+                            $link = "view_profile.php?id=".$user_id;
+                        }else{
+                            $signature['username'] = 'PétiSigner Anonyme';
+                            $user_id = "AnonymousUsr";
+                            $link = "javascript:void(0);";
+                        }
+                        ?>
+                        <div class="signer_username">
+                            <img src="/Resources/img/ui_icons/unlogged_user.png" alt="">
+                        </div>
+                        <div class="signer-info" onclick="window.location.href='<?=$link?>'">
+                            <a href="<?= $link ?>" class="signer-name"><?=$signature['username']?></a>
+                            <div class="signer-date"><?=date('d/m/Y à H:i', strtotime($signature['date']))?> UTC</div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
 <style>
-    .petition_header {
+.petition_header {
         background-image: url("../../Resources/img/petition_selection/<?=$pet_image_id?>.jpg");
     }
 </style>
 <script src="js/count_characters.js"></script>
 <script src="js/trancho_popup.js"></script>
+<script src="js/signers_popup.js"></script>
 
 <?php
 include_once 'footer.php';

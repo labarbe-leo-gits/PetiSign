@@ -28,6 +28,7 @@ CREATE TABLE USER (
     avatar_skin_color INT DEFAULT 6,
     newsletter INT DEFAULT 1,
     mail_notification INT DEFAULT 1,
+    user_public INT DEFAULT 1,
     last_activity DATETIME,
     last_login DATE DEFAULT '2025-04-01'
 );
@@ -168,5 +169,18 @@ CREATE TABLE USER_CANDIDATE(
     candidate_type INT NOT NULL,
     motivation TEXT,
     current_status VARCHAR(20),
+    target_user INT REFERENCES USER(id),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE FRIEND(
+    id_user INT REFERENCES USER(id),
+    id_friend INT REFERENCES USER(id),
+    PRIMARY KEY (id_user, id_friend)
+);
+
+CREATE TABLE BLOCKED_USER(
+    id_user INT REFERENCES USER(id),
+    id_blocked_user INT REFERENCES USER(id),
+    PRIMARY KEY (id_user, id_blocked_user)
 );

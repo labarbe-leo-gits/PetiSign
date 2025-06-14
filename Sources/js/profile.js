@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const newsletter_value = document.getElementById('newsletter_value');
     const notifs_checkbox = document.getElementById('mails_notif');
     const notifs_label = document.getElementById('mails_label');
+    const mails_label_2 = document.getElementById('mails_label_2');
+    const profile_status_checkbox = document.getElementById('profile_status');
+    const profile_status_value = document.getElementById('profile_status_value');
+    const cancel_btn = document.getElementById('cancel_btn');
     emailError.style.color = 'red';
     emailError.style.fontSize = '0.8em';
     emailError.style.display = 'none';
@@ -52,6 +56,8 @@ document.addEventListener("DOMContentLoaded", function() {
         news_label.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         notifs_checkbox.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         notifs_label.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        profile_status_checkbox.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
+        mails_label_2.style.cursor = inputs[0].disabled ? 'not-allowed' : 'pointer';
         button.textContent = inputs[0].disabled ? 'Modifier' : 'Enregistrer';
 
         if(button.textContent === 'Enregistrer') {
@@ -59,12 +65,14 @@ document.addEventListener("DOMContentLoaded", function() {
             pswd_btn.style.display = 'none';
             avatar_btn.style.display = 'none';
             button.style.display = 'none';
+            cancel_btn.style.display = 'block';
         }
 
         
     });
 
     newsletter_value.value = newsletter_checkbox.checked ? '1' : '0';
+    profile_status_value.value = profile_status_checkbox.checked ? '1' : '0';
 
     descriptionField.addEventListener('input', function() {
         profileDescription.innerHTML = descriptionField.value.trim() !== '' 

@@ -127,6 +127,7 @@
     cursor: default;
     flex: 1;
     max-width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .user_description{
@@ -331,4 +332,131 @@
 .disabled_report:hover{
     background-color: #bababa;
     transition: background-color 0.3s ease;
+}
+
+.profile_title.dropdown-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+}
+
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    display: flex;
+    gap: 10px;
+}
+
+.dropdown-content.show {
+    max-height: 1000px;
+}
+
+.profile_title.dropdown-toggle.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.profile_title.dropdown-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-arrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    filter: brightness(0) saturate(100%) invert(0%) sepia(97%) saturate(11%) hue-rotate(251deg) brightness(103%) contrast(98%); 
+}
+
+.profile_title.dropdown-toggle.active .dropdown-arrow {
+    transform: rotate(90deg);
+}
+
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.dropdown-content.show {
+    max-height: 1000px;
+}
+
+
+
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.disclaimer {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    border-radius: 8px;
+    text-align: center;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    justify-content: center;
+    width: 75%;
+    margin: 0 auto;
+    margin-top : 5vh;
+    background-color: #FED78B;
+}
+
+.disclaimer > p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.report_second {
+    margin-left: 70px;
+}
+
+.txt_rep{
+    width: fit-content;
+    border-radius: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    align-items: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.txt_rep > a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+.loginbtn{
+    width: 40%;
+    margin: 0 auto;
+    
 }

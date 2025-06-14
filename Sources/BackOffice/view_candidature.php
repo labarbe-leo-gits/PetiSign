@@ -36,8 +36,9 @@ if ($newsletter_exists == 0) {
                 $leader_username = $leader_id_to_username->fetchColumn();
 
                 $typ_int_to_text = [
-                    1 => 'Devenir bénévole',
-                    2 => 'Demande de débanissement'
+                    1 => 'Candidature bénévole',
+                    2 => 'Demande de débanissement',
+                    3 => 'Demande d\'ami'
                 ];
 
                 $team['candidate_type'] = $typ_int_to_text[$team['candidate_type']] ?? 'Type inconnu';

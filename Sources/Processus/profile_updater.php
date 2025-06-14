@@ -22,6 +22,7 @@ $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 $birthdate = $_POST['anniv'];
 $newsletter = isset($_POST['newsletter']) ? 1 : 0;
 $mails_notif = isset($_POST['mails_notif']) ? 1 : 0;
+$profile_status = isset($_POST['profile_status']) ? 1 : 0;
 
 if($mail == null || $mail == false || $username == null || $username == false || $gender == null || $gender == false || $description == null || $description == false || $birthdate == null || $birthdate == false){
     header("Location: ../profile.php");
@@ -41,7 +42,7 @@ if($birthdate > $eighteen_years_ago){
 }
 
 try {
-    $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username, newsletter = :news, mail_notification = :mails_notif WHERE id = :id");
+    $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username, newsletter = :news, mail_notification = :mails_notif, user_public = :pb_usr WHERE id = :id");
     $stmt->bindParam(':mail', $mail);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':gender', $gender);
@@ -50,6 +51,7 @@ try {
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':news', $newsletter);
     $stmt->bindParam(':mails_notif', $mails_notif);
+    $stmt->bindParam(':pb_usr', $profile_status);
     $stmt->execute();
 
     if($mail != $original_mail){

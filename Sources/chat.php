@@ -215,7 +215,7 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
             $avatar_skin_color = $get_avatar_skin_color->fetchColumn();
             
             echo '
-            <div class="chat_access">
+            <div class="chat_access" onclick="window.location.href=\'chat.php?discussion_id='. $discussion['id'] .'\'">
                 <div class="avatar">
                     <img class="skin" src="../Resources/avatar/skin/skin'. $avatar_skin .'c'. $avatar_skin_color .'.png" alt="">
                     <img src="../Resources/avatar/hat/hat'. $avatar_hat .'c'. $avatar_hat_color .'.png" class="hat" alt="Hat" id="hat">
