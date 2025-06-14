@@ -29,8 +29,9 @@ Afin de pouvoir pleinement profiter de la plateforme, voici ce qu'il faut faire 
 3. `crontab -e`
 4. Rajoutez les lignes suivantes à la fin du fichier :
    ```
-   0 0 1 * * php /var/www/html/Sources/BackOffice/Processus/clear_monthly_logs.php?key=[Votre clé défini dans key.env]
-   0 0 * * * php /var/www/html/Sources/BackOffice/Processus/auto_clear_ban.php?key=[Votre clé défini dans key.env]
+   0 0 * * * php -d variables_order=EGPCS -d register_argc_argv=On -r '$_SERVER["REQUEST_METHOD"] = "GET"; $_SERVER["QUERY_STRING"] = "key=[Clé dans fichier env]"; $_GET["key"] = "[Clé dans fichier env]"; require "/var/www/html/Sources/BackOffice/Processus/auto_clear_ban.php";'
+   0 0 1 * * php -d variables_order=EGPCS -d register_argc_argv=On -r '$_SERVER["REQUEST_METHOD"] = "GET"; $_SERVER["QUERY_STRING"] = "key=[Clé dans fichier env]"; require "/var/www/html/Sources/BackOffice/Processus/auto_activity_mailing.php";'
+   0 0 1 * * php -d variables_order=EGPCS -d register_argc_argv=On -r '$_SERVER["REQUEST_METHOD"] = "GET"; $_SERVER["QUERY_STRING"] = "key=[Clé dans fichier env]"; require "/var/www/html/Sources/BackOffice/Processus/clear_monthly_logs.php";'
    ```
 
 ## Android
