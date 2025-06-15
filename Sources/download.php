@@ -34,6 +34,10 @@ write_logs('logs/log.txt', 'D0WNLD', $user, $user_ip, 'Visite de la page "Télé
                 Procédure d'installation
             </button>
         </div>
+
+        <div class="qr_code_container">
+            <img src="/Resources//img/frame.png" alt="">
+        </div>
         
         <div class="info-section">
             <h3>Fonctionnalités de l'application :</h3>
@@ -57,7 +61,7 @@ write_logs('logs/log.txt', 'D0WNLD', $user, $user_ip, 'Visite de la page "Télé
                 <div class="scrollable-content">
                     <div class="step">
                         <h2>Étape 1 : Téléchargement</h2>
-                        <p>Cliquez sur le bouton "Télécharger l'APK" pour télécharger le fichier d'installation de l'application PétiSign.</p>
+                        <p>Cliquez sur le bouton "Télécharger l'APK" ou scannez le QR Code pour télécharger le fichier d'installation de l'application PétiSign.</p>
                     </div>
                     
                     <div class="step">

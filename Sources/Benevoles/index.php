@@ -136,9 +136,25 @@ if(isset($_POST['form_submit'])){
                         <p class="name">Gérée par <a target="_blank" href="/Sources/view_profile.php?id='. $team['leader'] .'" class="link_to_profile">'. $team['leader_username'] .'</a></p>
                         <hr>
                         <p>'. nl2br(htmlspecialchars($team['description'])) .'</p>
-                        <hr>
+                        <hr>';
+                    
+                    $get_team_leader_profile_preferences = $pdo->prepare("SELECT user_public FROM USER WHERE id = :id");
+                    $get_team_leader_profile_preferences->bindParam(':id', $team['leader']);
+                    $get_team_leader_profile_preferences->execute();
+                    $team_leader_profile_preferences = $get_team_leader_profile_preferences->fetchColumn();
+
+                    if($team_leader_profile_preferences == 1){
+                        echo '
                         <button type="button" onclick="window.location.href=\'/Sources/Processus/create_chat_feed.php?create_direct_feed=true&target_user_id='.$team['leader'].'\';" class="custom-button select_team"><img src="/Resources/img/ui_icons/greater.png" alt="">&nbsp;Contacter le gérant</button>
-                    </div>
+                    ';
+                    }else{
+                        echo '
+                        <button type="button" onclick="window.location.href=\'/Sources/view_profile.php?id='.$team['leader'].'\';" class="custom-button select_team"><img src="/Resources/img/ui_icons/greater.png" alt="">&nbsp;Voir le profil</button>
+                    ';
+                    }
+
+                    
+                    echo '</div>
                     ';
                 }
 

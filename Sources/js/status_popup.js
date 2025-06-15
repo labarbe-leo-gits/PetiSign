@@ -1,4 +1,3 @@
-// Status popup functionality
 function openStatusPopup() {
     const popup = document.getElementById('statusUpdatePopup');
     popup.style.display = 'flex';
@@ -39,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
         counter.innerHTML = `0/${maxLength}`;
         textarea.parentNode.insertBefore(counter, textarea.nextSibling);
         
-        textarea.addEventListener('input', function() {
-            const currentLength = this.value.length;
+        function updateCounter() {
+            const currentLength = textarea.value.length;
             counter.innerHTML = `${currentLength}/${maxLength}`;
             
             if (currentLength > maxLength * 0.9) {
@@ -49,12 +48,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 counter.classList.remove('warning');
             }
             
-            // Prevent exceeding max length
             if (currentLength > maxLength) {
-                this.value = this.value.substring(0, maxLength);
+                textarea.value = textarea.value.substring(0, maxLength);
                 counter.innerHTML = `${maxLength}/${maxLength}`;
             }
-        });
+        }
+        
+        textarea.addEventListener('input', updateCounter);
+        
+        updateCounter();
     }
 });
 

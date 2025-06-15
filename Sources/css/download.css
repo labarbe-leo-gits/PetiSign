@@ -426,3 +426,16 @@
         font-size: 1.1rem;
     }
 }
+
+.qr_code_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.qr_code_container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}

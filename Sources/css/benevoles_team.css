@@ -34,6 +34,10 @@
     margin:0 0;
 }
 
+.mobile_ver{
+    display: none;
+}
+
 .container{
     width: 95vw;
     margin: 0 auto;
@@ -291,6 +295,10 @@ address{
     margin-top: 30px;
 }
 
+.mobile_ver{
+    display: none;
+}
+
 @media screen and (max-width: 480px){
     .container{
         flex-direction: column;
@@ -303,6 +311,14 @@ address{
     .smaller {
         width: 100%;
         margin-bottom: 20px;
+    }
+
+    .quick{
+        display: none;
+    }
+
+    .mobile_ver{
+        display:block;
     }
     
     .complete {

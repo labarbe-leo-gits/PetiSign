@@ -1,20 +1,40 @@
 <?php
 
+session_start();
+
+include_once 'header.php';
+include_once 'database/database.php';
+include_once 'checker.php';
+
 if(!isset($_GET['id']) || empty($_GET['id'])){
     header('Location: index.php');
     exit();
 }
 
+$pet_id = $_GET['id'];
+
+$count_stmt = $pdo->prepare('SELECT COUNT(*) FROM PETITION WHERE id = :id');
+$count_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+$count_stmt->execute();
+$count = $count_stmt->fetchColumn();
+
+if($count <= 0){
+    $redirect_url = isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) 
+                    ? $_SERVER['HTTP_REFERER'] 
+                    : 'discover.php';
+    
+    echo "<script>
+        window.location.href = '" . htmlspecialchars($redirect_url, ENT_QUOTES) . "';
+    </script>";
+    exit();
+}
+
 if(isset($_SESSION['mail'])){
-    $is_admin = $pdo->prepare('SELECT is_admin FROM USER WHERE mail = :mail');
+    $is_admin = $pdo->prepare('SELECT is_admin FROM USER WHERE email = :mail');
     $is_admin->bindParam(':mail', $_SESSION['mail']);
     $is_admin->execute();
     $is_admin = $is_admin->fetchColumn();
 }
-
-include_once 'header.php';
-include_once 'database/database.php';
-include_once 'checker.php';
 
 $validating_petition = $pdo->prepare('SELECT * FROM PETITION WHERE id = :id');
 $validating_petition->bindParam(':id', $_GET['id']);
@@ -22,6 +42,16 @@ $validating_petition->execute();
 $validating_petition = $validating_petition->fetch();
 
 if(!$validating_petition){
+    header('Location: index.php');
+    exit();
+}
+
+$count_pet_with_this_id = $pdo->prepare('SELECT COUNT(id) FROM PETITION WHERE id = :id');
+$count_pet_with_this_id->bindParam(':id', $_GET['id']);
+$count_pet_with_this_id->execute();
+$count_pet_with_this_id = $count_pet_with_this_id->fetchColumn();
+
+if($count_pet_with_this_id <= 0){
     header('Location: index.php');
     exit();
 }
@@ -172,6 +202,14 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                     <img src="../Resources/img/ui_icons/trash.png" alt="Supprimer">
                     &nbsp;&nbsp;Supprimer la pétition
                 </a>';
+                echo '<a href="modify_petition.php?id='.$_GET['id'].'" class="quick mobile_ver">
+                    <img src="../Resources/img/ui_icons/crayon.png" alt="Modifier">
+                    
+                </a>';
+                echo '<a href="Processus/delete_petition.php?id='. $_GET['id'] .'" class="quick mobile_ver">
+                    <img src="../Resources/img/ui_icons/trash.png" alt="Supprimer">
+                    
+                </a>';
 
             }
 
@@ -221,17 +259,18 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                     }else{
                     if($signature_count > 0){
                         //echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;&nbspDéjà signé</button>';
-                        echo '<button type="button" class="sign_petition_btn" onclick="window.location.href=\'Processus/delete_sign.php?id='. $_GET['id'] .'\'">Retirer ma signature</button>';
+                        echo '<button type="button" class="sign_petition_btn mobile_sign_button" onclick="window.location.href=\'Processus/delete_sign.php?id='. $_GET['id'] .'\'">Retirer ma signature</button>';
                     }else{
                         if($pet_statut != 'OPEN'){
-                            echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';
+                            echo '<button type="button" class="sign_petition_btn mobile_sign_button disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';
                         }else{
 
                         if($get_user_id != $pet_author_id){
                             echo '<button type="button" class="sign_petition_btn" onclick="show_popup_trancho()">Je Signe !</button>';
+                            echo '<button type="button" class="sign_petition_btn mobile_sign_button" onclick="showMobileSignaturePopup()">Je Signe !</button>';
                         }
                         else{
-                            echo '<button type="button" class="sign_petition_btn disabled" disabled title="Vous êtes le créateur de cette pétition">Impossible de signer</button>';
+                            echo '<button type="button" class="sign_petition_btn disabled mobile_sign_button" disabled title="Vous êtes le créateur de cette pétition">Impossible de signer</button>';
                         }
                     }
                     }
@@ -444,6 +483,43 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
     </div>
 </div>
 
+<div class="mobile-signature-overlay" id="mobileSignatureOverlay">
+    <div class="mobile-signature-popup">
+        <div class="mobile-signature-header">
+            <h2>Signature numérique</h2>
+            <button class="close-mobile-signature" onclick="hideMobileSignaturePopup()" title="Fermer">
+                <img src="../Resources/img/ui_icons/plus.png" alt="Fermer">
+            </button>
+        </div>
+        
+        <div class="signature-instructions">
+            <p>Dessinez votre signature dans la zone ci-dessous :</p>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="signatureCanvas" width="400" height="200"></canvas>
+        </div>
+        
+        <div class="signature-actions">
+            <button type="button" class="clear-signature-btn" onclick="clearCanvas()">
+                <img src="../Resources/img/ui_icons/refresh.png" alt="Effacer">
+                Effacer
+            </button>
+            <button type="button" class="submit-signature-btn" onclick="submitMobileSignature()">
+                <img src="../Resources/img/ui_icons/validate.png" alt="Valider">
+                Valider ma signature
+            </button>
+        </div>
+        
+        <div class="signature-terms">
+            <input type="checkbox" id="mobileCheck1" required>
+            <label for="mobileCheck1">J'accepte les conditions d'utilisation de PétiSign</label><br>
+            <input type="checkbox" id="mobileCheck2" required>
+            <label for="mobileCheck2">J'affirme avoir lu le contenu de la pétition</label>
+        </div>
+    </div>
+</div>
+
 <style>
 .petition_header {
         background-image: url("../../Resources/img/petition_selection/<?=$pet_image_id?>.jpg");
@@ -452,6 +528,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 <script src="js/count_characters.js"></script>
 <script src="js/trancho_popup.js"></script>
 <script src="js/signers_popup.js"></script>
+<script src="js/draw.js"></script>
 
 <?php
 include_once 'footer.php';

@@ -153,6 +153,9 @@
     .categories_header{
         grid-template-columns: 3fr 3fr;
     }
+    .left > h3{
+        margin-left: 10px;
+    }
 }
 
 .header_right > a:hover {
@@ -302,3 +305,126 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+@media screen and (max-width: 480px) {
+    .user_container {
+        grid-template-columns: 1fr;
+    }
+    .user_item {
+        width: 90vw;
+        grid-template-columns: 1fr 2fr;
+    }
+    .left{
+        margin-left: -2px;
+        margin-right: 8px;
+    }
+    .user_item > .right {
+        padding-left: 25px;
+        margin-right: 0px;
+    }
+
+    .user_item > .right > a{
+        width: 110%;
+    }
+
+    .avatar{
+        transform: scale(0.8);
+    }
+}
+
+.tag > img{
+    width: 20px;
+}
+
+.tag{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FED78B;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+    cursor: default;
+}
+
+.tag:hover{
+    background-color: #F0C36D;
+    transition: background-color 0.3s ease;
+}
+
+.username{
+    display: flex;
+    align-items: center;
+}
+
+.card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card.see_more {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.my_profile{
+    background: linear-gradient(135deg, #00d4ff, #0099cc, #00d4ff);
+    background-size: 300% 300%;
+    animation: shine 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.my_profile::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer 3s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+.my_profile:hover {
+    animation-duration: 1s;
+}
+
+.my_profile:hover::before {
+    animation-duration: 1.5s;
+}
+

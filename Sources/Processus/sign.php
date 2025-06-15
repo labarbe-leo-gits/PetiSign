@@ -18,6 +18,122 @@ try{
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+        if(isset($_GET['mobile_signature']) && $_GET['mobile_signature'] == 'true'){
+        $signature_data = $_POST['signature_data'] ?? null;
+        $petition_id = htmlspecialchars(filter_input(INPUT_POST, 'petition_id', FILTER_SANITIZE_NUMBER_INT));
+        $check = isset($_POST['check']) ? 1 : 0;
+        $check2 = isset($_POST['check2']) ? 1 : 0;
+        
+        if($signature_data && $check && $check2) {
+            
+            $user_id_stmt = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+            $user_id_stmt->bindParam(':mail', $_SESSION['mail']);
+            $user_id_stmt->execute();
+            $user_id = $user_id_stmt->fetchColumn();
+
+            $petition_goal_stmt = $pdo->prepare("SELECT signature_goal FROM PETITION WHERE id = :id");
+            $petition_goal_stmt->bindParam(':id', $petition_id);
+            $petition_goal_stmt->execute();
+            $petition_goal = $petition_goal_stmt->fetchColumn();
+
+            $signature_stmt = $pdo->prepare("SELECT COUNT(*) FROM SIGNATURE WHERE id_user = :user_id AND id_petition = :petition_id");
+            $signature_stmt->bindParam(':user_id', $user_id);
+            $signature_stmt->bindParam(':petition_id', $petition_id);
+            $signature_stmt->execute();
+            $signature_count = $signature_stmt->fetchColumn();
+
+            if ($signature_count > 0) {
+                echo "Error: You have already signed this petition.";
+                exit();
+            }
+
+            $check_goal_stmt = $pdo->prepare("SELECT signature_count FROM PETITION WHERE id = :id");
+            $check_goal_stmt->bindParam(':id', $petition_id);
+            $check_goal_stmt->execute();
+            $check_goal = $check_goal_stmt->fetchColumn();
+
+            if($check_goal >= $petition_goal) {
+                echo "Error: The petition has already reached its goal.";
+                exit();
+            }
+
+            $insert_stmt = $pdo->prepare("INSERT INTO SIGNATURE (id_user, id_petition) VALUES (:user_id, :petition_id)");
+            $insert_stmt->bindParam(':user_id', $user_id);
+            $insert_stmt->bindParam(':petition_id', $petition_id);
+            $insert_stmt->execute();
+
+            $update_stmt = $pdo->prepare("UPDATE PETITION SET signature_count = signature_count + 1 WHERE id = :id");
+            $update_stmt->bindParam(':id', $petition_id);
+            $update_stmt->execute();
+
+            $get_updated_count_stmt = $pdo->prepare("SELECT signature_count FROM PETITION WHERE id = :id");
+            $get_updated_count_stmt->bindParam(':id', $petition_id);
+            $get_updated_count_stmt->execute();
+            $updated_count = $get_updated_count_stmt->fetchColumn();
+
+            if($updated_count >= $petition_goal) {
+                $update_stmt2 = $pdo->prepare("UPDATE PETITION SET statut = 'CLOSED' WHERE id = :id");
+                $update_stmt2->bindParam(':id', $petition_id);
+                $update_stmt2->execute();
+            }
+
+            $get_mails = $pdo->prepare("SELECT u.id, u.username, u.email FROM USER u JOIN SIGNATURE s ON u.id = s.id_user WHERE u.newsletter = 1 AND s.id_petition = :petition_id ORDER BY s.date DESC");
+            $get_mails->bindParam(':petition_id', $petition_id);
+            $get_mails->execute();
+            $mails = $get_mails->fetchAll(PDO::FETCH_ASSOC);
+
+            $stages_stmt = $pdo->prepare("SELECT signature_stage_one, signature_stage_two, signature_stage_three, signature_stage_four FROM PETITION WHERE id = :id");
+            $stages_stmt->bindParam(':id', $petition_id);
+            $stages_stmt->execute();
+            $stages = $stages_stmt->fetch(PDO::FETCH_ASSOC);
+
+            $signature_stage_one = $stages['signature_stage_one'];
+            $signature_stage_two = $stages['signature_stage_two'];
+            $signature_stage_three = $stages['signature_stage_three'];
+            $signature_stage_four = $stages['signature_stage_four'];
+
+            if($updated_count == $signature_stage_one || $updated_count == $signature_stage_two || $updated_count == $signature_stage_three || $updated_count == $signature_stage_four) {
+                $mail_sent = new PHPMailer(true);
+
+                $pet_title = $pdo->prepare("SELECT title FROM PETITION WHERE id = :id");
+                $pet_title->bindParam(':id', $petition_id);
+                $pet_title->execute();
+                $title_pet = $pet_title->fetchColumn();
+
+                foreach ($mails as $mail) {
+                    $title = "Suivi de signatures";
+                    EnvoieMail($mail_sent, $mail['email'], $mail['username'], $title, "La pétition ". $title_pet . " a atteint " . $updated_count . " signatures sur " . $petition_goal . " !<br /><br />C'est un pas de plus vers votre cause !<br/><br />L'équipe de PétiSign vous félicite pour votre engagement !", "abonné à notre newsletter.");
+                }
+            }
+
+            $signature_data = str_replace('data:image/png;base64,', '', $signature_data);
+            $signature_data = str_replace(' ', '+', $signature_data);
+            $signature_binary = base64_decode($signature_data);
+            
+            $filename = 'signature_' . $user_id . '_' . $petition_id . '_' . time() . '.png';
+            $signatures_dir = '../../Resources/signatures/';
+            
+            if (!file_exists($signatures_dir)) {
+                mkdir($signatures_dir, 0755, true);
+            }
+            
+            $filepath = $signatures_dir . $filename;
+            file_put_contents($filepath, $signature_binary);
+
+            $user = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+            $user->bindParam(':id', $user_id);
+            $user->execute();
+            $user = $user->fetchColumn();
+            $ip = $_SERVER['REMOTE_ADDR'];
+
+            write_logs('../logs/log.txt', 'N3WS1N', $user, $ip, 'Pétition signée (mobile)');
+            exit();
+        } else {
+            header('Location: ../view_petition.php?id=' . $petition_id);
+            exit();
+        }
+    }
+
         $petition_id = htmlspecialchars(filter_input(INPUT_POST, 'petition_id', FILTER_SANITIZE_NUMBER_INT));
 
         if (!isset($_POST['check'])) {

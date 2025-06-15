@@ -17,7 +17,7 @@ $stmt->execute();
 $count = $stmt->fetchColumn();
 
 if ($count != 1) {
-    echo "Team ID does not exist.";
+    header("Location: index.php");
     exit;
 }
 
@@ -73,17 +73,35 @@ if ($team['leader'] == $user_id) {
             <a href="Processus/delete_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img">&nbsp;&nbsp;Supprimer l\'équipe</a>
         </div>
         ';
-    } else {
         echo '
         <div class="btn">
-            <a href="Processus/leave_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img">&nbsp;&nbsp;Quitter l\'équipe</a>
+            <a href="modify_team.php?id='.$team_id.'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/crayon.png" alt="leader" class="btn_img"></a>
+        </div>
+        <div class="btn">
+            <a href="Processus/delete_team.php?id='.$team_id.'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img"></a>
         </div>
         ';
+    } else {
+        if($is_admin != 1){
+            echo '
+            <div class="btn">
+                <a href="Processus/leave_team.php?id='.$team_id.'" class="quick"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img">&nbsp;&nbsp;Quitter l\'équipe</a>
+            </div>
+            ';
+            echo '
+            <div class="btn">
+                <a href="Processus/leave_team.php?id='.$team_id.'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/sign-out.png" alt="leader" class="btn_img"></a>
+            </div>
+            ';
+        }
     }
 
     ?>
     <div class="btn">
-        <a href="index.php" class="quick"><img src="/Resources/img/ui_icons/back.png" alt="leader" class="btn_img">&nbsp;&nbsp;Retour</a>
+        <a href="index.php" class="quick bqck_quick"><img src="/Resources/img/ui_icons/back.png" alt="leader" class="btn_img">&nbsp;&nbsp;Retour</a>
+    </div>
+    <div class="btn">
+        <a href="index.php" class="quick mobile_ver"><img src="/Resources/img/ui_icons/back.png" alt="leader" class="btn_img"></a>
     </div>
     </div>
 </div>
@@ -165,6 +183,11 @@ if ($team['leader'] == $user_id) {
             <a href="create_event.php?id=<?=$team_id?>" class="quick">+ Nouvelle activité / évènement</a>
             <hr class="line">
         </div>
+        <div class="act_header">
+            <h3>Actualité et évènements</h3>
+            <a href="create_event.php?id=<?=$team_id?>" class="quick mobile_ver">+ Nouvelle activité / évènement</a>
+            <hr class="line">
+        </div>
         <div class="act_container">
         <?php
         $count_stmt = $pdo->prepare("SELECT COUNT(*) FROM TEAM_ACTIVITY WHERE id_team = :team_id");
@@ -204,6 +227,24 @@ if ($team['leader'] == $user_id) {
         </div>
     </div>
 </div>
+
+<script>
+    if (window.innerWidth > 768) {
+        const mobileElements = document.querySelectorAll('.mobile_ver');
+        mobileElements.forEach(element => {
+            element.parentElement.remove();
+        });
+    }
+
+    if( window.innerWidth <= 768) {
+        const quickElements = document.querySelectorAll('.quick');
+        quickElements.forEach(element => {
+            if (!element.classList.contains('mobile_ver')) {
+                element.parentElement.remove();
+            }
+        });
+    }
+</script>
 
 <?php
 include_once 'footer.php';

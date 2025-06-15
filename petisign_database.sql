@@ -105,7 +105,8 @@ CREATE TABLE PETITION (
     signature_stage_four INT DEFAULT 0,
     image_id INT,
     user INTEGER REFERENCES USER(id),
-    statut VARCHAR(6) DEFAULT 'OPEN'
+    statut VARCHAR(6) DEFAULT 'OPEN',
+    mobile_signature_filename VARCHAR(255)
 );
 
 CREATE TABLE SIGNATURE (

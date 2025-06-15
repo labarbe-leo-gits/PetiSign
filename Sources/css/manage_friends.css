@@ -471,3 +471,60 @@ form {
     transition: background-color 0.3s ease;
 }
 
+.add_fr{
+    background-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.add_fr:hover {
+    background-color: #218838;
+    transition: background-color 0.3s ease;
+}
+
+@media screen and (max-width: 480px) {
+    .friend{
+        display: grid;
+        grid-template-columns: 3fr 1fr;;
+    }
+
+    .friend > .friend-info{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .friend > .friend-info > .friend-details {
+        text-align: left;;
+    }
+
+    .friend > .friend-info > .friend-details > p{
+        margin-bottom: -5px;
+    }
+
+    .friend > .friend-info > .avatar {
+        margin-top: 5px;
+    }
+
+    .friend > .btn_form{
+        display: flex;
+        text-align: right;
+        justify-content: flex-end;
+    }
+
+    .friend{
+        display:grid;
+        grid-template-columns: 3fr 0.5fr 0.5fr;
+    }
+
+    .friend > .first_form{
+        margin-right: -10px;
+    }
+
+    .pending > .friend{
+        display: grid;
+        grid-template-columns: 3fr 0.5fr 0.5fr;
+    }
+
+    .pending > .friend > .first_form{
+        margin-right: -10px;
+    }
+}

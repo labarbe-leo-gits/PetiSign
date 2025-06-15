@@ -11,6 +11,7 @@ include_once 'checker.php';
 ?>
 
 <link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/discover.css">
 <link rel="stylesheet" href="css/view_profile.css">
 
 <?php
@@ -209,6 +210,10 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
             if($ban > 0){
                 echo '<p class="admin_tag">Compte Banni</p>';
             }
+            if($is_benevole != 1 && $is_admin != 1 && $ban <= 0){
+                echo '<p class="admin_tag empty_tag"></p>';
+            }
+            
             ?>
         </div>
     </div>
@@ -248,15 +253,28 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                     ";
                 }
                 if($friend_request_already_sent <= 0 && $is_friend == 0){
-                    echo "
-                    <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
-                        <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
-                    </div>
-                    ";
+                    $check_if_target_user_already_sent_a_request = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE id_user = :id_user AND target_user = :id_target AND current_status = 'En Attente'");
+                    $check_if_target_user_already_sent_a_request->bindParam(':id_user', $_GET['id'], PDO::PARAM_INT);
+                    $check_if_target_user_already_sent_a_request->bindParam(':id_target', $user_id, PDO::PARAM_INT);
+                    $check_if_target_user_already_sent_a_request->execute();
+                    $target_request_already_sent = $check_if_target_user_already_sent_a_request->fetchColumn();
+                    if($target_request_already_sent <= 0){
+                        echo "
+                        <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
+                            <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
+                        </div>
+                        ";
+                    }else if($target_request_already_sent > 0){
+                        echo "
+                        <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
+                            <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/validate.png' alt='Ajouter un ami'></a>
+                        </div>
+                        ";
+                    }
                 }else if($friend_request_already_sent > 0){
                     echo "
                     <div class='report report_second disabled_report' title='Demande envoyée'>
-                        <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/friend_request.png' alt='Demande d\'ami déjà envoyée'></a>
+                        <a class='report_btn' id='report' disabled><img src='/Resources/img/ui_icons/pending.png' alt='Demande d\'ami déjà envoyée'></a>
                     </div>
                     ";
                 }else{
@@ -275,7 +293,7 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                 ";
                 echo "
                 <div class='report report_second txt_rep' onclick='window.location.href=\"manage_friends.php\"'>
-                    <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Ajouter un ami'>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Demandes en attente : ". $pending_requests_count ."</a>
+                    <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Ajouter un ami'><p class='friend_text_not'>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Demandes en attente : ". $pending_requests_count ."</p></a>
                 </div>
                 ";
             }
@@ -333,7 +351,7 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
         </div>
         <div class="stat_container">
     <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
-    <p class="stat_value_container"><?=$number_of_signature?> Signatures</p>
+    <p class="stat_value_container second_stat"><?=$number_of_signature?> Signatures</p>
 </div>
 
 <?php if($user_id != $_GET['id']): ?>
@@ -378,7 +396,7 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
 </div>
 <?php endif; ?>
 <?php if($user_id != $_GET['id']): ?>
-<div class="description">
+<div class="description contact_div">
         <div class="desc_header">
             <h2 class="profile_title">Contact</h2>
             <hr class="profile_hr">
@@ -403,13 +421,12 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
         ?>
     </div> 
     </div>
-    <link rel="stylesheet" href="css/discover.css">
 </div>
 <?php endif; ?>
 
 <?php if($user_id == $_GET['id']): ?>
 
-<button type="button" class="custom-button loginbtn" onclick="window.location.href='logout.php';">Déconnexion</button>
+<button type="button" class="custom-button loginbtn logout_desk" onclick="window.location.href='logout.php';">Déconnexion</button>
 
 <div class="status_update_popup" id="statusUpdatePopup" onclick="closeStatusPopup()">
     <div class="popup_content" onclick="event.stopPropagation()">

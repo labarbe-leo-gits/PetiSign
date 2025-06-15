@@ -16,7 +16,6 @@
 .informations{
     text-align: right;
     flex: 1;
-    min-width: 200px;
 }
 
 .informations > .username{
@@ -153,6 +152,46 @@
     width: 53%;
     max-width: 300px;
     margin: 0 auto;
+}
+
+.report > .report_btn{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 0;
+}
+
+.statistiques{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.logout_desk{
+    margin: 0 auto;
+    width: 30vw;
+}
+
+
+.report > .report_btn > img{
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.friend_text_not{
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.empty_tag{
+    background-color: transparent;
 }
 
 @media (max-width: 768px) {
@@ -306,7 +345,6 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
-    z-index: 10;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
@@ -754,6 +792,7 @@
         font-size: 16px;
         padding: 10px 20px;
     }
+
 }
 
 @media (max-width: 768px) {
@@ -790,6 +829,10 @@
     }
 }
 
+.contact_form > .contact_btn {
+    margin-top: -50px;
+}
+
 .popup_content form > * {
     animation: slideInUp 0.4s ease forwards;
 }
@@ -813,4 +856,59 @@
 .button_container > button {
     width: 40vw;
     margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+    .avatar{
+        margin-top: 12vh;
+    }
+
+    .stat_container > .second_stat {
+        margin-top: -20px;
+    }
+    .statistiques{
+        border-top: 1px solid #ddd;
+        text-align: center;
+    }
+    .loginbtn{
+        width: 90%;
+        margin: 0 auto;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    .report{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #FED78B;
+        padding: 8px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    .friend_text_not{
+        display: none;
+    }
+    .petition_card{
+        border-top: 1px solid #ddd;
+    }
+    .contact_form > .contact_btn{
+        margin-top: -40px;
+    }
+    .contact_div{
+        border-top: 1px solid #ddd;
+    }
+}
+
+.username{
+    display: block;
+}
+
+.card{
+    opacity: 1;
 }
