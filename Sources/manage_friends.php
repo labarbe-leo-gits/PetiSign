@@ -98,7 +98,7 @@ $get_all_logged_user_pending_requests = $get_all_logged_user_pending_requests_st
                     echo '</div>';
                     echo '<form class="btn_form first_form" method="post" action="Processus/create_chat_feed.php">';
                     echo '<input type="hidden" name="user_id" value="' . htmlspecialchars($friend_id) . '">';
-                    echo '<button type="submit" class="friend-remove-btn"><img src="/Resources/img/ui_icons/comment.png" alt="Supprimer"></button>';
+                    echo '<button type="submit" class="friend-remove-btn friend-contact-btn"><img src="/Resources/img/ui_icons/comment.png" alt="Contacter"></button>';
                     echo '</form>';
                     echo '<form class="btn_form" method="post" action="Processus/requests_manager.php?action=remove">';
                     echo '<input type="hidden" name="friend_id" value="' . htmlspecialchars($friend_id) . '">';

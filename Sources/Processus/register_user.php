@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
     $bday = new dateTime($_POST['anniv']);
     $date= $bday->format('Y-m-d');
+    $answer = $_POST['answer'] ?? '';
 
     $trimed_username = trim($username);
     $no_spaces_username = preg_replace('/\s+/', '', $trimed_username);
@@ -48,7 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    if ($captcha && $captcha['answer'] === $answer) {
+    $answer_lowercase = strtolower($answer);
+    $captcha['answer'] = strtolower($captcha['answer']);
+
+    if ($captcha && $captcha['answer'] === $answer_lowercase) {
         if ($password === $confpassword) {
             $stmt = $pdo->prepare("SELECT * FROM USER WHERE email = :mail");
             $stmt->bindParam(':mail', $mail);
@@ -81,19 +85,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     header('Location: ../login.php');
                     exit();
                 } else {
-                    header('Location: ../register.php');
+                    header('Location: ../register.php?error=UsernameExists&referer=register');
                     exit();
                 }
             } else {
-                header('Location: ../register.php');
+                header('Location: ../register.php?error=EmailExists&referer=register');
                 exit();
             }
         } else {
-            header('Location: ../register.php');
+            header('Location: ../register.php?error=PasswordMismatch&referer=register');
             exit();
         }
     } else {
-        header('Location: ../register.php');
+        header('Location: ../register.php?error=Captcha&referer=register');
         exit();
     }
 }

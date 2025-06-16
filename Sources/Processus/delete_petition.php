@@ -37,6 +37,11 @@ if(!in_array($pet_id, $clean_array)){
 
 try {
 
+    $petition_qr_code_filename = "../../Resources/qrcode/qr_code_petition_id" . $pet_id . ".png";
+    if (file_exists($petition_qr_code_filename)) {
+        unlink($petition_qr_code_filename);
+    }
+
     $stmt = $pdo->prepare('DELETE FROM SIGNATURE WHERE id_petition = :id');
     $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->execute();

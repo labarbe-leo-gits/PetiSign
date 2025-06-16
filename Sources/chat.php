@@ -255,12 +255,42 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-md-12">
                     <form id="chat-form" action="Processus/chat.php" method="POST">
                         <div class="entries">
-                            <input type="text" id="message" name="message" placeholder=" " required class="form-input">
-                            <label for="message">Votre message</label>
+                            <?php
+                            $check_if_i_have_been_blocked = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :id_user AND id_blocked_user = :id_blocked_user");
+                            $check_if_i_have_been_blocked->bindParam(':id_user', $exchanger_id, PDO::PARAM_INT);
+                            $check_if_i_have_been_blocked->bindParam(':id_blocked_user', $id_from_mail, PDO::PARAM_INT);
+                            $check_if_i_have_been_blocked->execute();
+                            $is_blocked = $check_if_i_have_been_blocked->fetchColumn();
+
+                            $select_blocker_id = $pdo->prepare("SELECT id_user FROM BLOCKED_USER WHERE id_blocked_user = :id_blocked_user AND id_user = :id_user");
+                            $select_blocker_id->bindParam(':id_blocked_user', $exchanger_id, PDO::PARAM_INT);
+                            $select_blocker_id->bindParam(':id_user', $id_from_mail, PDO::PARAM_INT);
+                            $select_blocker_id->execute();
+                            $is_blocked_by = $select_blocker_id->fetchColumn();
+
+                            if($is_blocked > 0) {
+                                echo '<p class="error_msg">Vous ne pouvez pas envoyer de message à cet utilisateur car vous avez été bloqué.</p>';
+                            }
+                             if($id_from_mail == $is_blocked_by) {
+                                echo '<p class="error_msg">Vous ne pouvez pas envoyer de message à cet utilisateur car vous l\'avez bloqué.</p>';
+                             }
+                             
+                             else{
+                                echo "
+                                <input type='text' id='message' name='message' placeholder=' ' required class='form-input'>
+                                <label for='message'>Votre message</label>";
+                            }
+                            ?>
+                            
                         </div>
                         <input type="hidden" id="discussion_id" name="discussion_id" value="<?php echo $discussion_id; ?>">
                         <input type="hidden" id="sender" name="sender" value="<?php echo $id_from_mail; ?>">
-                        <button type="submit"><img src="../Resources/img/ui_icons/send.png" alt=""></button>
+                        <?php
+                        if($is_blocked < 0){
+                            echo "<button type='submit'><img src='../Resources/img/ui_icons/send.png' alt='></button>";
+                        }
+                        ?>
+                        
                     </form>
                 </div>
             </div>

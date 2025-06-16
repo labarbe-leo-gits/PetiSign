@@ -2,7 +2,6 @@
 
 session_start();
 
-include_once 'header.php';
 include_once 'database/database.php';
 include_once 'checker.php';
 
@@ -19,13 +18,7 @@ $count_stmt->execute();
 $count = $count_stmt->fetchColumn();
 
 if($count <= 0){
-    $redirect_url = isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) 
-                    ? $_SERVER['HTTP_REFERER'] 
-                    : 'discover.php';
-    
-    echo "<script>
-        window.location.href = '" . htmlspecialchars($redirect_url, ENT_QUOTES) . "';
-    </script>";
+    header('Location: discover.php');
     exit();
 }
 
@@ -55,6 +48,8 @@ if($count_pet_with_this_id <= 0){
     header('Location: index.php');
     exit();
 }
+
+include_once 'header.php';
 
 $pet_name_stmt = $pdo->prepare('SELECT title FROM PETITION WHERE id = :id');
 $pet_name_stmt->bindParam(':id', $_GET['id']);
@@ -236,6 +231,10 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 <img src="../Resources/img/ui_icons/trash.png" alt="">&nbsp;Supprimer la pétition (Admin)
             </a>';
             }
+
+            
+            echo "<a class='show_qr quick qr_code_action_link' id='show_qr'><img src='../Resources/img/ui_icons/qr-code.png' alt=''></a>"
+
             ?>
         </div>
     </div>
@@ -251,7 +250,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 <div class="signatures_container">
     <div class="objectif clickable-signature-count" onclick="showSignersPopup()"><?=$pet_signature_count?> / <?=$pet_signature_goal?> Signatures récoltées</div>
     <div class="sign">
-                <form method="post" action="Processus/sign.php">
+                <form method="post" action="Processus/sign.php" class="sign_petition_form">
                     <input type="hidden" name="petition_id" value="<?=$_GET['id']?>">
                     <?php
                     if($is_banned > 0){
@@ -260,6 +259,10 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                     if($signature_count > 0){
                         //echo '<button type="button" class="sign_petition_btn disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;&nbspDéjà signé</button>';
                         echo '<button type="button" class="sign_petition_btn mobile_sign_button" onclick="window.location.href=\'Processus/delete_sign.php?id='. $_GET['id'] .'\'">Retirer ma signature</button>';
+                        echo '<button type="button" class="sign_petition_btn" onclick="window.location.href=\'Processus/delete_sign.php?id='. $_GET['id'] .'\'">Retirer ma signature</button>';
+
+                        echo '<a class="view_signature_btn" onclick="showSignaturePopup()"><img src="/Resources/img/ui_icons/eye.png" alt="Voir"></a>';
+
                     }else{
                         if($pet_statut != 'OPEN'){
                             echo '<button type="button" class="sign_petition_btn mobile_sign_button disabled" disabled><img src="../Resources/img/ui_icons/validate.png" alt="">&nbsp;Pétition fermée</button>';
@@ -271,6 +274,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                         }
                         else{
                             echo '<button type="button" class="sign_petition_btn disabled mobile_sign_button" disabled title="Vous êtes le créateur de cette pétition">Impossible de signer</button>';
+                            echo '<button type="button" class="sign_petition_btn disabled" disabled title="Vous êtes le créateur de cette pétition">Impossible de signer</button>';
                         }
                     }
                     }
@@ -308,7 +312,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 <input type="hidden" name="user_id" value="';
         echo $get_user_id;
         echo '">
-                <textarea name="comment" id="comment" maxlength=200  onkeyup="count(\'desc_counter\',this,200)"></textarea>
+                <textarea required name="comment" id="comment" maxlength=200  onkeyup="count(\'desc_counter\',this,200)"></textarea>
                 <div class="limit positioned" id="desc_counter">
                         <p>Limite de caractères : 0 / 200</p>
                 </div>
@@ -520,6 +524,62 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
     </div>
 </div>
 
+<div class="view_sign_overlay">
+<div class="view_signature_popup">
+    <div class="popup_sign_header">
+        <h2>Ma signature</h2>
+        <button class="close-popup" onclick="hideSignaturePopup()" title="Fermer">
+            <img src="/Resources/img/ui_icons/plus.png" alt="Fermer">
+        </button>
+    </div>
+    <div class="popup_sign_body">
+        <?php
+        $check_if_mobile_signature_filename = $pdo->prepare('SELECT mobile_signature_filename FROM SIGNATURE WHERE id_petition = :petition_id AND id_user = :user_id');
+        $check_if_mobile_signature_filename->bindParam(':petition_id', $_GET['id']);
+        $check_if_mobile_signature_filename->bindParam(':user_id', $get_user_id);
+        $check_if_mobile_signature_filename->execute();
+        $mobile_or_not = $check_if_mobile_signature_filename->fetchColumn();
+
+        if($mobile_or_not != null){
+
+            $file_exists = file_exists('../Resources/signatures/' . $mobile_or_not);
+
+            if($file_exists){
+                echo "
+            
+                <div class='signature_image'>
+                    <canvas title='Signature effectuée sur mobile' id='signatureCanvasView' width='400' height='200'></canvas>
+                    <script>
+                        const canvas = document.getElementById('signatureCanvasView');
+                        const ctx = canvas.getContext('2d');
+                        const image = new Image();
+                        image.src = '/Resources/signatures/{$mobile_or_not}';
+                        image.onload = function() {
+                            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                        };
+                    </script>
+                </div>
+                
+                ";
+            }else{
+                echo "
+                <div class='signature_image'>
+                    <p class='error_message'>Signature numérique non trouvée.</p>
+                </div>
+                ";
+            }
+
+        }        
+
+        ?>
+        <div class="signature_info">
+            <p class="signature_text">Signature numérique pour la pétition : <strong><?=$pet_name?></strong></p>
+            <p class="signature_text">Signée le : <strong><?=date('d/m/Y à H:i', strtotime($validating_petition['date']))?> UTC</strong></p>
+        </div>
+    </div>
+</div>
+</div>
+
 <style>
 .petition_header {
         background-image: url("../../Resources/img/petition_selection/<?=$pet_image_id?>.jpg");
@@ -529,6 +589,172 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 <script src="js/trancho_popup.js"></script>
 <script src="js/signers_popup.js"></script>
 <script src="js/draw.js"></script>
+
+<script>
+    function showSignaturePopup() {
+    const popup = document.querySelector('.view_signature_popup');
+    const overlay = document.querySelector('.view_sign_overlay');
+    if (popup && overlay) {
+        overlay.style.display = 'flex';
+        overlay.offsetHeight;
+        overlay.classList.add('show');
+        popup.classList.add('show');
+        
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideSignaturePopup() {
+    const popup = document.querySelector('.view_signature_popup');
+    const overlay = document.querySelector('.view_sign_overlay');
+    if (popup && overlay) {
+        popup.classList.remove('show');
+        overlay.classList.remove('show');
+        
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 300);
+    }
+}
+</script>
+
+<?php
+
+$qrcode_filename = 'qr_code_petition_id' . $pet_id . '.png';
+$qrcode_path = '../Resources/qrcode/' . $qrcode_filename;
+$file_exists = file_exists($qrcode_path);
+
+$generate_qr_script = '';
+
+if($file_exists == false){
+    $generate_qr_script = "
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        
+        try {
+            const qrImage = document.getElementById('qr-code');
+            if (!qrImage) {
+                console.error('QR code image element not found');
+                return;
+            }
+            
+            const data = encodeURIComponent('https://petisign.cloud/Sources/view_petition.php?id=" . $pet_id . "');
+            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\${data}&format=png`;
+
+            const response = await fetch(apiUrl);
+            
+            if (response.ok) {
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                
+                qrImage.src = imageUrl;
+                
+                const reader = new FileReader();
+                reader.onloadend = async function() {
+                    const base64data = reader.result;
+                    const qrcode_filename = 'qr_code_petition_id" . $pet_id . ".png';
+                    
+                    try {
+                        const saveResponse = await fetch('Processus/save_qr_code.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                filename: qrcode_filename, 
+                                imageData: base64data 
+                            })
+                        });
+                        
+                        if (saveResponse.ok) {
+                            const saveResult = await saveResponse.json();
+                        } else {
+                            console.error('Server responded with error:', saveResponse.status);
+                        }
+                    } catch (saveError) {
+                        console.error('Error saving QR code:', saveError);
+                    }
+                };
+                reader.readAsDataURL(blob);
+                
+            } else {
+                console.error('Failed to generate QR code, status:', response.status);
+            }
+        } catch (error) {
+            console.error('Error calling QR API:', error);
+        }
+    });
+    </script>";
+} else {
+    $generate_qr_script = "
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const qrImage = document.getElementById('qr-code');
+        if (qrImage) {
+            qrImage.src = '../Resources/qrcode/" . $qrcode_filename . "';
+        }
+    });
+    </script>";
+}
+
+?>
+
+<div class="qr-overlay">
+    <div id="qr-container">
+        <h2>QR Code</h2>
+        <button type="button"><img src="/Resources/img/ui_icons/cross.png" class="close-cross" alt="Fermer"></button>
+        <img id="qr-code" alt="QR Code" />
+        <div class="action">
+            <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger le Qr Code</button>
+            <!-- TODO !!! MEDIA PRINT AFFICHE STYLE PROPAGANDE -->
+            <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger l'affiche</button>
+        </div>
+    </div>
+</div>
+
+<?php
+echo $generate_qr_script;
+?>
+
+<script>
+    document.getElementById('show_qr').addEventListener('click', function() {
+        const qrOverlay = document.querySelector('.qr-overlay');
+        const qrContainer = document.getElementById('qr-container');
+    
+        qrOverlay.style.display = 'flex';
+        setTimeout(() => {
+            qrOverlay.classList.add('show');
+        }, 10);
+        
+        document.body.style.overflow = 'hidden';
+    });
+
+    document.querySelector('#qr-container > button:first-of-type').addEventListener('click', function() {
+        closeQRPopup();
+    });
+
+    document.querySelector('#qr-container .action button').addEventListener('click', function() {
+        const qrImage = document.getElementById('qr-code');
+        const link = document.createElement('a');
+        link.href = qrImage.src;
+        link.download = 'qr-code.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+    function closeQRPopup() {
+        const qrOverlay = document.querySelector('.qr-overlay');
+        
+        qrOverlay.classList.remove('show');
+        
+        setTimeout(() => {
+            qrOverlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 300);
+    }
+</script>
 
 <?php
 include_once 'footer.php';

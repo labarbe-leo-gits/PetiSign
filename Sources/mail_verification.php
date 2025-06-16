@@ -1,7 +1,6 @@
 <?php
 
-/* //php debug lines
-ini_set('display_errors', 1);
+/* ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL); */
 
@@ -23,6 +22,7 @@ $answer = htmlspecialchars(filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_FU
 $id = htmlspecialchars(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
 $bday = new dateTime($_POST['anniv']);
 $date= $bday->format('Y-m-d');
+$answer = $_POST['answer'] ?? '';
 
 $filename = 'json/banned_username.json';
 if (file_exists($filename)) {
@@ -36,32 +36,44 @@ if (file_exists($filename)) {
 if (isset($data['banned_usernames'])) {
     $banned_usernames = $data['banned_usernames'];
     if (in_array($username, $banned_usernames)) {
-        header('Location: register.php?error=BannedUsername&referer=mail_verification');
+        //header('Location: register.php?error=BannedUsername&referer=mail_verification');
+        echo "<script>window.location.href = 'register.php?error=BannedUsername&referer=mail_verification';</script>";
         exit;
     }    
 
     foreach ($banned_usernames as $banned_username) {
         if (str_contains($username, $banned_username)) {
-            header('Location: register.php?error=BannedUsername&referer=mail_verification');
+            //header('Location: register.php?error=BannedUsername&referer=mail_verification');
+            echo "<script>window.location.href = 'register.php?error=BannedUsername&referer=mail_verification';</script>";
             exit;
         }
     }
 }
 
 if (empty($mail) || empty($username) || empty($password) || empty($confpassword) || empty($answer) || empty($id) || empty($bday)) {
-    header('Location: register.php?error=EmptyFields&referer=mail_verification');
+    //header('Location: register.php?error=EmptyFields&referer=mail_verification');
+    echo "<script>window.location.href = 'register.php?error=EmptyFields&referer=mail_verification';</script>";
     exit();
 }
 
 if ($password != $confpassword) {
-    header('Location: register.php?error=PasswordMismatch&referer=mail_verification');
+    //header('Location: register.php?error=PasswordMismatch&referer=mail_verification');
+    echo "<script>window.location.href = 'register.php?error=PasswordMismatch&referer=mail_verification';</script>";
     exit();
 }
 
 $eighteen_years_ago = date('Y-m-d', strtotime('-18 years'));
+$hundred_years_ago = date('Y-m-d', strtotime('-100 years'));
+
+if($date < $hundred_years_ago){
+    //header("Location: register.php?error=AgeTooOld&referer=mail_verification");
+    echo "<script>window.location.href = 'register.php?error=AgeTooOld&referer=mail_verification';</script>";
+    exit();
+}
 
 if($date > $eighteen_years_ago){
-    header("Location: register.php?error=AgeTooYoung&referer=mail_verification");
+    //header("Location: register.php?error=AgeTooYoung&referer=mail_verification");
+    echo "<script>window.location.href = 'register.php?error=AgeTooYoung&referer=mail_verification';</script>";
     exit();
 }
 
@@ -70,13 +82,19 @@ $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
 $captcha = $stmt->fetch();
 
-$lowercase_form_answer = strtolower($answer);
-$lowercase_captcha_answer = strtolower($captcha['answer']);
+$lowercase_form_answer = strtolower(html_entity_decode($answer, ENT_QUOTES, 'UTF-8'));
+$lowercase_captcha_answer = strtolower(html_entity_decode($captcha['answer'], ENT_QUOTES, 'UTF-8'));
+
+/* echo "<script>alert('Lowercase form answer: " . htmlspecialchars($lowercase_form_answer, ENT_QUOTES, 'UTF-8') . "');</script>";
+echo "<script>alert('Lowercase captcha answer: " . htmlspecialchars($lowercase_captcha_answer, ENT_QUOTES, 'UTF-8') . "');</script>";
+echo "<script>alert('Is the same ? : " . ($lowercase_captcha_answer == $lowercase_form_answer ? 1 : 0) . "');</script>"; */
 
 if($lowercase_form_answer != $lowercase_captcha_answer){
-    header('Location: register.php?error=Captcha&referer=mail_verification');
+    //header('Location: register.php?error=Captcha&referer=mail_verification');
+    echo "<script>window.location.href = 'register.php?error=Captcha&referer=mail_verification';</script>";
     exit();
 }
+
 
 /* if($captcha['answer'] != $answer){
     header('Location: register.php?error=Captcha&referer=mail_verification');

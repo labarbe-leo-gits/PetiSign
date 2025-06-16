@@ -37,6 +37,19 @@ if(!in_array($pet_id, $clean_array)){
 
 try {
 
+    $get_file_name_of_signature_stmt = $pdo->prepare('SELECT mobile_signature_filename FROM SIGNATURE WHERE id_petition = :id AND id_user = :user_id');
+    $get_file_name_of_signature_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
+    $get_file_name_of_signature_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $get_file_name_of_signature_stmt->execute();
+    $file_name = $get_file_name_of_signature_stmt->fetchColumn();
+
+    if ($file_name) {
+        $file_path = '../../Resources/signatures/' . $file_name;
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
+    }
+
     $stmt = $pdo->prepare('DELETE FROM SIGNATURE WHERE id_petition = :id AND id_user = :user_id');
     $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);

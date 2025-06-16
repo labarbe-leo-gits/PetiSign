@@ -85,6 +85,65 @@ $check_if_logged_user_is_friend_with_target->bindParam(':id_target', $_GET['id']
 $check_if_logged_user_is_friend_with_target->execute();
 $is_friend = $check_if_logged_user_is_friend_with_target->fetchColumn();
 
+
+$check_if_user_blocked_target = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :id_user AND id_blocked_user = :id_target");
+$check_if_user_blocked_target->bindParam(':id_user', $user_id, PDO::PARAM_INT);
+$check_if_user_blocked_target->bindParam(':id_target', $_GET['id'], PDO::PARAM_INT);
+$check_if_user_blocked_target->execute();
+$is_blocked = $check_if_user_blocked_target->fetchColumn();
+
+$check_if_i_have_been_blocked = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :id_target AND id_blocked_user = :id_user");
+$check_if_i_have_been_blocked->bindParam(':id_target', $_GET['id'], PDO::PARAM_INT);
+$check_if_i_have_been_blocked->bindParam(':id_user', $user_id, PDO::PARAM_INT);
+$check_if_i_have_been_blocked->execute();
+$is_i_blocked = $check_if_i_have_been_blocked->fetchColumn();
+
+if($is_blocked > 0 || $is_i_blocked > 0) {
+    echo "
+        
+        <div class='profile_header'>
+            <div class='informations'>
+                <h2 class='username'>".$username."</h2>
+                <div class='user_tags'>
+                    <p class='admin_tag'>Utilisateur bloqué</p>
+                </div>
+            </div>
+            <div class='avatar'>
+                <img class='skin' src='../Resources/avatar/skin/skin" . $avatar_skin . "c" . $avatar_skin_color . ".png' alt=''>
+                <img src='../Resources/avatar/hat/hat" . $avatar_hat . "c" . $avatar_hat_color . ".png' class='hat' alt='Hat' id='hat'>
+                <img src='../Resources/avatar/eyes/eye" . $avatar_eyes . "c" . $avatar_eyes_color . ".png' class='eyes' alt='Eyes' id='eyes'>
+                <img src='../Resources/avatar/mouth/smile" . $avatar_mouth . "c" . $avatar_mouth_color . ".png' class='mouth' alt='Mouth' id='mouth'>
+            </div>
+        </div>";
+
+        if($is_blocked > 0) {
+
+            echo "
+            <div class='disclaimer'>
+                <p>Vous avez bloqué cet utilisateur. Débloquez le pour consulter son profil ou lui envoyer des messages !</p>
+            </div>
+
+            <div class='button_container'>
+                <button class='custom-button' onclick=\"window.location.href='Processus/unblock_user.php?uid=". $_GET['id'] ."'\">Débloquer</button>
+                <button class='custom-button' onclick=\"window.location.href='index.php'\">Retour à l'accueil</button>
+            </div>
+            
+            ";
+        } else if($is_i_blocked > 0) {
+            echo "
+            <div class='disclaimer'>
+                <p>Vous avez été bloqué par cet utilisateur. Vous ne pouvez pas consulter son profil.</p>
+            </div>
+
+            <div class='button_container'>
+                <button class='custom-button' onclick=\"window.location.href='index.php'\">Retour à l'accueil</button>
+            </div>
+            
+            ";
+        }
+    exit;
+}
+
 if($user_public == 0 && ($user_id != $_GET['id']) && $is_admin != 1 && $is_friend == 0) {
         $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
         echo "
@@ -103,7 +162,6 @@ if($user_public == 0 && ($user_id != $_GET['id']) && $is_admin != 1 && $is_frien
                 <img src='../Resources/avatar/mouth/smile" . $avatar_mouth . "c" . $avatar_mouth_color . ".png' class='mouth' alt='Mouth' id='mouth'>
             </div>
         </div>
-
         <div class='disclaimer'>
             <p>Ce profil est privé. Vous ne pouvez pas le consulter.</p>
         </div>
@@ -244,6 +302,9 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                 <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
                     <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
                 </div>
+                                    <div class='report report_third' onclick='window.location.href=\"Processus/block_user.php?uid=". $_GET['id'] ."\"'>
+                        <a class='report_btn' href='Processus/block_user.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/ban.png' alt='Bloquer'></a>
+                    </div>
                 ";
                 }else{
                     echo "
@@ -263,12 +324,16 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                         <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
                             <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/friend_request.png' alt='Ajouter un ami'></a>
                         </div>
+                        
                         ";
                     }else if($target_request_already_sent > 0){
                         echo "
                         <div class='report report_second' onclick='window.location.href=\"Processus/add_friend.php?uid=" . $_GET['id'] . "\"'>
                             <a class='report_btn' href='Processus/add_friend.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/validate.png' alt='Ajouter un ami'></a>
                         </div>
+                                            <div class='report report_third' onclick='window.location.href=\"Processus/block_user.php?uid=". $_GET['id'] ."\"'>
+                        <a class='report_btn' href='Processus/block_user.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/ban.png' alt='Bloquer'></a>
+                    </div>
                         ";
                     }
                 }else if($friend_request_already_sent > 0){
@@ -281,6 +346,9 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                     echo "
                     <div class='report report_second' onclick='window.location.href=\"manage_friends.php\"'>
                         <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Gérer les amis'></a>
+                    </div>
+                    <div class='report report_third' onclick='window.location.href=\"Processus/block_user.php?uid=". $_GET['id'] ."\"'>
+                        <a class='report_btn' href='Processus/block_user.php?uid=". $_GET['id'] ."'><img src='/Resources/img/ui_icons/ban.png' alt='Bloquer'></a>
                     </div>
                     ";
                 }

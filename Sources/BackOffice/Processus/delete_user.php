@@ -53,6 +53,10 @@ if($is_admin != 0){
                     $deleteTeamStmt->execute();
                 }
             }
+
+            $delete_friendship_stmt = $pdo->prepare("DELETE FROM FRIEND WHERE id_user = :id OR id_friend = :id");
+            $delete_friendship_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $delete_friendship_stmt->execute();
             
             $deleteTeamMemberStmt = $pdo->prepare("DELETE FROM TEAM_MEMBER WHERE id_user = :id");
             $deleteTeamMemberStmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -65,6 +69,20 @@ if($is_admin != 0){
             $deleteActivitiesStmt = $pdo->prepare("DELETE FROM TEAM_ACTIVITY WHERE id_user = :id AND id_team IS NULL");
             $deleteActivitiesStmt->bindParam(':id', $id, PDO::PARAM_INT);
             $deleteActivitiesStmt->execute();
+
+            $get_all_signatures_mobile_filename = $pdo->prepare("SELECT mobile_signature_filename FROM SIGNATURE WHERE id_user = :id");
+            $get_all_signatures_mobile_filename->bindParam(':id', $id, PDO::PARAM_INT);
+            $get_all_signatures_mobile_filename->execute();
+            $signatures = $get_all_signatures_mobile_filename->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($signatures as $signature) {
+                if (!empty($signature['mobile_signature_filename'])) {
+                    $file_path = '../../../Resources/signatures/' . $signature['mobile_signature_filename'];
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
+                }
+            }
             
             $deleteSignatureStmt = $pdo->prepare("DELETE FROM SIGNATURE WHERE id_user = :id");
             $deleteSignatureStmt->bindParam(':id', $id, PDO::PARAM_INT);

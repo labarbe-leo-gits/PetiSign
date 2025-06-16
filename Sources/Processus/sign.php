@@ -120,6 +120,12 @@ try{
             $filepath = $signatures_dir . $filename;
             file_put_contents($filepath, $signature_binary);
 
+            $add_the_filename_to_the_signature_stmt = $pdo->prepare("UPDATE SIGNATURE SET mobile_signature_filename = :filename WHERE id_user = :user_id AND id_petition = :petition_id");
+            $add_the_filename_to_the_signature_stmt->bindParam(':filename', $filename);
+            $add_the_filename_to_the_signature_stmt->bindParam(':user_id', $user_id);
+            $add_the_filename_to_the_signature_stmt->bindParam(':petition_id', $petition_id);
+            $add_the_filename_to_the_signature_stmt->execute();
+
             $user = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
             $user->bindParam(':id', $user_id);
             $user->execute();

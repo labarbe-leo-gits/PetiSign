@@ -112,6 +112,14 @@ form {
     background-color: #c82333;
 }
 
+.friend-contact-btn{
+    background-color: #058295;
+}
+
+.friend-contact-btn:hover {
+    background-color: #046f7c;
+}
+
 .friend-remove-btn img {
     width: 18px;
     height: 18px;

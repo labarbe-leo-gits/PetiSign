@@ -122,13 +122,21 @@ body {
 
 .sign_petition_btn {
     background-color: #FED78B;
-    padding: 10px 150px;
+    padding: 10px 50px;
     color: #1A414E;
     border-radius: 100px;
     cursor: pointer;
     border: none;
     font-size: 18px;
     transition: background-color 0.3s ease;
+}
+
+.sign_petition_form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
 }
 
 .sign_petition_btn:hover {
@@ -1137,4 +1145,347 @@ body {
 
 .mobile-signature-overlay.closing .mobile-signature-popup {
     animation: slideDown 0.3s ease-out forwards;
+}
+
+.view_signature_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    background-color: #FED78B;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.view_signature_btn > img {
+    width: 20px;
+    filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
+    margin-right: 10px;
+    margin: 0 auto;
+}
+
+.view_signature_btn:hover {
+    background-color: #E0BD78;
+
+}
+
+.view_sign_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.view_sign_overlay.show {
+    opacity: 1;
+}
+
+.view_signature_popup {
+    width: 50vw;
+    max-width: 600px;
+    max-height: 80vh;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    position: relative;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.view_signature_popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.popup_sign_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.popup_sign_header h2 {
+    text-align: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0;
+    color: #1A414E;
+}
+
+.popup_sign_body {
+    text-align: center;
+}
+
+.signature_image {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#signatureCanvasView {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    background-color: #ffffff;
+}
+
+.signature_info {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-top: 15px;
+}
+
+.signature_text {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #374151;
+    text-align: left;
+}
+
+.signature_text:last-child {
+    margin-bottom: 0;
+}
+
+.signature_text strong {
+    color: #1A414E;
+}
+
+@media screen and (max-width: 768px) {
+    .view_signature_popup {
+        width: 90%;
+        margin: 20px;
+        padding: 20px;
+        max-height: 90vh;
+    }
+    
+    .popup_sign_header h2 {
+        font-size: 24px;
+    }
+    
+    .signature_image {
+        padding: 15px;
+    }
+    
+    .signature_info {
+        padding: 15px;
+    }
+    
+    .signature_text {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .view_signature_popup {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .popup_sign_header h2 {
+        font-size: 20px;
+    }
+    
+    .signature_image {
+        padding: 10px;
+    }
+    
+    .signature_info {
+        padding: 12px;
+    }
+    
+    #signatureCanvasView {
+        width: 100%;
+        max-width: 300px;
+        height: 150px;
+    }
+}
+
+.qr-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.qr-overlay.show {
+    opacity: 1;
+}
+
+#qr-container {
+    width: 20vw;
+    max-width: 30vw;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    position: relative;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-align: center;
+}
+
+.qr-overlay.show #qr-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#qr-container h2 {
+    text-align: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0 0 20px 0;
+    color: #1A414E;
+}
+
+#qr-container > button:first-of-type {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 10;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#qr-container > button:first-of-type img {
+    rotate: 45deg;
+    width: 15px;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    filter: invert(17%) sepia(90%) saturate(351%) hue-rotate(148deg) brightness(99%) contrast(91%);
+    transform: rotate(45deg);
+}
+
+#qr-container > button:first-of-type:hover img {
+    filter: invert(19%) sepia(82%) saturate(2302%) hue-rotate(331deg) brightness(94%) contrast(102%);
+}
+
+#qr-code {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#qr-container .action {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#qr-container .action button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #FED78B;
+    border: none;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    color: #1A414E;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#qr-container .action button:hover {
+    background-color: #E0BD78;
+}
+
+#qr-container .action button img {
+    width: 20px;
+    filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
+}
+
+@media screen and (max-width: 480px) {
+    #qr-container {
+        width: 90%;
+        max-width: none;
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    #qr-container h2 {
+        font-size: 24px;
+    }
+    
+    #qr-container > button:first-of-type {
+        top: -5px;
+        right: -5px;
+    }
+    
+    #qr-container > button:first-of-type img {
+        width: 25px;
+    }
+    
+    #qr-container .action button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    #qr-container .action button img {
+        width: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    #qr-container {
+        width: 90%;
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    #qr-container h2 {
+        font-size: 24px;
+    }
+    
+    #qr-container > button:first-of-type {
+        top: -5px;
+        right: -5px;
+    }
+    
+    #qr-container > button:first-of-type img {
+        width: 25px;
+    }
+}
+
+.qr_code_action_link > img{
+    width: 20px;
+    filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
 }

@@ -105,14 +105,14 @@ CREATE TABLE PETITION (
     signature_stage_four INT DEFAULT 0,
     image_id INT,
     user INTEGER REFERENCES USER(id),
-    statut VARCHAR(6) DEFAULT 'OPEN',
-    mobile_signature_filename VARCHAR(255)
+    statut VARCHAR(6) DEFAULT 'OPEN'
 );
 
 CREATE TABLE SIGNATURE (
     id_user INT REFERENCES USER(id),
     id_petition INT REFERENCES PETITION(id),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    mobile_signature_filename VARCHAR(255)
     PRIMARY KEY (id_user, id_petition)
 );
 
@@ -150,13 +150,6 @@ CREATE TABLE REPORT(
     reason TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     current_status VARCHAR(20) DEFAULT 'OPEN'
-);
-
-CREATE TABLE DON(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    id_user INT REFERENCES USER(id),
-    amount INT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE ACTIVITY_INSCRIPTION(
