@@ -131,9 +131,14 @@ try {
 
 
         echo "Petition updated successfully.";
+
+        echo "<script>window.location.href = '../my_petitions.php?code=SuccessMod';</script>";
         exit();
     } else {
         echo "Error updating petition.";
+        echo "<script>window.location.href = '../my_petitions.php?code=ErrorMod';</script>";
+        exit();
+
     }
 
 } catch (PDOException $e) {

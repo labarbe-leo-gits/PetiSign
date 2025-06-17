@@ -12,5 +12,6 @@
     "505": "La version du protocole HTTP utilisée dans la requête n'est pas prise en charge par le serveur.",
     "808" : "Le paramètre n'existe pas.",
     "333" : "Utilisateur introuvable.",
-    " ":"Une erreur inconnue est survenue."
+    " ":"Une erreur inconnue est survenue.",
+    "069" : "Vous avez été bloqué par l'utilisateur"
 }

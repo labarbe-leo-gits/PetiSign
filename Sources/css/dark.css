@@ -1,4 +1,3 @@
-
 @media only screen and (min-width: 0rem) {
   :root {
     --dark: #112931;
@@ -44,9 +43,20 @@ body.dark-mode {
     color: var(--text-color);
 }
 
+body.dark-mode select#category {
+  color: var(--text-color);
+  border: 1px solid var(--bg-secondary);
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  transition: var(--transition);
+}
+
+
  body.dark-mode .links > a,
  body.dark-mode .grid > .signatures_container > .objectif,
- body.dark-mode .grid > .petition_information > .entries_modify{
+ body.dark-mode .grid > .petition_information > .entries_modify,
+ body.dark-mode .navcontent.dropdown-toggle{
     color: var(--text-color);
   }
 
@@ -66,7 +76,11 @@ body.dark-mode {
   body.dark-mode .targetElement,
   body.dark-mode .stat_value_container,
   body.dark-mode .no-discussion-message,
-  body.dark-mode .donation{
+  body.dark-mode .donation,
+  body.dark-mode .report.report_second.txt_rep,
+  body.dark-mode .report,
+  body.dark-mode .admin_tag,
+  body.dark-mode .quick_status_action{
     background: var(--bg-secondary);
     transition: var(--transition);
   }
@@ -129,7 +143,8 @@ body.dark-mode {
   body.dark-mode .editable,
   body.dark-mode   .sign_petition_btn,
   body.dark-mode  .quick,
-  body.dark-mode .comment_section{
+  body.dark-mode .comment_section,
+  body.dark-mode .popup_content{
     background-color: var(--bg-secondary);
     color: var(--text-color);
     transition: var(--transition);
@@ -144,13 +159,6 @@ body.dark-mode {
     outline: none;
     flex: 1;
     color: var(--text-color);
-    padding: 15px;
-    padding-left: 30px;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
-    box-sizing: border-box;
     font-size: 20px;
     transition: all 0.3s ease;
   }
@@ -159,8 +167,6 @@ body.dark-mode {
     position: absolute;
     width: fit-content;
     text-align: left;
-    top: 28px;
-    left: 25px;
     background-color: var(--bg-secondary);
     padding: 0 5px;
     font-size: 16px;
@@ -175,11 +181,6 @@ body.dark-mode {
     left: 25px;
     font-size: 14px;
     color: var(--text-color);
-    width: fit-content;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
     border: 1px solid var(--dark);
     border-radius: 100px;
     background-color: var(--bg-secondary);
@@ -190,9 +191,6 @@ body.dark-mode {
     display: flex;
     align-items: center;
     background-color: var(--bg-secondary);
-    border-radius: 50px;
-    padding: 10px 15px;
-    width: 600px;
     position: relative;
     transition: var(--transition);
   }
@@ -203,8 +201,6 @@ body.dark-mode {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-radius: 50%;
     background-color: var(--bg-secondary);
     transition: var(--transition);
   }
@@ -300,8 +296,34 @@ body.dark-mode .action_btn_viewpetition > .action_btn {
     transition: var(--transition);
 }
 body.dark-mode .entries:has(#message) {
-    background-color: transparent !important;
+    background-color: transparent;
 }
+
+
+body.dark-mode .my_profile {
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary), var(--bg-primary));
+  background-size: 300% 300%;
+  animation: shine-dark 2s ease-in-out infinite;
+}
+
+body.dark-mode .user_item {
+  box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.4);
+  border-left: solid 4px var(--highlight);
+  transition: var(--transition), box-shadow 0.3s ease, translate 0.3s ease;
+}
+
+@keyframes shine-dark {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 }
 
 @media only screen and (min-width: 0rem) {

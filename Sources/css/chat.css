@@ -575,3 +575,36 @@ input:not(:placeholder-shown) + label {
     font-size: 16px;
     text-align: center;
 }
+
+.delete-message{
+    margin-left: 20vw;
+    z-index: 1000;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease , transform 0.3s ease;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border: 1px solid #ccc;
+}
+
+.delete-message:hover {
+    background-color: #c82333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-message > img {
+    width: 10px;
+    padding: 3px 3px;
+    margin: 0 auto;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(155deg) brightness(106%) contrast(101%);
+}

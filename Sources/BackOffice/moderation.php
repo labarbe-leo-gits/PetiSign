@@ -24,6 +24,15 @@ $admin_key = $env['CrontabKey'] ?? null;
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page">&nbsp;Actualiser</a>
         <a class="captcha_database_action" href="Processus/delete_all_checked.php"><img src="../../Resources/img/ui_icons/trash.png" alt="Actualiser la page">&nbsp;Effacer les signalements traités</a>
     </div>
+    <?php
+    $count_number_of_report = $pdo->prepare("SELECT COUNT(id) FROM REPORT");
+    $count_number_of_report->execute();
+    $number_of_report = $count_number_of_report->fetchColumn();
+    if($number_of_report <= 0){
+        echo "<div class='no_data'><img src='/Resources/img/ui_icons/empty.png' alt='Empty'><p>Aucun signalement</p></div>";
+        exit();
+    }
+    ?>
     <div class="tableau">
         <table>
             <tr>

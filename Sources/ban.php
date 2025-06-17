@@ -68,6 +68,16 @@ include_once 'special_header.php';
         $mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
         $confirmed_mail = filter_var($mail, FILTER_VALIDATE_EMAIL);
 
+        $get_username_from_mail_stmt = $pdo->prepare("SELECT username FROM USER WHERE email = :mail");
+        $get_username_from_mail_stmt->bindParam(':mail', $confirmed_mail);
+        $get_username_from_mail_stmt->execute();
+        $username_from_mail = $get_username_from_mail_stmt->fetchColumn();
+
+        if(!$username_from_mail){
+            echo "<p class='error'>L'adresse e-mail fournie n'est pas valide ou n'existe pas dans notre base de données.</p>";
+            exit();
+        }
+
         $get_all_website_admin_stmt = $pdo->prepare("SELECT username, email FROM USER WHERE is_admin = 1 AND mail_notification = 1");
         $get_all_website_admin_stmt->execute();
         $all_website_admin = $get_all_website_admin_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -80,7 +90,7 @@ include_once 'special_header.php';
         $mail_sent = new PHPMailer(true);
         
         foreach($all_website_admin as $admin) {
-            EnvoieMail($mail_sent, $admin['email'], $admin['username'], $mail_obj, "$confirmed_mail a effectué une demande de contact. Voici le corps de son message :<br /><br /> $mail_message", "administrateur du site");
+            EnvoieMail($mail_sent, $admin['email'], $admin['username'], $mail_obj, "$username_from_mail ($confirmed_mail) a effectué une demande de contact. Voici le corps de son message :<br /><br /> $mail_message", "administrateur du site");
         }
 
         echo "<p class='success'>Votre message a été envoyé avec succès !</p>";

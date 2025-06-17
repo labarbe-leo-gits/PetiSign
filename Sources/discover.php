@@ -50,28 +50,43 @@ $number_of_cards = 5;
     <div class="scrollable">
     <?php
 
-    
+    $count_how_many_petitions_stmt = $pdo->prepare("SELECT COUNT(id) FROM PETITION");
+    $count_how_many_petitions_stmt->execute();
+    $count_how_many_petitions = $count_how_many_petitions_stmt->fetchColumn();
 
-    $five_most_recent_petitions_stmt = $pdo->prepare("SELECT * FROM PETITION ORDER BY date DESC LIMIT :limit");
-    $five_most_recent_petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);
-    $five_most_recent_petitions_stmt->execute();
-    $five_most_recent_petitions = $five_most_recent_petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
+    if($count_how_many_petitions > 0){
+
+        $five_most_recent_petitions_stmt = $pdo->prepare("SELECT * FROM PETITION ORDER BY date DESC LIMIT :limit");
+        $five_most_recent_petitions_stmt->bindValue(':limit', $number_of_cards, PDO::PARAM_INT);
+        $five_most_recent_petitions_stmt->execute();
+        $five_most_recent_petitions = $five_most_recent_petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-    foreach($five_most_recent_petitions as $petition) {
+        foreach($five_most_recent_petitions as $petition) {
+            echo '
+            <div class="card">
+                <div class="cardheader">
+                    <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
+                </div>
+                <div class="cardcontent">
+                    <div class="left">
+                        <h3>' . html_entity_decode($petition['title']) . '</h3>
+                    </div>
+                    <div class="right">
+                        <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
+                    </div>
+                </div>
+            </div>
+            ';
+        }
+        echo '<div class="card see_more">
+            <a class="see_more_link"  href="search.php"><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
+        </div>';
+    }else{
         echo '
-        <div class="card">
-            <div class="cardheader">
-                <img src="../Resources/img/petition_selection/' . $petition['image_id'] . '.jpg" alt="">
-            </div>
-            <div class="cardcontent">
-                <div class="left">
-                    <h3>' . html_entity_decode($petition['title']) . '</h3>
-                </div>
-                <div class="right">
-                    <a href="view_petition.php?id=' . $petition['id'] . '">Découvrir</a>
-                </div>
-            </div>
+        <div class="no_petitions">
+            <img src="../Resources/img/ui_icons/empty.png" class="small" alt="Empty Category">
+            <p>Il n\'y a pas de pétition pour le moment. Créez la vôtre <a href="create_petition.php">ici</a> !</p>
         </div>';
     }
 
@@ -79,9 +94,7 @@ $number_of_cards = 5;
     
 ?>
 
-        <div class="card see_more">
-            <a class="see_more_link"  href="search.php"><img src="../Resources/img/ui_icons/greater.png" alt="See More"></a>
-        </div>
+        
     </div>
 </div>
 

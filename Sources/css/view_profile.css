@@ -474,6 +474,10 @@
     margin-left: 70px;
 }
 
+.third_rep{
+    margin-left: 140px;
+}
+
 .report_third{
     margin-left: 140px;
 }
@@ -765,6 +769,10 @@
     color: #e12d36;
 }
 
+.no_desktop {
+    display: none;
+}
+
 @media screen and (max-width: 480px) {
     .popup_content {
         width: 90%;
@@ -772,6 +780,10 @@
         min-width: unset;
         padding: 20px;
         margin: 20px;
+    }
+
+    .no_desktop {
+        display: block;
     }
     
     .status-popup-header h2 {

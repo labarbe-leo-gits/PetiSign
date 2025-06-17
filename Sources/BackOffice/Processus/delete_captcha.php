@@ -8,6 +8,16 @@ if($is_admin != 0){
         $id = intval($_GET['id']);
 
         try {
+
+            $count_how_many_captchas_are_in_database = $pdo->prepare("SELECT COUNT(*) FROM CAPTCHA WHERE state = 1");
+            $count_how_many_captchas_are_in_database->execute();
+            $count = $count_how_many_captchas_are_in_database->fetchColumn();
+
+            if ($count == 1) {
+                echo "<script>window.location.href = '../captcha.php?error=TooFew';</script>";
+                exit();
+            }
+
             $stmt = $pdo->prepare("DELETE FROM CAPTCHA WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 

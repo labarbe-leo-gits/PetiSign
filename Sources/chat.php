@@ -110,7 +110,8 @@ if(isset($discussion_id) && $discussion_id != null){
             $exchanger_id->execute();
             $exchanger_id = $exchanger_id->fetchColumn();
         }else{
-            header('Location: error.php?code=403');
+            /* header('Location: error.php?code=403'); */
+            echo "<script>window.location.href='error.php?code=403';</script>";
             exit();
         }
 
@@ -140,6 +141,17 @@ if(isset($discussion_id) && $discussion_id != null){
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+}
+
+$check_if_discussion_exists = $pdo->prepare("SELECT COUNT(*) FROM DISCUSSION WHERE id = :discussion_id");
+$check_if_discussion_exists->bindParam(':discussion_id', $discussion_id, PDO::PARAM_INT);
+$check_if_discussion_exists->execute();
+$discussion_exists = $check_if_discussion_exists->fetchColumn();
+
+if(isset($discussion_id) && $discussion_exists == 0) {
+    echo "<script>window.location.href='error.php?code=404';</script>";
+    exit();
+    
 }
 
 $get_all_user_discussions = $pdo->prepare("SELECT * FROM DISCUSSION WHERE id_user = :user_id OR id_second_user = :user_id");

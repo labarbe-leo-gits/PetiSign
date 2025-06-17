@@ -33,6 +33,11 @@ $get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
 $get_user_id_stmt->execute();
 $user_id = $get_user_id_stmt->fetchColumn();
 
+$count_signatures_of_user = $pdo->prepare('SELECT COUNT(*) FROM SIGNATURE WHERE id_user = :user_id');
+$count_signatures_of_user->bindParam(':user_id', $user_id);
+$count_signatures_of_user->execute();
+$signatures_count = $count_signatures_of_user->fetchColumn();
+
 $get_user_signatures_stmt = $pdo->prepare('SELECT * FROM SIGNATURE WHERE id_user = :user_id');
 $get_user_signatures_stmt->bindParam(':user_id', $user_id);
 $get_user_signatures_stmt->execute();
@@ -47,6 +52,13 @@ $signatures = $get_user_signatures_stmt->fetchAll(PDO::FETCH_ASSOC);
     <hr>
     <a class="new_pet" href="discover.php"> <img src="../Resources/img/ui_icons/loupe.png" id="add" alt="Filtres">  Explorer les Pétitions</a>
 </div>
+
+<?php
+if($signatures_count == 0){
+    echo '<div class="no_signatures"><img src="/Resources/img/ui_icons/empty.png" alt"Empty"><p>Vous n\'avez pas encore signé de pétitions !</p></div>';
+    exit();
+}
+?>
 
 <?php
 $card_num = 0;

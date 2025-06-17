@@ -12,15 +12,20 @@ if(!isset($_SESSION['mail'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $petition_name_unfiltered = $_POST['name'] ?? '';
     $petition_name = htmlspecialchars(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
     $petition_category = htmlspecialchars(filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING));
     $petition_description = htmlspecialchars(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
+    $petition_description_unfiltered = $_POST['description'] ?? '';
     $petition_goal = htmlspecialchars(filter_input(INPUT_POST, 'objectif', FILTER_SANITIZE_NUMBER_INT));
     $petition_img = htmlspecialchars(filter_input(INPUT_POST, 'img_id', FILTER_SANITIZE_NUMBER_INT));
     $user_id = htmlspecialchars(filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT));
 
-    $petition_name_length = strlen($petition_name);
-    $petition_description_length = strlen($petition_description);
+    $petition_name_length = mb_strlen($petition_name_unfiltered);
+    $petition_description_length = mb_strlen($petition_description_unfiltered);
+
+    $petition_name = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $petition_name_unfiltered);
+$petition_description = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $petition_description_unfiltered);
 
     if ($petition_name_length > 60) {
         echo "Petition name is too long";
@@ -29,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($petition_description_length > 800) {
         echo "Petition description is too long";
+        echo $petition_description_length;
         exit();
     }
 

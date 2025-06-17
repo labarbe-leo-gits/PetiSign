@@ -42,6 +42,10 @@ try {
             
             $output .= '<li class="message-item">';
             $output .= '<p class="' . $class . '">' . htmlspecialchars($message['content']) . '</p>';
+            // output a delete button only if the user is the sender
+            if ($email == $_SESSION['mail']) {
+                $output .= '<button class="delete-message" data-message-id="' . $message['id'] . '" onclick="window.location.href=\'Processus/delete_message.php?id='. $message['id'] .'\'"><img src="/Resources/img/ui_icons/trash.png" alt="Supprimer"></button>';
+            }
             $output .= '</li>';
         }
     } else {

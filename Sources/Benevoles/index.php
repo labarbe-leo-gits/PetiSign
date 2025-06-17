@@ -17,7 +17,7 @@ try{
     echo "Erreur : " . $e->getMessage();
 }
 
-$count_how_many_submissions = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE id_user = :id_user AND current_status = 'En Attente'");
+$count_how_many_submissions = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE id_user = :id_user AND current_status = 'En Attente' AND candidate_type = 1");
 $count_how_many_submissions->bindParam(':id_user', $get_user_id);
 $count_how_many_submissions->execute();
 $count_how_many_submissions = $count_how_many_submissions->fetchColumn();
@@ -119,7 +119,7 @@ if(isset($_POST['form_submit'])){
                 </div>
                 ';
 
-                $select_three_random_teams = $pdo->prepare("SELECT * FROM TEAM ORDER BY RAND() LIMIT 3");
+                $select_three_random_teams = $pdo->prepare("SELECT * FROM TEAM ORDER BY RAND()");
                 $select_three_random_teams->execute();
                 $random_teams = $select_three_random_teams->fetchAll(PDO::FETCH_ASSOC);
 
@@ -188,7 +188,7 @@ $is_benevole = $get_benevole_status->fetchColumn();
         <div class="entries">
             <div class="entries">
                 <div class="area">
-                    <textarea required name="description" id="description" maxlength=120 onkeyup="count('desc_counter',this,800)"></textarea>
+                    <textarea required name="description" id="description" maxlength=120 onkeyup="count('desc_counter',this,120)"></textarea>
                     <label for="description" class="textarea_label">Motivation</label>
                 </div>
                 <div class="limit positioned" id="desc_counter">

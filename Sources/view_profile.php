@@ -364,6 +364,11 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                     <a class='report_btn' href='manage_friends.php'><img src='/Resources/img/ui_icons/friend.png' alt='Ajouter un ami'><p class='friend_text_not'>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Demandes en attente : ". $pending_requests_count ."</p></a>
                 </div>
                 ";
+                echo "
+                <div class='report report_second third_rep txt_rep no_desktop' onclick='window.location.href=\"manage_friends.php\"'>
+                    <a class='report_btn' href='download.php'><img src='/Resources/img/ui_icons/download.png' alt='Télécharger'><p class='friend_text_not'>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Demandes en attente : ". $pending_requests_count ."</p></a>
+                </div>
+                ";
             }
         }
 

@@ -33,6 +33,11 @@ $get_user_id_stmt->bindParam(':mail', $_SESSION['mail']);
 $get_user_id_stmt->execute();
 $user_id = $get_user_id_stmt->fetchColumn();
 
+$count_num_petitions_stmt = $pdo->prepare('SELECT COUNT(*) FROM PETITION WHERE user = :user_id');
+$count_num_petitions_stmt->bindParam(':user_id', $user_id);
+$count_num_petitions_stmt->execute();
+$num_petitions = $count_num_petitions_stmt->fetchColumn();
+
 $get_user_petitions_stmt = $pdo->prepare('SELECT * FROM PETITION WHERE user = :user_id');
 $get_user_petitions_stmt->bindParam(':user_id', $user_id);
 $get_user_petitions_stmt->execute();
@@ -47,6 +52,13 @@ $petitions = $get_user_petitions_stmt->fetchAll(PDO::FETCH_ASSOC);
     <hr>
     <a class="new_pet" href="create_petition.php"> <img src="../Resources/img/ui_icons/plus.png" id="add" alt="Filtres">  Nouvelle Pétition</a>
 </div>
+
+<?php
+    if($num_petitions == 0){
+        echo '<div class="no_signatures"><img src="/Resources/img/ui_icons/empty.png" alt"Empty"><p>Vous n\'avez pas encore crée de pétitions !</p></div>';
+        exit();
+    }
+?>
 
 <?php
 $card_num = 0;

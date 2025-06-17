@@ -270,3 +270,21 @@ tr:first-child{background-color: #E0BD78;}
 .refresh-controls{
     display: none;
 }
+
+.no_data{
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    width: 80%;
+    box-shadow : 0 3px 6px rgba(30, 58, 71, 0.15);
+}
+
+.no_data > img{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}

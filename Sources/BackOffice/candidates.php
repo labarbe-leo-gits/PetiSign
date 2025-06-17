@@ -14,6 +14,14 @@ include_once '../checker.php';
     <div class="database_actions_container">
         <a class="captcha_database_action" onclick="window.location.reload(true);"><img src="../../Resources/img/ui_icons/refresh.png" alt="Actualiser la page"> Actualiser</a>
     </div>
+    <?php
+    $count_number_of_volunteer_candidates_stmt = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE candidate_type = 1");
+    $count_number_of_volunteer_candidates_stmt->execute();
+    $count_number_of_volunteer_candidates = $count_number_of_volunteer_candidates_stmt->fetchColumn();
+    ?>
+    <?php if($count_number_of_volunteer_candidates == 0): ?>
+    <div class='no_data'><img src='/Resources/img/ui_icons/empty.png' alt='Empty'><p>Aucune candidature</p></div>
+    <?php else: ?>
     <div class="tableau">
         <table>
             <tr>
@@ -66,9 +74,18 @@ include_once '../checker.php';
             ?>
         </table>
     </div>
+    <?php endif; ?>
     <div class="title">
         <h2 class="highlighted-text" id="page_title">Gestion des demandes de Déban</h2>
     </div>
+    <?php
+    $count_number_of_unban_requests_stmt = $pdo->prepare("SELECT COUNT(*) FROM USER_CANDIDATE WHERE candidate_type = 2");
+    $count_number_of_unban_requests_stmt->execute();
+    $count_number_of_unban_requests = $count_number_of_unban_requests_stmt->fetchColumn();
+    ?>
+    <?php if($count_number_of_unban_requests == 0): ?>
+    <div class='no_data'><img src='/Resources/img/ui_icons/empty.png' alt='Empty'><p>Aucune demande de déban</p></div>
+    <?php else: ?>
     <div class="tableau">
         <table>
             <tr>
@@ -121,6 +138,7 @@ include_once '../checker.php';
             ?>
         </table>
     </div>
+    <?php endif; ?>
 </div>
 </div>
 

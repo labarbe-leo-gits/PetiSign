@@ -108,6 +108,10 @@ form {
     justify-content: center;
 }
 
+.dot{
+    margin: 0 0 0 0;
+}
+
 .friend-remove-btn:hover {
     background-color: #c82333;
 }

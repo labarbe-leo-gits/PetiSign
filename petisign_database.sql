@@ -105,7 +105,8 @@ CREATE TABLE PETITION (
     signature_stage_four INT DEFAULT 0,
     image_id INT,
     user INTEGER REFERENCES USER(id),
-    statut VARCHAR(6) DEFAULT 'OPEN'
+    statut VARCHAR(6) DEFAULT 'OPEN',
+    qr_code_filename VARCHAR(255) DEFAULT CONCAT('qr_code_petition_id', id, '.png'),
 );
 
 CREATE TABLE SIGNATURE (

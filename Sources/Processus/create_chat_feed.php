@@ -49,6 +49,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
         header('Location: ../chat.php?discussion_id=' . $discussion_id);
         exit();
     }
+
+    $check_if_i_have_been_blocked = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :user_id AND id_blocked_user = :second_user_id");
+    $check_if_i_have_been_blocked->bindParam(':user_id', $user_to_contact_id);
+    $check_if_i_have_been_blocked->bindParam(':second_user_id', $user_id);
+    $check_if_i_have_been_blocked->execute();
+    $blocked = $check_if_i_have_been_blocked->fetchColumn();
+
+    if($blocked != 0) {
+        header('Location: ../error.php?code=069');
+        exit();
+    }
     
     $insertion = $pdo->prepare("INSERT INTO DISCUSSION (id_user, id_second_user) VALUES (:user_id, :second_user_id)");
     $insertion->bindParam(':user_id', $user_id);
