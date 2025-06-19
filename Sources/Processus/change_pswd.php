@@ -15,7 +15,8 @@ $new_conf = filter_input(INPUT_POST, 'new_conf', FILTER_SANITIZE_STRING);
 $mail = $_SESSION['mail'];
 
 if ($new != $new_conf) {
-    header("Location: ../password_form.php");
+    //header("Location: ../password_form.php");
+    echo "<script>window.location.href = '../password_form.php';</script>";
     exit();
 }
 
@@ -30,10 +31,12 @@ if (password_verify($old, $hashedPassword)) {
     $stmt->bindParam(':new', $newHashedPassword);
     $stmt->bindParam(':mail', $mail);
     $stmt->execute();
-    header("Location: ../profile.php");
+    //header("Location: ../profile.php");
+    echo "<script>window.location.href = '../profile.php';</script>";
     exit();
 } else {
-    header("Location: ../password_form.php");
+    //header("Location: ../password_form.php");
+    echo "<script>window.location.href = '../password_form.php';</script>";
     exit();
 }
 ?>

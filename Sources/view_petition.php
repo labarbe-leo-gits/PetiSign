@@ -706,12 +706,20 @@ if($file_exists == false){
         <button type="button"><img src="/Resources/img/ui_icons/cross.png" class="close-cross" alt="Fermer"></button>
         <img id="qr-code" alt="QR Code" />
         <div class="action">
-            <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger le Qr Code</button>
-            <!-- TODO !!! MEDIA PRINT AFFICHE STYLE PROPAGANDE -->
-            <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger l'affiche</button>
+            <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger le QR Code</button>
+
+            <a href="Processus/download_petition.php?id=<?= $pet_id ?>" target="_blank">
+                <button type="button">
+                    <img src="/Resources/img/ui_icons/download.png" alt="Télécharger">
+                    &nbsp;&nbsp;Télécharger l'affiche</button>
+            </a>
         </div>
     </div>
 </div>
+
+
+
+
 
 <?php
 echo $generate_qr_script;

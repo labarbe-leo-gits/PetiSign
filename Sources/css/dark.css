@@ -43,13 +43,21 @@ body.dark-mode {
     color: var(--text-color);
 }
 
-body.dark-mode select#category {
+body.dark-mode select#category,
+body.dark-mode body.dark-mode .entries {
+   background-color: var(--bg-button);
   color: var(--text-color);
-  border: 1px solid var(--bg-secondary);
+  border: 1px solid var(--text-color);
   border-radius: 5px;
   padding: 10px;
   width: 100%;
   transition: var(--transition);
+}
+
+body.dark-mode select#category option,
+body.dark-mode .category_text {
+  background-color: var(--bg-button);
+  color: var(--text-color);
 }
 
 
@@ -57,6 +65,7 @@ body.dark-mode select#category {
  body.dark-mode .grid > .signatures_container > .objectif,
  body.dark-mode .grid > .petition_information > .entries_modify,
  body.dark-mode .navcontent.dropdown-toggle{
+    background-color: transparent;
     color: var(--text-color);
   }
 
@@ -80,7 +89,8 @@ body.dark-mode select#category {
   body.dark-mode .report.report_second.txt_rep,
   body.dark-mode .report,
   body.dark-mode .admin_tag,
-  body.dark-mode .quick_status_action{
+  body.dark-mode .quick_status_action,
+  body.dark-mode .warning{
     background: var(--bg-secondary);
     transition: var(--transition);
   }
@@ -111,15 +121,22 @@ body.dark-mode select#category {
   }
   body.dark-mode .container,
   body.dark-mode .chat_access,
-  body.dark-mode .sidebar {
+  body.dark-mode .sidebar,
+  body.dark-mode .comment_section {
     background-color: var(--dark);
     transition: var(--transition);
 }
 
   body.dark-mode nav,
-  body.dark-mode .custom-button.loginbtn{
+  body.dark-mode .custom-button.loginbtn,
+  body.dark-mode .info-section,
+  body.dark-mode .info-section li,
+  body.dark-mode #don-button,
+  body.dark-mode #help-button,
+  body.dark-mode .view_signature_btn{
     background-color: var(--bg-secondary);
     transition: var(--transition);
+    color: var(--text-color);
   }
 
   body.dark-mode .pfp {
@@ -143,7 +160,7 @@ body.dark-mode select#category {
   body.dark-mode .editable,
   body.dark-mode   .sign_petition_btn,
   body.dark-mode  .quick,
-  body.dark-mode .comment_section,
+
   body.dark-mode .popup_content{
     background-color: var(--bg-secondary);
     color: var(--text-color);
@@ -153,7 +170,8 @@ body.dark-mode select#category {
   body.dark-mode .container_.popup.show h2 {
   color: var(--bg-button);
   }
-  body.dark-mode .search-container input {
+  body.dark-mode .search-container input,
+    body.dark-mode .friend {
     border: 1px solid var(--bg-secondary);
     background-color: var(--bg-secondary);
     outline: none;
@@ -259,9 +277,11 @@ body.dark-mode .entries,
 body.dark-mode .main_container,
 body.dark-mode .grid > .signatures_container,
 body.dark-mode .grid > .petition_information{
-  background-color: var(--bg-button);
+  background-color: transparent;
   transition: var(--transition);
 }
+
+/* ICIIIIIIIIIII */
 
 body.dark-mode .entries input,
 body.dark-mode .entries textarea,
@@ -307,7 +327,7 @@ body.dark-mode .my_profile {
 }
 
 body.dark-mode .user_item {
-  box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 10px 14px rgba(19, 12, 12, 0.4);
   border-left: solid 4px var(--highlight);
   transition: var(--transition), box-shadow 0.3s ease, translate 0.3s ease;
 }
@@ -324,6 +344,32 @@ body.dark-mode .user_item {
   }
 }
 
+body.dark-mode .category_text {
+    background: var(--bg-button);
+    color: var(--text-color);
+    font-weight: 500;
+}
+body.dark-mode input[name="name"],
+body.dark-mode input[name="objectif"] {
+    background: var(--bg-button);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    box-shadow: none;
+}
+body.dark-mode .limit.positioned {
+    background: var(--bg-button);
+    color: var(--text-color);
+}
+body.dark-mode input[name="name"]::placeholder,
+body.dark-mode input[name="objectif"]::placeholder {
+    color: var(--text-color);
+    opacity: 1;
+}
+
+body.dark-mode #category {
+    background: var(--bg-secondary);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
 }
 
 @media only screen and (min-width: 0rem) {
@@ -380,4 +426,5 @@ body.dark-mode .user_item {
     transform: none;
     margin-bottom: 0rem;
   }
+}
 }

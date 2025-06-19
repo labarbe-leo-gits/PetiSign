@@ -6,12 +6,14 @@ include_once '../database/database.php';
 $pet_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);    
 
 if($_SERVER["REQUEST_METHOD"] != "GET"){
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit();
 }
 
 if(!$pet_id || !is_numeric($pet_id) || empty($pet_id)){
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit();
 }
 
@@ -36,13 +38,15 @@ if($is_admin != 0){
         $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        header("Location: ../discover.php");
+        //header("Location: ../discover.php");
+        echo "<script>window.location.href = '../discover.php';</script>";
         exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 } else {
-    header('Location: ../error.php?code=403');
+    //header('Location: ../error.php?code=403');
+    echo "<script>window.location.href = '../error.php?code=403';</script>";
     exit();
 
 }

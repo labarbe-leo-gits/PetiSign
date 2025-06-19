@@ -22,6 +22,7 @@ try{
 
     if($comment_length > 200) {
         echo "Comment is too long!";
+        echo "<script>window.location.href = '../view_petition.php?id=$petition_id';</script>";
         exit();
     }
 
@@ -55,7 +56,8 @@ try{
 }
 
 if(empty($comment) || !is_numeric($user_id) || !is_numeric($petition_id) || !$comment) {
-    header('Location: '. $_SERVER['HTTP_REFERER']);
+    //header('Location: '. $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '../view_petition.php?id=$petition_id?code=InvalidPetId';</script>";
     exit();
 }	
 
@@ -87,7 +89,8 @@ try{
     $ip = $_SERVER['REMOTE_ADDR'];
 
     write_logs('../logs/log.txt', 'N3WC0M', $user, $ip, 'Nouveau commentaire');
-    header('Location: ../view_petition.php?id=' . $petition_id);
+    //header('Location: ../view_petition.php?id=' . $petition_id);
+    echo "<script>window.location.href = '../view_petition.php?id=$petition_id?code=CommentSuccss';</script>";
 
 }catch(PDOException $e){
     echo "Error: " . $e->getMessage();

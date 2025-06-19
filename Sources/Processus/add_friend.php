@@ -27,12 +27,14 @@ try{
     $logged_user_id = $get_logged_user_id->fetchColumn();
 
     if($logged_user_id == $target_id){
-        header('Location: ../view_profile.php?id=' . $target_id . '&error=OwnFriend');
+        //header('Location: ../view_profile.php?id=' . $target_id . '&error=OwnFriend');
+        echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&error=OwnFriend';</script>";
         exit();
     }
 
     if(empty($target_id) || !is_numeric($target_id) || $target_id <= 0 || !$target_id) {
-        header('Location: ../view_profile.php?id=' . $target_id . '&error=InvalidID');
+        // header('Location: ../view_profile.php?id=' . $target_id . '&error=InvalidID');
+        echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&error=InvalidID';</script>";
         exit();
     }
 
@@ -43,7 +45,8 @@ try{
     $request_pending = $check_if_a_request_is_already_pending->fetchColumn();
 
     if($request_pending > 0){
-        header('Location: ../view_profile.php?id=' . $target_id . '&error=AlrPending');
+        //header('Location: ../view_profile.php?id=' . $target_id . '&error=AlrPending');
+        echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&error=AlrPending';</script>";
         exit();
     }
 
@@ -54,7 +57,8 @@ try{
     $friendship_exists = $check_if_friendship_already_exists->fetchColumn();
 
     if($friendship_exists > 0){
-        header('Location: ../view_profile.php?id=' . $target_id . '&error=AlrFriend');
+        //header('Location: ../view_profile.php?id=' . $target_id . '&error=AlrFriend');
+        echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&error=AlrFriend';</script>";
         exit();
     }
 
@@ -76,7 +80,8 @@ try{
         $insert_friendship->bindParam(':target_id', $target_id);
         $insert_friendship->execute();
 
-        header('Location: ../view_profile.php?id=' . $target_id . '&success=RequestAccepted');
+        //header('Location: ../view_profile.php?id=' . $target_id . '&success=RequestAccepted');
+        echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&success=RequestAccepted';</script>";
         exit();
     }
 
@@ -110,7 +115,8 @@ try{
         EnvoieMail($mail_sent, $target_email, $target_username, "Nouvelle demande d'ami !", "$owner_name vous a envoyé une demande d'ami !", "Vous pouvez l'accepter ou le refuser en vous rendant sur son profil.");
     }
 
-    header('Location: ../view_profile.php?id=' . $target_id . '&success=RequestSent');
+    //header('Location: ../view_profile.php?id=' . $target_id . '&success=RequestSent');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $target_id . "&success=RequestSent';</script>";
     exit();
 
 }catch(PDOException $e){

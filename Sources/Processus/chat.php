@@ -14,10 +14,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':id_discussion', $discussion_id);
     $stmt->execute();
 
-    header('Location: ../chat.php?discussion_id=' . $discussion_id);
+    //header('Location: ../chat.php?discussion_id=' . $discussion_id);
+    echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
     
 } else {
-    header('Location: '. $_SERVER['HTTP_REFERER']);
+    //header('Location: '. $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit;
 }
 

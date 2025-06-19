@@ -45,6 +45,9 @@ $user_id = $user_id_stmt->fetchColumn();
 </div>
 
 <div class="user_container">
+    <!-- <div id="no-users-message">
+        Aucun utilisateur trouvé.
+    </div> -->
 
     <?php
     $get_all_users = $pdo->prepare("SELECT username, user_daily_status, id, avatar_hat, avatar_eyes, avatar_mouth, avatar_skin, avatar_hat_color, avatar_eyes_color, avatar_mouth_color, avatar_skin_color, user_public, is_admin, is_benevole FROM USER");
@@ -132,7 +135,6 @@ $user_id = $user_id_stmt->fetchColumn();
         echo '</div>';
     }
 
-
     ?>
 
 </div>
@@ -144,18 +146,27 @@ $user_id = $user_id_stmt->fetchColumn();
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('query');
     const userContainer = document.querySelector('.user_container');
+    const noUsersMessage = document.getElementById('no-users-message');
 
     function performSearch(searchTerm) {
         const users = userContainer.querySelectorAll('.user_item');
+        let visibleUsers = 0;
         
         users.forEach(user => {
             const username = user.querySelector('.username').textContent.toLowerCase();
             if (username.includes(searchTerm)) {
                 user.style.display = '';
+                visibleUsers++;
             } else {
                 user.style.display = 'none';
             }
         });
+
+        if (visibleUsers === 0 && searchTerm !== '') {
+            noUsersMessage.style.display = 'block';
+        } else {
+            noUsersMessage.style.display = 'none';
+        }
     }
 
     if (searchInput) {

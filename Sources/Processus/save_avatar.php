@@ -23,6 +23,16 @@ $mouth_color = filter_input(INPUT_POST, 'mouth_color', FILTER_SANITIZE_NUMBER_IN
 $hat_color = filter_input(INPUT_POST, 'hat_color', FILTER_SANITIZE_NUMBER_INT);
 $skin_color = filter_input(INPUT_POST, 'skin_color', FILTER_SANITIZE_NUMBER_INT);
 
+$check_if_eyes_exist = file_exists('../../Resources/avatar/eyes/eye'. $eyes . 'c' . $eyes_color . '.png');
+$check_if_mouth_exist = file_exists('../../Resources/avatar/mouth/smile'. $mouth . 'c' . $mouth_color . '.png');
+$check_if_hat_exist = file_exists('../../Resources/avatar/hat/hat'. $hat . 'c' . $hat_color . '.png');
+$check_if_skin_exist = file_exists('../../Resources/avatar/skin/skin'. $skin . 'c' . $skin_color . '.png');
+
+if(!$check_if_eyes_exist || !$check_if_mouth_exist || !$check_if_hat_exist || !$check_if_skin_exist){
+    echo "<script>window.location.href = '../profile.php?error=avatar';</script>";
+    exit;
+}
+
 $id_stmt = $pdo->prepare('SELECT id FROM USER WHERE email = :mail');
 $id_stmt->bindParam(':mail', $_SESSION['mail']);
 $id_stmt->execute();

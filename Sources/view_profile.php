@@ -510,7 +510,7 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
             </button>
         </div>
         <form action="Processus/update_status.php" method="POST">
-            <textarea name="status" id="status" placeholder="Entrez votre nouveau statut ici..." maxlength=60 required><?php echo $user_daily_status ?></textarea>
+            <textarea name="status" id="status" placeholder="Entrez votre nouveau statut journalier ici..." maxlength=60 required><?php echo $user_daily_status ?></textarea>
             <input type="hidden" name="user_id" value="<?=$_GET['id']?>">
             <button type="submit" class="custom-button">Mettre à jour</button>
         </form>

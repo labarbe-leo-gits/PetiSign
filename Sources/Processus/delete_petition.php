@@ -4,12 +4,14 @@ include_once '../database/database.php';
 
 session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
 if(!isset($_GET['id'])){
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_petitions.php';</script>";
     exit();
 }
 
@@ -31,7 +33,8 @@ foreach ($petitions_id as $key => $value) {
 }
 
 if(!in_array($pet_id, $clean_array)){
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_petitions.php';</script>";
     exit();
 }
 
@@ -54,7 +57,8 @@ try {
     $stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_petitions.php';</script>";
     exit();
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();

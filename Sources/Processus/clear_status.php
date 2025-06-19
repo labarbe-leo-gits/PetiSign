@@ -24,9 +24,11 @@ $update_stmt->bindParam(':id', $logged_user_id, PDO::PARAM_INT);
 $update_stmt->execute();
 
 if($update_stmt->rowCount() > 0){
-    header('Location: ../view_profile.php?id=' . $logged_user_id . '&status=Updated');
+    //header('Location: ../view_profile.php?id=' . $logged_user_id . '&status=Updated');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $logged_user_id . "&status=Updated';</script>";
 } else {
-    header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=UpdateFailed');
+    //header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=UpdateFailed');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $logged_user_id . "&error=UpdateFailed';</script>";
 }
 
 ?>

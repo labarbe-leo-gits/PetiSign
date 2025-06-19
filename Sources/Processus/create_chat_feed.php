@@ -3,7 +3,8 @@ include_once '../loading.php';
 session_start();
 
 if(!isset($_SESSION['mail'])) {
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
@@ -23,7 +24,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
     $user = $verify_if_user_exist->fetchColumn();
 
     if($user != 1) {
-        header('Location: ../error.php?code=333');
+        //header('Location: ../error.php?code=333');
+        echo "<script>window.location.href = '../error.php?code=333';</script>";
         exit();
     }
 
@@ -46,7 +48,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
         $stmt->bindParam(':second_user_id', $user_to_contact_id);
         $stmt->execute();
         $discussion_id = $stmt->fetchColumn();
-        header('Location: ../chat.php?discussion_id=' . $discussion_id);
+        //header('Location: ../chat.php?discussion_id=' . $discussion_id);
+        echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
         exit();
     }
 
@@ -57,7 +60,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
     $blocked = $check_if_i_have_been_blocked->fetchColumn();
 
     if($blocked != 0) {
-        header('Location: ../error.php?code=069');
+        //header('Location: ../error.php?code=069');
+        echo "<script>window.location.href = '../error.php?code=069';</script>";
         exit();
     }
     
@@ -68,11 +72,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
 
     $discussion_id = $pdo->lastInsertId();
 
-    header('Location: ../chat.php?discussion_id=' . $discussion_id);
+    //header('Location: ../chat.php?discussion_id=' . $discussion_id);
+    echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
     exit();
 
 } else {
-    header('Location: '. $_SERVER['HTTP_REFERER']);
+    //header('Location: '. $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit();
 }
 

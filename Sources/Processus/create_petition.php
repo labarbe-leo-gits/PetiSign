@@ -7,7 +7,8 @@ include_once 'write_logs.php';
 session_start();
 
 if(!isset($_SESSION['mail'])) {
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
@@ -29,42 +30,51 @@ $petition_description = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF
 
     if ($petition_name_length > 60) {
         echo "Petition name is too long";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
 
     if ($petition_description_length > 800) {
         echo "Petition description is too long";
         echo $petition_description_length;
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
 
     if (empty($petition_name)) {
         echo "Petition name is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
     if (empty($petition_category)) {
         echo "Petition category is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
     if (empty($petition_description)) {
         echo "Petition description is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
     if (empty($petition_goal)) {
         echo "Petition goal is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
     if (empty($petition_img)) {
         echo "Petition image ID is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
     if (empty($user_id)) {
         echo "User ID is empty";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
 
     if (!$petition_name || !$petition_category || !$petition_description || !$petition_goal || !$petition_img || !$user_id) {
         echo "Invalid input detected";
+        echo "<script>window.location.href = '../create_petition.php';</script>";
         exit();
     }
 
@@ -101,14 +111,16 @@ $petition_description = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF
 
         write_logs('../logs/log.txt', 'N3WP3T', $user, $ip, 'Nouvelle pétition créée');
 
-        header('Location: ../view_petition.php?id=' . $petition_id);
+        //header('Location: ../view_petition.php?id=' . $petition_id);
+        echo "<script>window.location.href = '../view_petition.php?id=" . $petition_id . "';</script>";
         exit();
     } catch (PDOException $e) {
         echo "Database error: " . $e->getMessage();
         exit();
     }
 } else {
-    header('Location: ../create_petition.php');
+    //header('Location: ../create_petition.php');
+    echo "<script>window.location.href = '../create_petition.php';</script>";
     exit();
 }
 ?>

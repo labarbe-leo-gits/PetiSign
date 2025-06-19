@@ -50,7 +50,7 @@ if($petition_info){
         
         <div class="entries_modify">
             <div class="entries">
-                <input name="name" id="name" type="text" required placeholder=" " value="<?php echo $petition_title ?>" maxlength=60 onkeyup="count('name_counter',this,60)">
+                <input name="name" id="name" type="text" required placeholder=" " value="<?php echo nl2br(html_entity_decode($petition_title)) ?>" maxlength=60 onkeyup="count('name_counter',this,60)">
                 <label for="name">Nom de la Pétition</label>
             </div>
             <div class="limit positioned" id="name_counter" >
@@ -59,7 +59,7 @@ if($petition_info){
             <div class="space"></div>
             <div class="entries_modify">
                 <div class="area">
-                    <textarea required name="description" id="description" maxlength=800 onkeyup="count('desc_counter',this,800)"><?php echo $petition_description ?></textarea>
+                    <textarea required name="description" id="description" maxlength=800 onkeyup="count('desc_counter',this,800)"><?php echo nl2br(html_entity_decode($petition_description)) ?></textarea>
                     <label for="description" class="textarea_label">Description de la Pétition</label>
                 </div>
                 <div class="limit positioned" id="desc_counter">
