@@ -6,6 +6,7 @@ require_once '../database/database.php';
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     echo "ID de pétition manquant.";
+    echo "<script>window.location.href = '../discover.php';</script>";
     exit;
 }
 
@@ -18,6 +19,7 @@ $petition = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$petition) {
     echo "Pétition introuvable.";
+    echo "<script>window.location.href = '../discover.php';</script>";
     exit;
 }
 

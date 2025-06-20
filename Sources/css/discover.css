@@ -438,3 +438,25 @@
 .my_profile:hover::before {
     animation-duration: 1.5s;
 }
+
+#no-users-message {
+    display: none;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+    width: 30vw;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 100px;
+}
+
+@media screen and (max-width: 480px) {
+    #no-users-message {
+        width: 80vw;
+    }
+}

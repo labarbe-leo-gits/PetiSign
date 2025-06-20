@@ -3,14 +3,16 @@ include_once '../loading.php';
 include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] !== 'GET'){
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit();
 }
 
 session_start();
 
 if(!isset($_SESSION['mail'])){
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 

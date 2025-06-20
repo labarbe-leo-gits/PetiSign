@@ -66,7 +66,8 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
             
             write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 
-            header("Location: /Sources/profile.php");
+            //header("Location: /Sources/profile.php");
+            echo "<script>window.location.href = '../view_profile.php?id=" . $user_id . "';</script>";
             exit();
         }
 
@@ -81,7 +82,8 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
         $ip = $_SERVER['REMOTE_ADDR'];
 
         write_logs('../logs/log.txt', 'AUTH02', $user, $ip, 'Connexion échouée (banni)');
-        header("Location: /Sources/ban.php");
+        //header("Location: /Sources/ban.php");
+        echo "<script>window.location.href = '../ban.php';</script>";
         exit();
     }
 
@@ -123,9 +125,12 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
     
     write_logs('../logs/log.txt', 'AUTH01', $user, $ip, 'Connexion réussie');
 
-    header("Location: ../view_profile.php?id=" . $user_id);
+    //header("Location: ../view_profile.php?id=" . $user_id);
+    echo "<script>window.location.href = '../view_profile.php?id=" . $user_id . "';</script>";
 } else {
-    header('Location: ../login.php?error=WrongCreds&referer=login');
+    //header('Location: ../login.php?error=WrongCreds&referer=login');
+    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../login.php';
+    echo "<script>window.location.href = '$referer?error=WrongCreds';</script>";
     exit;
 }
 ?>

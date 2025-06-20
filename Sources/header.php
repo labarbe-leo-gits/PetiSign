@@ -26,6 +26,16 @@ if(isset($_SESSION['mail'])){
     $user_id = $fetch_user_id->fetchColumn();
 }
 
+$count_number_of_users = $pdo->prepare("SELECT COUNT(id) FROM USER");
+$count_number_of_users->execute();
+$number_of_users = $count_number_of_users->fetchColumn();
+
+if($number_of_users > 99){
+    $number_of_users = "99+";
+}else{
+    $number_of_users = $number_of_users;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +94,7 @@ if(isset($_SESSION['mail'])){
                 <div class="dropdown-menu">
                     <a href="discover.php" class="dropdown-item">Explorer les pétitions</a>
                     <hr class="dropdown-divider">
-                    <a href="user_discover.php" class="dropdown-item">PétiSigners</a>
+                    <a href="user_discover.php" title="<?php echo $number_of_users ?>" class="dropdown-item">PétiSigners</a>
                     <hr class="dropdown-divider">
                     <a href="download.php" class="dropdown-item">Obtenir l'application mobile</a>
                 </div>

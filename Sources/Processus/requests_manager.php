@@ -21,7 +21,8 @@ $desired_action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL
 $action_array = ['accept', 'decline', 'cancel', 'remove'];
     
 if(empty($desired_action) || !$desired_action || !in_array($desired_action, $action_array)){
-    header('Location: ../manage_friends.php?error=invalid_action');
+    //header('Location: ../manage_friends.php?error=invalid_action');
+    echo "<script>window.location.href = '../manage_friends.php?error=invalid_action';</script>";
     exit();
 }
 
@@ -29,13 +30,15 @@ if($desired_action == 'accept'){
 
     $requester_id = filter_input(INPUT_POST, 'requester_id', FILTER_SANITIZE_NUMBER_INT);
     if(empty($requester_id) || !$requester_id || !is_numeric($requester_id)){
-        header('Location: ../manage_friends.php?error=invalid_requester_id');
+        //header('Location: ../manage_friends.php?error=invalid_requester_id');
+        echo "<script>window.location.href = '../manage_friends.php?error=invalid_requester_id';</script>";
         exit();
     }
 
     $request_id = filter_input(INPUT_POST, 'request_id', FILTER_SANITIZE_NUMBER_INT);
     if(empty($request_id) || !$request_id || !is_numeric($request_id)){
-        header('Location: ../manage_friends.php?error=invalid_request_id');
+        //header('Location: ../manage_friends.php?error=invalid_request_id');
+        echo "<script>window.location.href = '../manage_friends.php?error=invalid_request_id';</script>";
         exit();
     }
 
@@ -69,7 +72,8 @@ if($desired_action == 'accept'){
         EnvoieMail($mail_sent, $mail_notification['email'], $mail_notification['username'], "Demande d'ami acceptée", "$initial_target a accepté votre demande d'ami !");
     }
 
-    header('Location: ../manage_friends.php?success=AcceptSuccess');
+    //header('Location: ../manage_friends.php?success=AcceptSuccess');
+    echo "<script>window.location.href = '../manage_friends.php?success=AcceptSuccess';</script>";
     exit();
 }
 
@@ -77,7 +81,8 @@ if($desired_action == 'decline'){
 
     $request_id = filter_input(INPUT_POST, 'request_id', FILTER_SANITIZE_NUMBER_INT);
     if(empty($request_id) || !$request_id || !is_numeric($request_id)){
-        header('Location: ../manage_friends.php?error=invalid_request_id');
+        //header('Location: ../manage_friends.php?error=invalid_request_id');
+        echo "<script>window.location.href = '../manage_friends.php?error=invalid_request_id';</script>";
         exit();
     }
 
@@ -85,7 +90,8 @@ if($desired_action == 'decline'){
     $update_request_status->bindParam(':id', $request_id, PDO::PARAM_INT);
     $update_request_status->execute();
 
-    header('Location: ../manage_friends.php?success=DeclineSuccess');
+    //header('Location: ../manage_friends.php?success=DeclineSuccess');
+    echo "<script>window.location.href = '../manage_friends.php?success=DeclineSuccess';</script>";
     exit();
 
 }
@@ -100,7 +106,8 @@ if($desired_action == 'remove'){
     $friend_id = filter_input(INPUT_POST, 'friend_id', FILTER_SANITIZE_NUMBER_INT);
 
     if(empty($friend_id) || !$friend_id || !is_numeric($friend_id)){
-        header('Location: ../manage_friends.php?error=invalid_friend_id');
+        //header('Location: ../manage_friends.php?error=invalid_friend_id');
+        echo "<script>window.location.href = '../manage_friends.php?error=invalid_friend_id';</script>";
         exit();
     }
 
@@ -111,7 +118,8 @@ if($desired_action == 'remove'){
     $friend_link_exists = $count_friend_link->fetchColumn();
 
     if($friend_link_exists == 0){
-        header('Location: ../manage_friends.php?error=friend_link_not_found');
+        //header('Location: ../manage_friends.php?error=friend_link_not_found');
+        echo "<script>window.location.href = '../manage_friends.php?error=friend_link_not_found';</script>";
         exit();
     }
 
@@ -120,7 +128,8 @@ if($desired_action == 'remove'){
     $delete_friend_link->bindParam(':id_friend', $friend_id, PDO::PARAM_INT);
     $delete_friend_link->execute();
 
-    header('Location: ../manage_friends.php?success=RemoveSuccess');
+    //header('Location: ../manage_friends.php?success=RemoveSuccess');
+    echo "<script>window.location.href = '../manage_friends.php?success=RemoveSuccess';</script>";
     exit();
 
 }
@@ -129,7 +138,8 @@ if($desired_action == 'cancel'){
 
     $request_id = filter_input(INPUT_POST, 'request_id', FILTER_SANITIZE_NUMBER_INT);
     if(empty($request_id) || !$request_id || !is_numeric($request_id)){
-        header('Location: ../manage_friends.php?error=invalid_request_id');
+        //header('Location: ../manage_friends.php?error=invalid_request_id');
+        echo "<script>window.location.href = '../manage_friends.php?error=invalid_request_id';</script>";
         exit();
     }
 
@@ -137,7 +147,8 @@ if($desired_action == 'cancel'){
     $update_request_status->bindParam(':id', $request_id, PDO::PARAM_INT);
     $update_request_status->execute();
 
-    header('Location: ../manage_friends.php?success=CancelSuccess');
+    //header('Location: ../manage_friends.php?success=CancelSuccess');
+    echo "<script>window.location.href = '../manage_friends.php?success=CancelSuccess';</script>";
     exit();
 
 }

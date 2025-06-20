@@ -21,7 +21,8 @@ $petition_creator->execute();
 $petition_creator = $petition_creator->fetchColumn();
 
 if($petition_creator != $user_id){
-    header("Location: my_petitions.php");
+    //header("Location: my_petitions.php");
+    echo "<script>window.location.href = 'my_petitions.php';</script>";
     exit();
 }
 
@@ -35,7 +36,8 @@ if($petition_info){
     $petition_description = $petition_info['description'];
     $petition_signature_goal = $petition_info['signature_goal'];
 } else {
-    header("Location: my_petitions.php");
+    //header("Location: my_petitions.php");
+    echo "<script>window.location.href = 'my_petitions.php';</script>";
     exit();
 }
 

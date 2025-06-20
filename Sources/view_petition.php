@@ -212,11 +212,19 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 
                 if($already_reported == 0){
                     echo '<a href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
-                    <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt="Signaler">
                     &nbsp;Signaler un abus
+                </a>';
+                echo '<a href="Processus/report.php?id='. $_GET['id'] .'&type=2" class="quick mobile_ver">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt="Signaler">
+                    
                 </a>';
                 }else{
                     echo '<p class="quick disabled">
+                    <img src="../Resources/img/ui_icons/red-flag.png" alt="">
+                    &nbsp;Signalement déjà effectué
+                </p>';
+                echo '<p class="quick disabled mobile_ver">
                     <img src="../Resources/img/ui_icons/red-flag.png" alt="">
                     &nbsp;Signalement déjà effectué
                 </p>';
@@ -230,11 +238,16 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 echo '<a href="Processus/admin_delete.php?id='.$_GET['id'].'" class="quick">
                 <img src="../Resources/img/ui_icons/trash.png" alt="">&nbsp;Supprimer la pétition (Admin)
             </a>';
+            echo '<a href="Processus/admin_delete.php?id='.$_GET['id'].'" class="quick mobile_ver">
+                <img src="../Resources/img/ui_icons/trash.png" alt="">
+            </a>';
             }
 
             
-            echo "<a class='show_qr quick qr_code_action_link' id='show_qr'><img src='../Resources/img/ui_icons/qr-code.png' alt=''></a>"
-
+            echo "<a class='show_qr quick qr_code_action_link' id='show_qr'><img src='../Resources/img/ui_icons/qr-code.png' alt=''></a>";
+            echo '<a class="quick mobile_ver" id="show_qr2" onclick="openQRPopup()">
+                <img src="../Resources/img/ui_icons/qr-code.png" alt="">
+            </a>';
             ?>
         </div>
     </div>
@@ -751,6 +764,18 @@ echo $generate_qr_script;
         link.click();
         document.body.removeChild(link);
     });
+
+    function openQRPopup() {
+        const qrOverlay = document.querySelector('.qr-overlay');
+        const qrContainer = document.getElementById('qr-container');
+        
+        qrOverlay.style.display = 'flex';
+        setTimeout(() => {
+            qrOverlay.classList.add('show');
+        }, 10);
+        
+        document.body.style.overflow = 'hidden';
+    }
 
     function closeQRPopup() {
         const qrOverlay = document.querySelector('.qr-overlay');

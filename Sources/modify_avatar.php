@@ -12,7 +12,8 @@ include_once 'database/database.php';
 include_once 'checker.php';
 
 if(!isset($_SESSION['mail'])){
-    header('Location: login.php');
+    //header('Location: login.php');
+    echo "<script>window.location.href='login.php';</script>";
     exit();
 }
 

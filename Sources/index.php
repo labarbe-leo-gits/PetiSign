@@ -56,7 +56,7 @@ write_logs('logs/log.txt', 'AC3UIL', $user, $user_ip, 'Visite de la page "Accuei
         <div class="close"><img onclick="hide_popup_trancho()" src="../Resources/img/ui_icons/plus.png" alt="Fermer la Popup"></div>
         <div class="right">
             <h1>Noter PétiSign</h1>
-            <h2>Quelle est la probabilité que vous recommendiez PétiSign à un ami ?</h2>
+            <h2>Quelle est la probabilité que vous recommandiez PétiSign à un ami ?</h2>
             <button class="selectable" id="0" value="0">0</button>
             <?php
                 for($i=1;$i<10;$i++){

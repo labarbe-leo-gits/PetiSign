@@ -3,14 +3,16 @@ include_once '../loading.php';
 include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '../view_profile.php?error=InvalidRequestMethod';</script>";
     exit();
 }
 
 session_start();
 
 if(!isset($_SESSION['mail'])){
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php?error=NotLoggedIn';</script>";
     exit();
 }
 
@@ -22,12 +24,14 @@ $logged_user_id = $logged_user_id->fetchColumn();
 $new_status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 if(empty($new_status) || !$new_status || $new_status == NULL){
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=EmptyStatus');
     exit();
 }
 
 if(strlen($new_status) > 60){
-    header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=StatTooLong');
+    //header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=StatTooLong');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $logged_user_id . "&error=StatTooLong';</script>";
     exit();
 }
 
@@ -37,9 +41,11 @@ $update_stmt->bindParam(':id', $logged_user_id, PDO::PARAM_INT);
 $update_stmt->execute();
 
 if($update_stmt->rowCount() > 0){
-    header('Location: ../view_profile.php?id=' . $logged_user_id . '&status=Updated');
+    //header('Location: ../view_profile.php?id=' . $logged_user_id . '&status=Updated');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $logged_user_id . "&status=Updated';</script>";
 } else {
-    header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=UpdateFailed');
+    //header('Location: ../view_profile.php?id=' . $logged_user_id . '&error=UpdateFailed');
+    echo "<script>window.location.href = '../view_profile.php?id=" . $logged_user_id . "&error=UpdateFailed';</script>";
 }
 
 ?>

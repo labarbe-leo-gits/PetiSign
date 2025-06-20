@@ -8,7 +8,8 @@ try{
     session_start();
 
     if (!isset($_SESSION['mail'])) {
-        header('Location: ../login.php');
+        //header('Location: ../login.php');
+        echo "<script>window.location.href = '../login.php';</script>";
         exit();
     }
 
@@ -44,6 +45,7 @@ try{
 
             if ($signature_count > 0) {
                 echo "Error: You have already signed this petition.";
+                echo "<script>setTimeout(function(){ window.location.href = '../view_petition.php?id=" . $petition_id . "'; }, 2000);</script>";
                 exit();
             }
 
@@ -54,6 +56,7 @@ try{
 
             if($check_goal >= $petition_goal) {
                 echo "Error: The petition has already reached its goal.";
+                echo "<script>setTimeout(function(){ window.location.href = '../view_petition.php?id=" . $petition_id . "'; }, 2000);</script>";
                 exit();
             }
 
@@ -135,7 +138,8 @@ try{
             write_logs('../logs/log.txt', 'N3WS1N', $user, $ip, 'Pétition signée (mobile)');
             exit();
         } else {
-            header('Location: ../view_petition.php?id=' . $petition_id);
+            //header('Location: ../view_petition.php?id=' . $petition_id);
+            echo "<script>window.location.href = '../view_petition.php?id=" . $petition_id . "';</script>";
             exit();
         }
     }
@@ -143,12 +147,14 @@ try{
         $petition_id = htmlspecialchars(filter_input(INPUT_POST, 'petition_id', FILTER_SANITIZE_NUMBER_INT));
 
         if (!isset($_POST['check'])) {
-            header('Location: ../view_petition.php?id=' . $petition_id);
+            //header('Location: ../view_petition.php?id=' . $petition_id);
+            echo "<script>window.location.href = '../view_petition.php?id=" . $petition_id . "';</script>";
             exit();
         }
 
         if (!isset($_POST['check2'])) {
-            header('Location: ../view_petition.php?id=' . $petition_id);
+            //header('Location: ../view_petition.php?id=' . $petition_id);
+            echo "<script>window.location.href = '../view_petition.php?id=" . $petition_id . "';</script>";
             exit();
         }
 
@@ -169,7 +175,9 @@ try{
         $signature_count = $signature_stmt->fetchColumn();
 
         if ($signature_count > 0) {
-            header('Location: '. $_SERVER['HTTP_REFERER']);
+            //header('Location: '. $_SERVER['HTTP_REFERER']);
+            $referer = $_SERVER['HTTP_REFERER'] ?? '../index.php';
+            echo "<script>window.location.href = '" . htmlspecialchars($referer) . "';</script>";
             exit();
         }
 
@@ -180,6 +188,7 @@ try{
 
         if($check_goal >= $petition_goal) {
             echo "Error: The petition has already reached its goal.";
+            echo "<script>setTimeout(function(){ window.location.href = '../view_petition.php?id=" . $petition_id . "'; }, 2000);</script>";
             exit();
         }
 
@@ -251,12 +260,14 @@ try{
 
         write_logs('../logs/log.txt', 'N3WS1N', $user, $ip, 'Pétition signée');
 
-        header('Location: ../view_petition.php?id=' . $petition_id);
+        //header('Location: ../view_petition.php?id=' . $petition_id);
+        echo "<script>window.location.href = '../view_petition.php?id=" . $petition_id . "';</script>";
         exit();
 
 
     } else {
-        header('Location: ../index.php');
+        //header('Location: ../index.php');
+        echo "<script>window.location.href = '../index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

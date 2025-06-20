@@ -3,7 +3,8 @@ include_once '../loading.php';
 session_start();
 
 if (!isset($_SESSION['mail'])) {
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
@@ -26,11 +27,13 @@ $target_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 if($report_type === false || $target_id === false || empty($report_type) || empty($target_id) || !$report_type || !$target_id){
     echo "Invalid input.";
+    echo "<script>window.location.href = '../index.php';</script>";
     exit();
 }
 
 if(!in_array($report_type, [1, 2, 3])) {
     echo "Invalid report type.";
+    echo "<script>window.location.href = '../index.php';</script>";
     exit();
 }
 
@@ -43,6 +46,7 @@ if($report_type == 1){
 
     if($user_exists == 0){
         echo "User does not exist.";
+        echo "<script>window.location.href = '../user_discover.php';</script>";
         exit();
     }
 
@@ -56,6 +60,7 @@ else if($report_type == 2){
 
     if($petition_exists == 0){
         echo "Petition does not exist.";
+        echo "<script>window.location.href = '../discover.php';</script>";
         exit();
     }
 
@@ -69,6 +74,7 @@ else if($report_type == 3){
 
     if($comment_exists == 0){
         echo "Comment does not exist.";
+        echo "<script>window.location.href = '../index.php';</script>";
         exit();
     }
 
@@ -85,6 +91,7 @@ $already_reported = $check_if_already_reported_stmt->fetchColumn();
 
 if($already_reported > 0){
     echo "Repot already exists.";
+    echo "<script>window.location.href = '../index.php';</script>";
     exit();
 }
 
@@ -109,7 +116,9 @@ try{
 }
 
 echo "success";
-header('Location: '. $_SERVER['HTTP_REFERER']);
+//header('Location: '. $_SERVER['HTTP_REFERER']);
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php';
+echo "<script>window.location.href = '$referer';</script>";
 exit();
 
 ?>

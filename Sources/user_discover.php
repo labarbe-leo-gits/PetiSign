@@ -45,9 +45,9 @@ $user_id = $user_id_stmt->fetchColumn();
 </div>
 
 <div class="user_container">
-    <!-- <div id="no-users-message">
+    <div id="no-users-message">
         Aucun utilisateur trouvé.
-    </div> -->
+    </div>
 
     <?php
     $get_all_users = $pdo->prepare("SELECT username, user_daily_status, id, avatar_hat, avatar_eyes, avatar_mouth, avatar_skin, avatar_hat_color, avatar_eyes_color, avatar_mouth_color, avatar_skin_color, user_public, is_admin, is_benevole FROM USER");

@@ -18,6 +18,7 @@ include_once 'checker.php';
 
 if((!is_numeric($_GET['id']) || $_GET['id'] <= 0) && $_GET['id'] != "AnonymousUsr") {
     echo "Invalid user ID.";
+    echo "<script>window.location.href='user_discover.php';</script>";
     exit;
 }
 
@@ -31,6 +32,7 @@ if ($get_username_by_id) {
 }
  else {
     echo "User not found.";
+    echo "<script>window.location.href='user_discover.php';</script>";
     exit;
 }
 

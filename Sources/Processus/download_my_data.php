@@ -7,6 +7,7 @@ require_once '../database/database.php';
 
 if (!isset($_SESSION['mail'])) {
     echo "Accès non autorisé.";
+    echo "<script>window.location.href = '../index.php';</script>";
     exit;
 }
 
@@ -19,6 +20,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     echo "Utilisateur introuvable.";
+    echo "<script>window.location.href = '../index.php';</script>";
     exit;
 }
 

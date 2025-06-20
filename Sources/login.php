@@ -12,7 +12,8 @@ if(isset($_GET['error'])){
 $error_details = $error_manager[$insertVal];
 
 if(isset($_SESSION['mail'])){
-    header('Location: profile.php');
+    //header('Location: profile.php');
+    echo "<script>window.location.href = 'profile.php';</script>";
     exit();
 }
 

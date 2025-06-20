@@ -5,12 +5,14 @@ include_once '../database/database.php';
 session_start();
 
 if(!isset($_SESSION['mail'])){
-    header('Location: login.php');
+    //header('Location: login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
 if($_SERVER['REQUEST_METHOD'] != 'POST'){
-    header('Location: ../profile.php');
+    //header('Location: ../profile.php');
+    echo "<script>window.location.href = '../profile.php';</script>";
     exit();
 }
 
@@ -25,7 +27,8 @@ $mails_notif = isset($_POST['mails_notif']) ? 1 : 0;
 $profile_status = isset($_POST['profile_status']) ? 1 : 0;
 
 if($mail == null || $mail == false || $username == null || $username == false || $gender == null || $gender == false || $description == null || $description == false || $birthdate == null || $birthdate == false){
-    header("Location: ../profile.php");
+    //header("Location: ../profile.php");
+    echo "<script>window.location.href = '../profile.php?error=InvalidInput';</script>";
     exit();
 }
 
@@ -37,7 +40,8 @@ $id = $id_stmt->fetchColumn();
 $eighteen_years_ago = date('Y-m-d', strtotime('-18 years'));
 
 if($birthdate > $eighteen_years_ago){
-    header("Location: ../profile.php?error=AgeTooYoung");
+    //header("Location: ../profile.php?error=AgeTooYoung");
+    echo "<script>window.location.href = '../profile.php?error=AgeTooYoung';</script>";
     exit();
 }
 
@@ -58,7 +62,8 @@ try {
         $_SESSION['mail'] = $mail;
     }
 
-    header("Location: ../profile.php");
+    //header("Location: ../profile.php");
+    echo "<script>window.location.href = '../profile.php';</script>";
     exit();
 } catch (PDOException $e) {
     echo $e->getMessage();

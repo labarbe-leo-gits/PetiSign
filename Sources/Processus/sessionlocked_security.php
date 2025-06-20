@@ -25,7 +25,8 @@ $ban_exists = $check_if_user_got_banned->fetchColumn();
 if($ban_exists > 0){
     if(!isset($_SESSION['ban'])){
         $_SESSION['ban'] = true;
-        header("Location: /Sources/ban.php");
+        //header("Location: /Sources/ban.php");
+        echo "<script>window.location.href = '/Sources/ban.php';</script>";
         exit();
     }
 }

@@ -5,7 +5,8 @@ include_once '../database/database.php';
 session_start();
 
 if(!isset($_SESSION['mail'])){
-    header('Location: login.php');
+    //header('Location: login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 

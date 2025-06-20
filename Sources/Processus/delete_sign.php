@@ -4,12 +4,14 @@ include_once '../database/database.php';
 
 session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
 if(!isset($_GET['id'])){
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_signatures.php';</script>";
     exit();
 }
 
@@ -31,7 +33,8 @@ foreach ($petitions_id as $key => $value) {
 }
 
 if(!in_array($pet_id, $clean_array)){
-    header('Location: ../my_signatures.php');
+    //header('Location: ../my_signatures.php');
+    echo "<script>window.location.href = '../my_signatures.php';</script>";
     exit();
 }
 
@@ -59,7 +62,8 @@ try {
     $update_pet_signature_count_stmt->bindParam(':id', $pet_id, PDO::PARAM_INT);
     $update_pet_signature_count_stmt->execute();
 
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';</script>";
     exit();
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();

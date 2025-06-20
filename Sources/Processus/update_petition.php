@@ -3,13 +3,15 @@ include_once '../loading.php';
 include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_petitions.php?code=ErrorMod';</script>";
     exit();
 }
 
 session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: ../login.php');
+    //header('Location: ../login.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit();
 }
 
@@ -37,7 +39,8 @@ foreach ($petitions_id as $key => $value) {
 }
 
 if(!in_array($pet_id, $clean_array)){
-    header('Location: ../my_petitions.php');
+    //header('Location: ../my_petitions.php');
+    echo "<script>window.location.href = '../my_petitions.php';</script>";
     exit();
 }
 
@@ -47,7 +50,8 @@ $pet_goal = filter_input(INPUT_POST, 'objectif', FILTER_SANITIZE_NUMBER_INT);
 $pet_goal = filter_var($pet_goal, FILTER_VALIDATE_INT);
 
 if(empty($pet_name) || empty($pet_desc) || empty($pet_goal) || !$pet_name || !$pet_desc || !$pet_goal){
-    header('Location: '.$_SERVER['HTTP_REFERER']);
+    //header('Location: '.$_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '".$_SERVER['HTTP_REFERER']."';</script>";
     exit();
 }
 
@@ -55,7 +59,8 @@ $pet_name_length = strlen($pet_name);
 $pet_desc_length = strlen($pet_desc);
 
 if($pet_name_length > 60 || $pet_desc_length > 800 || $pet_goal < 10){
-    header('Location: '.$_SERVER['HTTP_REFERER']);
+    //header('Location: '.$_SERVER['HTTP_REFERER']);
+    echo "<script>window.location.href = '".$_SERVER['HTTP_REFERER']."';</script>";
     exit();
 }
 
@@ -67,7 +72,8 @@ $signature_count = $signature_count_stmt->fetchColumn();
 try {
 
     if($pet_goal < $signature_count){
-        header('Location: '.$_SERVER['HTTP_REFERER']);
+        //header('Location: '.$_SERVER['HTTP_REFERER']);
+        echo "<script>window.location.href = '".$_SERVER['HTTP_REFERER']."';</script>";
         exit();
     }
 

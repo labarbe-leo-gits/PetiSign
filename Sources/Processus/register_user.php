@@ -35,17 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($captcha) {
         echo "Captcha fetched: " . htmlspecialchars($captcha['answer'], ENT_QUOTES, 'UTF-8');
     } else {
-        header('Location: ../error.php?code=808');
+        //header('Location: ../error.php?code=808');
+        echo "<script>window.location.href = '../error.php?code=808';</script>";
         exit();
     }
 
     if(empty($verif) || !is_numeric($verif)){
-        header('Location: ../register.php');
+        //header('Location: ../register.php');
+        echo "<script>window.location.href = '../register.php?error=VerifCode&referer=register';</script>";
         exit();
     }
 
     if ($verif != $original_code) {
-        header('Location: ../register.php?error=VerifCode&referer=register');
+        //header('Location: ../register.php?error=VerifCode&referer=register');
+        echo "<script>window.location.href = '../register.php?error=VerifCode&referer=register';</script>";
         exit();
     }
 
@@ -82,22 +85,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     write_logs('../logs/log.txt', 'AUTH03', $username, $ip, 'Nouveau compte utilisateur créé');
 
-                    header('Location: ../login.php');
+                    //header('Location: ../login.php');
+                    echo "<script>window.location.href = '../login.php';</script>";
                     exit();
                 } else {
-                    header('Location: ../register.php?error=UsernameExists&referer=register');
+                    //header('Location: ../register.php?error=UsernameExists&referer=register');
+                    echo "<script>window.location.href = '../register.php?error=UsernameExists&referer=register';</script>";
                     exit();
                 }
             } else {
-                header('Location: ../register.php?error=EmailExists&referer=register');
+                //header('Location: ../register.php?error=EmailExists&referer=register');
+                echo "<script>window.location.href = '../register.php?error=EmailExists&referer=register';</script>";
                 exit();
             }
         } else {
-            header('Location: ../register.php?error=PasswordMismatch&referer=register');
+            //header('Location: ../register.php?error=PasswordMismatch&referer=register');
+            echo "<script>window.location.href = '../register.php?error=PasswordMismatch&referer=register';</script>";
             exit();
         }
     } else {
-        header('Location: ../register.php?error=Captcha&referer=register');
+        //header('Location: ../register.php?error=Captcha&referer=register');
+        echo "<script>window.location.href = '../register.php?error=Captcha&referer=register';</script>";
         exit();
     }
 }

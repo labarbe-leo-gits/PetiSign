@@ -2,12 +2,14 @@
 include_once '../loading.php';
 session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: ../index.php');
+    //header('Location: ../index.php');
+    echo "<script>window.location.href = '../login.php';</script>";
     exit;
 }
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    header('Location: ../index.php');
+    //header('Location: ../index.php');
+    echo "<script>window.location.href = '../index.php';</script>";
     exit;
 }
 
@@ -51,7 +53,8 @@ try{
 
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    header('Location: ../profile.php');
+    //header('Location: ../profile.php');
+    echo "<script>window.location.href = '../profile.php';</script>";
     exit;
 }catch(Exception $e){
     echo $e->getMessage();
