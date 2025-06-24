@@ -24,6 +24,24 @@ $bday = new dateTime($_POST['anniv']);
 $date= $bday->format('Y-m-d');
 $answer = $_POST['answer'] ?? '';
 
+$usrname_len = mb_strlen($username, 'UTF-8');
+if ($usrname_len < 3 || $usrname_len > 30) {
+    //header('Location: register.php?error=UsernameLength&referer=mail_verification');
+    echo "<script>window.location.href = 'register.php?error=UsernameLength&referer=mail_verification';</script>";
+    exit();
+}
+
+$check_if_mail_already_exists = $pdo->prepare("SELECT COUNT(*) FROM USER WHERE email = :mail");
+$check_if_mail_already_exists->bindParam(':mail', $mail, PDO::PARAM_STR);
+$check_if_mail_already_exists->execute();
+$check_if_mail_already_exists = $check_if_mail_already_exists->fetch();
+
+if ($check_if_mail_already_exists > 0) {
+    //header('Location: register.php?error=MailAlreadyExists&referer=mail_verification');
+    echo "<script>window.location.href = 'register.php?error=EmailAlreadyExists&referer=mail_verification';</script>";
+    exit();
+}
+
 $filename = 'json/banned_username.json';
 if (file_exists($filename)) {
     $json = file_get_contents($filename);

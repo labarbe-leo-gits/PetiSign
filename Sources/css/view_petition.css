@@ -1490,3 +1490,7 @@ body {
     width: 20px;
     filter: invert(20%) sepia(6%) saturate(5030%) hue-rotate(150deg) brightness(91%) contrast(88%);
 }
+
+.affiche{
+    width: 100%;
+}

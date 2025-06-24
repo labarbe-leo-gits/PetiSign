@@ -6,7 +6,8 @@ html, body {
 
 body {
     background-size: cover;
-    height: 100vh;
+    height: 100%;
+    padding-bottom: 75px;
     position: relative;
 }
 
@@ -22,7 +23,8 @@ body::after {
     position: absolute;
     z-index: -1;
     width: 100vw;
-    height: 105vh;
+    height: 100%;
+    padding-bottom: 75px;
 }
 
 body::before{
@@ -146,4 +148,48 @@ input[type="number"] {
     margin: 0 auto;
     text-align: center;
     margin-top: 25px;
+}
+
+.email-status {
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: none;
+}
+.email-available {
+    color: #28a745;
+    background-color: #d4edda;
+    display: block;
+}
+.email-taken {
+    color: #dc3545;
+    background-color: #f8d7da;
+    display: block;
+}
+.email-checking {
+    color: #6c757d;
+    display: block;
+}
+
+.status-message {
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: none;
+}
+.status-available {
+    color: #28a745;
+    background-color: #d4edda;
+    display: block;
+}
+.status-taken {
+    color: #dc3545;
+    background-color: #f8d7da;
+    display: block;
+}
+.status-checking {
+    color: #6c757d;
+    display: block;
 }

@@ -19,7 +19,6 @@ if(isset($_GET['error'])){
 $error_details = $error_manager[$insertVal];
 
 if(isset($_SESSION['mail'])){
-    //header('Location: profile.php');
     echo "<script>window.location.href = 'profile.php';</script>";
     exit();
 }
@@ -50,11 +49,13 @@ if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mai
             <div class="entries">
                 <input name="mail" id="mail" type="email" required placeholder=" ">
                 <label for="mail">Adresse e-mail</label>
+                <div id="email-status" class="status-message"></div>
             </div>
             <div class="space"></div>
             <div class="entries">
-                <input name="username" id="username" type="text" required placeholder=" ">
+                <input name="username" id="username" type="text" required placeholder=" " maxlength=30>
                 <label for="username">Nom d'utilisateur</label>
+                <div id="username-status" class="status-message"></div>
             </div>
             <div class="space"></div>
             <div class="entries">
@@ -87,11 +88,13 @@ if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mai
             </div>
             <input type="hidden" name="id" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
         </div>
-        <button class="custom-button loginbtn" type="submit">S'inscrire</button>
+        <button class="custom-button loginbtn" type="submit" id="submit-btn">S'inscrire</button>
     </form>
     <hr id="loginhr2">
     <p class="smallTxt">Déjà membre ? <a href="login.php">Se connecter</a></p>
 </div>
+
+<script src="js/register_rt.js"></script>
 
 <?php
 include_once 'footer.php'

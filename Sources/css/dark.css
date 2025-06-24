@@ -131,7 +131,6 @@ body.dark-mode .category_text {
   body.dark-mode .custom-button.loginbtn,
   body.dark-mode .info-section,
   body.dark-mode .info-section li,
-  body.dark-mode #don-button,
   body.dark-mode #help-button,
   body.dark-mode .view_signature_btn{
     background-color: var(--bg-secondary);

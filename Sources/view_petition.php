@@ -722,7 +722,7 @@ if($file_exists == false){
             <button type="button"><img src="/Resources/img/ui_icons/download.png" alt="Télécharger">&nbsp;&nbsp;Télécharger le QR Code</button>
 
             <a href="Processus/download_petition.php?id=<?= $pet_id ?>" target="_blank">
-                <button type="button">
+                <button type="button" class="affiche">
                     <img src="/Resources/img/ui_icons/download.png" alt="Télécharger">
                     &nbsp;&nbsp;Télécharger l'affiche</button>
             </a>

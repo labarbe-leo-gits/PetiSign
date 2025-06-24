@@ -3,3 +3,5 @@ Sources/PHPMailer/.env
 Sources/logs
 Sources/BackOffice/Processus/key.env
 /Sources/glpi.env
+/Resources/qrcode
+/Resources/signatures

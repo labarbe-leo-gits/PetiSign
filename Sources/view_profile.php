@@ -429,7 +429,7 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
     <p class="stat_value_container second_stat"><?=$number_of_signature?> Signatures</p>
 </div>
 
-<?php if($user_id != $_GET['id']): ?>
+<?php if(($user_id != $_GET['id']) && $number_of_petitions > 0): ?>
 <div class="user_available_infos">
     <div class="petition_card">
         <div class="desc_header">

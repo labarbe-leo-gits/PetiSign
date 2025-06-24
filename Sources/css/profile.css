@@ -173,6 +173,7 @@ label {
 body.dark-mode.profile-page::after {
   opacity: 0;
 }
+
 @media screen and (max-width: 480px) {
   .avatar{
     width:100px;
