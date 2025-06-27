@@ -199,6 +199,10 @@ input:not(:placeholder-shown) + label {
         margin-top: 10%;
         padding: 12px;
     }
+
+    #description{
+        margin-bottom:-3px;
+    }
     
     h1 {
         font-size: 1.4rem;

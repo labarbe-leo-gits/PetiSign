@@ -9,5 +9,6 @@
     "EmailAlreadyExists": "Cette adresse e-mail est déjà utilisée.",
     "AgeTooYoung": "Vous devez avoir au moins 18 ans pour être sur PétiSign.",
     "AgeTooOld": "Vous devez avoir moins de 100 ans pour être sur PétiSign.",
-    "UsernameLength": "Le nom d'utilisateur doit comporter entre 3 et 30 caractères."
+    "UsernameLength": "Le nom d'utilisateur doit comporter entre 3 et 30 caractères.",
+    "AccDelSucs": "Votre compte a été supprimé avec succès."
 }

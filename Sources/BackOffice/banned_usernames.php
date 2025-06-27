@@ -36,10 +36,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $check_if_a_user_have_this_username->execute();
             $existing_user = $check_if_a_user_have_this_username->fetchColumn();
 
-            $random_seed = bin2hex(random_bytes(5));
-
             if($existing_user){
-                $rename_said_user = $pdo->prepare("UPDATE USER SET username = CONCAT(CONCAT(id, '__banned_username__'), $random_seed) WHERE id = :id");
+
+                $rename_said_user = $pdo->prepare("UPDATE USER SET username = CONCAT(id, '__banned_username__') WHERE id = :id");
                 $rename_said_user->bindParam(':id', $existing_user);
                 $rename_said_user->execute();
             }

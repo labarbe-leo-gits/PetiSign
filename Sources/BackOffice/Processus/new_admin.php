@@ -7,6 +7,8 @@ ini_set('display_startup_errors', 1);
 include_once '../../loading.php';
 include_once '../../database/database.php';
 include_once 'security.php';
+use PHPMailer\PHPMailer\PHPMailer;
+require_once '../../send_notif.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try{
@@ -33,6 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $is_admin = 1;
                 $stmt->bindParam(':is_admin', $is_admin);
                 $stmt->execute();
+
+                $mail_content = "Vos identifiants pour vous connecter à PétiSign sont les suivants :<br><br>
+                <strong>Identifiant :</strong> $username<br>
+                <strong>Mot de passe :</strong> $password<br>
+                Vous pouvez vous connecter en cliquant <a href='https://petisign.cloud/Sources/login.php'>ici</a>. Nous vous conseillons de changer votre mot de passe via votre page de profil dès que possible afin de renforcer la sécurité de votre compte.<br>
+                Cordialement,<br>L'équipe PétiSign<br><br><i>Vous recevez ce mail car les administrateurs de PétiSign ont créé un compte pour vous.</i><br>";
+
+                $mail_sent = new PHPMailer(true);
+                EnvoieMail($mail_sent, $mail, $username, "Vos identifiants PétiSign", nl2br(html_entity_decode($mail_content)));
+
 
                 header('Location: ../users.php?success=UsrCreated&referer=admin_create');
                 exit();

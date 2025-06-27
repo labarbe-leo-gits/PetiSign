@@ -6,12 +6,17 @@ include_once 'security.php';
 if($id_admin != 0){
 
     $file = filter_input(INPUT_GET, 'image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
     $file_name_without_extension = pathinfo($file, PATHINFO_FILENAME);
-
     $num = ($file_name_without_extension == 1) ? rand(2, 10) : rand(1, $file_name_without_extension - 1);
-
     $exists = file_exists("../../../Resources/img/petition_selection/" . $num . ".jpg");
+
+    $count_number_of_images_inside_the_directory = glob("../../../Resources/img/petition_selection/*.jpg");
+    $count_number_of_images_inside_the_directory = count($count_number_of_images_inside_the_directory);
+    
+    if ($count_number_of_images_inside_the_directory <= 1) {
+        header('Location: /Sources/BackOffice/database_gestion.php?code=DeleteFailed');
+        exit();
+    }
 
     while(!$exists){
         $num = ($file_name_without_extension == 1) ? rand(2, 10) : rand(1, $file_name_without_extension - 1);

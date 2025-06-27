@@ -1,11 +1,22 @@
 <?php
 
-include_once '../../loading.php';
-include_once '../../database/database.php';
-include_once 'security.php';
+session_start();
 
-if($is_admin != 0){
+include_once '../loading.php';
+include_once '../database/database.php';
+use PHPMailer\PHPMailer\PHPMailer;
+require_once '../../send_notif.php';
+
+if(!isset($_SESSION['mail'])) {
+    echo "You must be logged in to delete your account.";
+    echo "<script>window.location.href = '../login.php';</script>";
+    exit();
+}
+
+if(isset($_GET['user_action']) && $_GET['user_action'] == 'delete_account') {
+
     if (isset($_GET['id'])) {
+
         $id = intval($_GET['id']);
 
         $get_current_user_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
@@ -13,8 +24,14 @@ if($is_admin != 0){
         $get_current_user_id->execute();
         $current_user_id = $get_current_user_id->fetchColumn();
 
-        if ($current_user_id == $id) {
-            echo "cannot delete your own account";
+        $filtered_username_stmt = $pdo->prepare("SELECT username FROM USER WHERE id = :id");
+        $filtered_username_stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $filtered_username_stmt->execute();
+        $filtered_username = $filtered_username_stmt->fetchColumn();
+
+        if($current_user_id != $id) {
+            echo "You can only delete your own account.";
+            echo "<script>window.location.href = '../profile.php';</script>";
             exit();
         }
 
@@ -152,7 +169,26 @@ if($is_admin != 0){
 
             $pdo->commit();
 
-            header("Location: ../users.php?success=DeleteUserSuccess&referer=admin");
+            $mail_content = "
+            Conformément à votre demande, votre compte PétiSign a été supprimé.
+            <br>
+            Si vous avez changé d'avis, vous pouvez toujours créer un nouveau compte.
+            <br>
+            Nous vous remercions pour votre participation et espérons vous revoir bientôt.
+            <br>
+            Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter à l'adresse suivante :
+            <a href='https://petisign.cloud/Sources/ticket.php'>https://petisign.cloud/Sources/ticket.php</a>
+            <br>
+            Cordialement,
+            <br>
+            L'équipe PétiSign";
+
+            $mail_sent = new PHPMailer(true);
+            EnvoieMail($mail_sent, $_SESSION['mail'], $filtered_username, 'Confirmation de suppression', nl2br(html_entity_decode($mail_content)));
+
+            echo "Account deleted successfully.";
+            session_destroy();
+            header("Location: ../register.php?error=AccDelSucs&refere=delete_account");
             exit();
         } catch (PDOException $e) {
             $pdo->rollBack();

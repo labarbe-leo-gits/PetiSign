@@ -133,8 +133,22 @@ function createTicket($data, $requester_id, $session_token) {
         'App-Token: ' . $app_token,
         'Session-Token: ' . $session_token
     ];
+
+    $title_len = mb_strlen($data['title']);
+    if ($title_len > 60) {
+        error_log("Titre trop long: $title_len caractères (max 60)");
+        setLastAPIError(400, '', "Le titre du ticket ne doit pas dépasser 60 caractères.");
+        return false;
+    }
+
+    $description_len = mb_strlen($data['description']);
+    if ($description_len > 600) {
+        error_log("Description trop longue: $description_len caractères (max 600)");
+        setLastAPIError(400, '', "La description du ticket ne doit pas dépasser 600 caractères.");
+        return false;
+    }
     
-    $formatted_content = "Demandeur : " . $data['name'] . "\n";
+    $formatted_content = "Demandeur : " . $data['name'] . " " . $data['firstname'] . "\n";
     $formatted_content .= "Mail : " . $data['email'] . "\n\n";
     $formatted_content .= "Contenu du message : \n" . $data['description'];
     

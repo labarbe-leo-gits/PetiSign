@@ -1,0 +1,98 @@
+.success{
+        display: none;
+        background-color: green;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+        width : 50vw;
+        border-radius: 10px;
+        margin: 20px auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        margin-bottom: -60px;
+    }
+    .success p {
+        color: white;
+    }
+    body{
+        overflow: auto;
+    }
+    .category-select select {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+    #category {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+    #urgency {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+    #title{
+        border-bottom-left-radius: 0;
+    }
+    button[type="submit"] {
+        background-color: #1A414E;
+        color: white;
+        border: none;
+        padding: 18px 80px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        width: auto;
+        padding-right: calc(80px + 30px);
+        padding-left: calc(80px + 30px);
+        align-items: center;
+    }
+    button[type="submit"]:hover {
+        background-color: #173642;
+    }
+
+#login_form{
+        width: 50%;
+    }
+    .textarea_label{
+        margin-top: 580px;
+    }
+    body::after{
+        height:155vh;
+    }
+
+@media (max-width: 480px) {
+    #login_form {
+        width: 80%;
+    }
+    button[type="submit"] {
+        width: 100%;
+        padding: 15px;
+    }
+    label{
+        top:13px;
+    }
+    .textarea_label{
+        margin-top:440px;
+    }
+}

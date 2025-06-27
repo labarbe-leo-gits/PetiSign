@@ -25,7 +25,7 @@ if ($is_admin != 0) {
         $mail_object = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
 
         $mail_sent = new PHPMailer(true);
-        EnvoieMail($mail_sent, $filtered_mail, $filtered_username, $mail_object, $mail_content);
+        EnvoieMail($mail_sent, $filtered_mail, $filtered_username, $mail_object, nl2br(html_entity_decode($mail_content)));
 
         echo "<script>alert('Le mail a bien été envoyé !');</script>";
         header("Location: ../users.php");

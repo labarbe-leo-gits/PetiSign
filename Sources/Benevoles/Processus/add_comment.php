@@ -20,7 +20,7 @@ try{
     $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
     $activity_id = filter_input(INPUT_POST, 'activity_id', FILTER_SANITIZE_NUMBER_INT);
-    $comment_length = strlen($comment);
+    $comment_length = mb_strlen($comment);
     if($comment_length > 200) {
         header('Location: ../view_activity.php?id=' . $activity_id . '&error=comment_too_long');
         exit();

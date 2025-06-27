@@ -22,6 +22,7 @@ $logged_user_id->execute();
 $logged_user_id = $logged_user_id->fetchColumn();
 
 $new_status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$new_status = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $new_status);
 
 if(empty($new_status) || !$new_status || $new_status == NULL){
     //header('Location: ' . $_SERVER['HTTP_REFERER']);

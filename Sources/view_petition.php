@@ -211,7 +211,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
             if($get_user_id != $pet_author_id){
 
                 if($already_reported == 0){
-                    echo '<a href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
+                    echo '<a onclick="return confirmSignalement();" href="Processus/report.php?id='.$_GET['id'].'&type=2" class="quick">
                     <img src="../Resources/img/ui_icons/red-flag.png" alt="Signaler">
                     &nbsp;Signaler un abus
                 </a>';
@@ -413,7 +413,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
 
                     if($comment['id_user'] != $get_user_id){
                         echo '
-                    <a href="Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
+                    <a onclick="return confirmSignalement();" href="Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
                     <img src="../Resources/img/ui_icons/red-flag.png" alt=""></a>';
                     }
 
@@ -440,7 +440,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
                 <h1>Signer "<?=$pet_name?>"</h1>
                 <p class="slogan">Signer, c'est changer le monde</p>
                 <hr>
-                <p>En cliquant sur signer, j'affirme avoir pris conscience des conditions d'utilisation de PétiSign.</p>
+                <p>En cliquant sur signer, j'affirme avoir pris conscience des <a href="cgu.php" target="_blank">conditions d'utilisation de PétiSign</a>.</p>
                 <p>De plus, vos données personelles seront utilisées à des fins de statistiques pour PétiSign et ses filliales.</p>
                 <input type="checkbox" name="check" id="check" required>
                 <label for="check">J'accepte les conditions d'utilisation de PétiSign</label><br>
@@ -530,7 +530,7 @@ $is_banned = $check_if_creator_is_banned_stmt->fetchColumn();
         
         <div class="signature-terms">
             <input type="checkbox" id="mobileCheck1" required>
-            <label for="mobileCheck1">J'accepte les conditions d'utilisation de PétiSign</label><br>
+            <label for="mobileCheck1">J'accepte les <a href="cgu.php">conditions d'utilisation de PétiSign</a></label><br>
             <input type="checkbox" id="mobileCheck2" required>
             <label for="mobileCheck2">J'affirme avoir lu le contenu de la pétition</label>
         </div>
@@ -787,6 +787,13 @@ echo $generate_qr_script;
             document.body.style.overflow = '';
         }, 300);
     }
+</script>
+
+<script>
+    function confirmSignalement() {
+        return confirm("Êtes-vous sûr de vouloir signaler ce contenu ? Tout signalement abusif sera sanctionné.");
+    }
+
 </script>
 
 <?php

@@ -35,12 +35,12 @@ if($is_benevole !=0){
             $delete_inscription->bindParam(':id_activity', $filtered_activity_id, PDO::PARAM_INT);
             $delete_inscription->execute();
 
-            echo "<script>alert('Désinscription réussie !');</script>";
+            //echo "<script>alert('Désinscription réussie !');</script>";
             header("Location: ../view_activity.php?id=$filtered_activity_id");
             exit();
 
         } else {
-            echo "<script>alert('Vous n\'êtes pas inscrit à cette activité !');</script>";
+            //echo "<script>alert('Vous n\'êtes pas inscrit à cette activité !');</script>";
             header("Location: ../view_activity.php?id=$filtered_activity_id");
             exit();
         }

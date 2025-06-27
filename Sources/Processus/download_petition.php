@@ -38,29 +38,32 @@ function AddPetitionContent() {
     $this->SetFillColor(255, 217, 142); 
     $this->Rect(0, 0, 210, 297, 'F');
 
-    $headerY = 0;
-    $headerH = 120; 
-    $imageDisplayed = false;
+$headerW = 210;
+$headerH = 120; 
+$bgPath = '../../Resources/img/petition_selection/' . $this->petition_data['image_id'] . '.jpg';
 
-    $bgPath = '../../Resources/img/petition_selection/' . $this->petition_data['image_id'] . '.jpg';
-    if (!empty($this->petition_data['image_id']) && file_exists($bgPath)) {
-        $headerW = 210;
-        $headerH = 120;
-        list($imgW, $imgH) = getimagesize($bgPath);
-        $imgWmm = $imgW * 0.264583;
-        $imgHmm = $imgH * 0.264583;
-        $ratio = max($headerW / $imgWmm, $headerH / $imgHmm);
-        $w = $imgWmm * $ratio;
-        $h = $imgHmm * $ratio;
-        $x = ($headerW - $w) / 2;
-        $y = ($headerH - $h) / 2;
-        $this->Image($bgPath, $x, $y, $w, $h);
-        $headerH = $h + $y;
-        $imageDisplayed = true;
-    } else {
-        $this->SetFillColor(200, 200, 200);
-        $this->Rect(0, 0, 210, $headerH, 'F');
+if (!empty($this->petition_data['image_id']) && file_exists($bgPath)) {
+    list($imgW, $imgH) = getimagesize($bgPath);
+    $imgWmm = $imgW * 0.264583;
+    $imgHmm = $imgH * 0.264583;
+   
+    $ratio = $headerW / $imgWmm;
+    $w = $headerW;
+    $h = $imgHmm * $ratio;
+
+    
+    $displayH = min($h, $headerH);
+    $this->Image($bgPath, 0, 0, $w, $h);
+
+    
+    if ($h > $headerH) {
+        $this->SetFillColor(255, 217, 142);
+        $this->Rect(0, $headerH, 210, 297 - $headerH, 'F');
     }
+} else {
+    $this->SetFillColor(200, 200, 200);
+    $this->Rect(0, 0, $headerW, $headerH, 'F');
+}
 
     $this->SetFillColor(255, 255, 255);
     $this->Rect(13, 0, 32, 42, 'F');
@@ -78,7 +81,13 @@ function AddPetitionContent() {
     $this->SetFont('Arial', 'B', 35);
     $this->SetTextColor(255, 255, 255);
     $this->SetX(15);
-    $this->MultiCell(180, 14, utf8_decode(strtoupper($this->petition_data['title'])), 0, 'L');
+    $this->MultiCell(
+    180,
+    14,
+    utf8_decode(mb_strtoupper($this->petition_data['title'], 'UTF-8')),
+    0,
+    'L'
+);
 
 
     $afterTitleY = $this->GetY();

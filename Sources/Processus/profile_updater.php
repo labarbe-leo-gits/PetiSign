@@ -46,6 +46,60 @@ if($birthdate > $eighteen_years_ago){
 }
 
 try {
+
+    $username_lower = mb_strtolower($username, 'UTF-8');
+
+    $filename = '../json/banned_username.json';
+    if (file_exists($filename)) {
+        $json = file_get_contents($filename);
+        $data = json_decode($json, true);
+    } else {
+        echo "File not found.";
+        exit;
+    }
+
+    if (isset($data['banned_usernames'])) {
+        $banned_usernames = $data['banned_usernames'];
+        $lower_all_banned_usernames = array_map('mb_strtolower', $banned_usernames);
+        if (in_array($username_lower, $lower_all_banned_usernames)) {
+            //header('Location: register.php?error=BannedUsername&referer=mail_verification');
+            echo "<script>window.location.href = '../profile.php?error=BannedUsername';</script>";
+            exit;
+        }    
+
+        foreach ($lower_all_banned_usernames as $banned_username) {
+            if (str_contains($username_lower, $banned_username)) {
+                //header('Location: register.php?error=BannedUsername&referer=mail_verification');
+                echo "<script>window.location.href = '../profile.php?error=BannedUsername';</script>";
+                exit;
+            }
+        }
+    }
+
+    $check_if_username_exists = $pdo->prepare("SELECT id FROM USER WHERE username = :username AND id != :id");
+    $check_if_username_exists->bindParam(':username', $username);
+    $check_if_username_exists->bindParam(':id', $id);
+    $check_if_username_exists->execute();
+    $existing_user = $check_if_username_exists->fetchColumn();
+
+    if($existing_user){
+        //header("Location: ../profile.php?error=UsernameExists");
+        echo "<script>window.location.href = '../profile.php?error=UsrAlreadyExists';</script>";
+        exit();
+    }
+
+    $check_if_email_exists = $pdo->prepare("SELECT id FROM USER WHERE email = :mail AND id != :id");
+    $check_if_email_exists->bindParam(':mail', $mail);
+    $check_if_email_exists->bindParam(':id', $id);
+    $check_if_email_exists->execute();
+    $existing_email = $check_if_email_exists->fetchColumn();
+
+    if($existing_email){
+        //header("Location: ../profile.php?error=EmailExists");
+        echo "<script>window.location.href = '../profile.php?error=EmailAlreadyExists';</script>";
+        exit();
+    }
+
     $stmt = $pdo->prepare("UPDATE USER SET email = :mail, description = :description, gender = :gender, birthdate = :bday, username = :username, newsletter = :news, mail_notification = :mails_notif, user_public = :pb_usr WHERE id = :id");
     $stmt->bindParam(':mail', $mail);
     $stmt->bindParam(':description', $description);

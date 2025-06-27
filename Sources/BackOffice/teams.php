@@ -42,7 +42,7 @@ include_once '../checker.php';
                     echo "<a href='' class='void'>&nbsp;</a>";
                     echo "<a href='../Benevoles/team.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/link.png' alt='Go'></a>";
                     echo "<a href='' class='void'>&nbsp;</a>";
-                    echo "<a href='Processus/delete_team.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                    echo "<a onclick='return AskConfirmation();' href='Processus/delete_team.php?id=" . htmlspecialchars($team['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -61,6 +61,12 @@ include_once '../checker.php';
     </div>
 </div>
 </div>
+
+<script>
+    function AskConfirmation() {
+        return confirm("Êtes-vous sûr de vouloir supprimer cette équipe ? Cette action est irréversible.");
+    }
+</script>
 
 <?php
 include_once 'footer.php';

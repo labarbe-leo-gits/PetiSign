@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarHeader = document.createElement('div');
     sidebarHeader.className = 'sidebar-header';
     sidebarHeader.textContent = 'Conversations';
+    sidebarHeader.addEventListener('click', function() {
+        window.location.href = 'chat.php';
+    });
+    sidebarHeader.style.cursor = 'pointer';
     sidebar.insertBefore(sidebarHeader, sidebar.firstChild);
     
     toggleBtn.addEventListener('click', function() {
@@ -236,6 +240,7 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
                     <img src="../Resources/avatar/mouth/smile'. $avatar_mouth .'c'. $avatar_mouth_color .'.png" class="mouth" alt="Mouth" id="mouth">
                 </div>
                 <p class="name"><a class="link" href="chat.php?discussion_id='. $discussion['id'] .'">'. $chat_username .'</a></p>
+                <a class="chat_delete" href="Processus/delete_discussion.php?id='. $discussion['id'] .'"><img src="../Resources/img/ui_icons/trash.png" alt="Supprimer la discussion"></a>
             </div>
             ';
         }
@@ -320,6 +325,29 @@ $all_user_discussions = $get_all_user_discussions->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<?php
-include_once 'footer.php';
-?>
+<script src="js/theme.js"></script>
+<script>
+    <?php if(isset($_SESSION['mail'])): ?>
+        let inactivityTime = 600;
+        let timeoutId;
+
+        function resetTimer() {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(logoutUser, inactivityTime * 1000);
+        }
+
+        function logoutUser() {
+            window.location.href = 'logout.php';
+        }
+
+        document.addEventListener('mousemove', resetTimer);
+        document.addEventListener('mousedown', resetTimer);
+        document.addEventListener('keypress', resetTimer);
+        document.addEventListener('touchmove', resetTimer);
+        document.addEventListener('scroll', resetTimer);
+
+        resetTimer();
+    <?php endif ?>
+</script>
+</body>
+</html>

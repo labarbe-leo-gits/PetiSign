@@ -152,7 +152,7 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
                     echo "<a href='' class='void'>&nbsp;</a>";
 
                     if($current_admin_id != $user['id']) {
-                        echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
+                        echo "<a href='Processus/delete_user.php?id=" . htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') . "' class='action' onclick='return ConfirmDelete()'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>";
                         echo "<a href='' class='void'>&nbsp;</a>";
                     }
 
@@ -216,6 +216,12 @@ if(isset($_GET['success']) && isset($_GET['referer'])){
     </div>
 </div>
 </div>
+
+<script>
+    function ConfirmDelete() {
+        return confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.");
+    }
+</script>
 
 <script src="/Sources/js/real_time.js"></script>
 <script src="/Sources/js/message_hider.js"></script>

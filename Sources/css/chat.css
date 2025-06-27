@@ -135,7 +135,7 @@ body {
 .chat_access {
     background-color: white;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr 0.5fr;
     padding: 10px;
     align-items: center;
     border-bottom: 1px solid #ccc;
@@ -391,7 +391,7 @@ input:not(:placeholder-shown) + label {
     }
     
     .col-md-12 > hr {
-        margin: 8px 15px;
+        margin: 0 auto;
     }
 
     #chat-messages {
@@ -432,7 +432,7 @@ input:not(:placeholder-shown) + label {
         background-color: white;
         padding: 8px 0;
         box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        z-index: 99;
+        z-index: 1001;
     }
     
     #message {
@@ -463,7 +463,7 @@ input:not(:placeholder-shown) + label {
     }
 
     .chat_access {
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 60px 1fr 0.3fr;
         padding: 12px 8px;
         transition: background-color 0.2s ease;
     }
@@ -764,12 +764,14 @@ input:not(:placeholder-shown) + label {
         border-radius: 8px;
         height: 50px;
         font-size: 16px;
+        margin-top: -5px;
     }
 
-    .chat_access {
-        grid-template-columns: 80px 1fr;
-        padding: 18px 15px;
-        transition: background-color 0.2s ease;
+    .chat_access{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: 1px solid #ccc;
     }
     
     .chat_access:hover {
@@ -894,4 +896,66 @@ input:not(:placeholder-shown) + label {
     filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(155deg) brightness(106%) contrast(101%);
 }
 
+.chat_delete{
+    background-color: #dc3545;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease , transform 0.3s ease;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border: none;
+    padding: 5px;
+}
 
+.chat_delete:hover {
+    background-color: #c82333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.chat_delete > img {
+    width: 20px;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(155deg) brightness(106%) contrast(101%);
+}
+
+body{
+    overflow: hidden;
+}
+
+body::after {
+    content: "";
+    background: #ffffff;
+    background-size: cover;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+    height: 100%;
+    padding-bottom: 75px;
+}
+
+body::before{
+    content: "";
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.sidebar{
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 480px) {
+    
+    body{
+        overflow: auto;
+    }
+    
+}

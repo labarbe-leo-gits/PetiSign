@@ -24,14 +24,20 @@
 
 .members{
     display: flex;
-    margin:0 auto;
+    flex-wrap: wrap;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
-    gap:10px;
+    gap: 10px;
 }
 
 .members > a{
     margin:0 0;
+}
+
+.team_header > h1{
+    text-align: center;
+    margin-top: 20px;
 }
 
 .mobile_ver{
@@ -303,6 +309,10 @@ address{
     .container{
         flex-direction: column;
     }
+
+    .right_panel >  .captcha_form{
+        width: 80%;
+    }
     
     .smaller_container {
         flex-direction: column;
@@ -329,3 +339,148 @@ address{
 body::after{
     background:none;
 }
+
+.team_header.warning{
+    background-color: #E0BD78;
+    margin: 0 auto;
+    height: 50px;
+    width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    margin-top: 20px;
+}
+
+.team_header.warning > p{
+    margin: 0 auto;
+}
+
+.void_text{
+    font-size: 5px;
+}
+
+.maps-link{
+    display: block;
+    width: 50%;
+}
+
+.signer-item{
+    cursor: pointer;
+}
+
+.see-parts{
+    cursor:pointer;
+}
+
+.signer-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.signer-actions > a{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e12d36;
+    transition: background-color 0.3s ease;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right : 10px;
+}
+
+.signer-info{
+    vertical-align: middle;
+}
+
+.signer-actions > a:hover{
+    background-color: #bd262d;
+    transition: background-color 0.3s ease;
+}
+
+.signer-actions > a > img{
+    width: 15px;
+    height: 15px;
+    filter: invert(93%) sepia(100%) saturate(0%) hue-rotate(300deg) brightness(107%) contrast(106%);
+}
+
+.right_panel > .captcha_form > .login > .entries > .entries_modify > .area > .txt_bis{
+    margin-top: 194px;
+}
+
+.maps-link{
+    cursor: pointer;
+}
+
+.calends-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.calends-popup-overlay.show {
+    opacity: 1;
+}
+
+.calends-popup {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.1);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.calends-popup-overlay.show .calends-popup {
+    transform: scale(1);
+}
+
+.calendar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-btn {
+    background-color: #E0BD78;
+    color: inherit;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    text-align: center;
+}
+
+.calendar-btn:hover {
+    background-color: #b69960;
+}
+
+.calendar-btn > a{
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

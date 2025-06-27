@@ -63,6 +63,12 @@
     cursor: pointer;
 }
 
+@media screen and (max-width: 480px) {
+    .category-select > select {
+        width: 80%;
+    }
+}
+
 .card {
     opacity: 1;
     transform: translateY(0);

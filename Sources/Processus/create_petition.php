@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $petition_description_length = mb_strlen($petition_description_unfiltered);
 
     $petition_name = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $petition_name_unfiltered);
-$petition_description = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $petition_description_unfiltered);
+    $petition_description = preg_replace('/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F1E0}-\x{1F1FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F900}-\x{1F9FF}]|[\x{1F000}-\x{1F02F}]|[\x{1F0A0}-\x{1F0FF}]|[\x{E000}-\x{F8FF}]|[\x{FE00}-\x{FE0F}]|[\x{1F200}-\x{1F2FF}]/u', '', $petition_description_unfiltered);
 
     if ($petition_name_length > 60) {
         echo "Petition name is too long";

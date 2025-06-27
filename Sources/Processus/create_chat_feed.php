@@ -72,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) &
 
     $discussion_id = $pdo->lastInsertId();
 
-    //header('Location: ../chat.php?discussion_id=' . $discussion_id);
+    header('Location: ../chat.php?discussion_id=' . $discussion_id);
     echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
     exit();
 

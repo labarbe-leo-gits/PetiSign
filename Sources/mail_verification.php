@@ -36,7 +36,9 @@ $check_if_mail_already_exists->bindParam(':mail', $mail, PDO::PARAM_STR);
 $check_if_mail_already_exists->execute();
 $check_if_mail_already_exists = $check_if_mail_already_exists->fetch();
 
-if ($check_if_mail_already_exists > 0) {
+//echo "<script>alert('Check if mail already exists: " . htmlspecialchars($check_if_mail_already_exists[0], ENT_QUOTES, 'UTF-8') . "');</script>";
+
+if ($check_if_mail_already_exists[0] > 0) {
     //header('Location: register.php?error=MailAlreadyExists&referer=mail_verification');
     echo "<script>window.location.href = 'register.php?error=EmailAlreadyExists&referer=mail_verification';</script>";
     exit();

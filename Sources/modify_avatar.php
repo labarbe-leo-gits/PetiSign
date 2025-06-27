@@ -176,7 +176,7 @@ try{
 
         </form>
 
-        <form action="Processus/save_avatar.php" method="post">
+        <form class="avatar-form" action="Processus/save_avatar.php" method="post">
             <input type="hidden" name="hat" value="<?php echo $hat_id; ?>">
             <input type="hidden" name="eyes" value="<?php echo $eyes_id; ?>">
             <input type="hidden" name="mouth" value="<?php echo $mouth_id; ?>">

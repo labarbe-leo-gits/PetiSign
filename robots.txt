@@ -32,6 +32,7 @@ Allow: /Sources/discover.php$
 Allow: /Sources/login.php$
 Allow: /Sources/register.php$
 Allow: /Sources/download.php$
+Allow: /Sources/cgu.php$
 
 # Crawl delay to be respectful
 Crawl-delay: 1

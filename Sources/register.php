@@ -30,7 +30,7 @@ if(isset($_SESSION['mail'])){
 
 <?php
 
-if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mail_verification' || $_GET['referer'] == 'register') && $_GET['error'] != '' && $_GET['referer'] != ''){
+if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'mail_verification' || $_GET['referer'] == 'delete_account' || $_GET['referer'] == 'register') && $_GET['error'] != '' && $_GET['referer'] != ''){
     echo '
     <div class="error">
         <div class="error_message">

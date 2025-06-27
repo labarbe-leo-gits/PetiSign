@@ -1,12 +1,20 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include_once 'header.php';
 include_once '../database/database.php';
 include_once 'security.php';
+include_once 'calendar.php';
+
+$check_if_activity_exists = $pdo->prepare("SELECT COUNT(*) FROM TEAM_ACTIVITY WHERE id = :id");
+$check_if_activity_exists->bindParam(':id', $_GET['id']);
+$check_if_activity_exists->execute();
+$activity_exists = $check_if_activity_exists->fetchColumn();
+
+if($activity_exists == 0){
+    //header('Location: /Sources/Benevoles/teams.php');
+    echo "<script>window.location.href = '/Sources/Benevoles/';</script>";
+    exit();
+}
 
 $get_activity_name = $pdo->prepare("SELECT name FROM TEAM_ACTIVITY WHERE id = :id");
 $get_activity_name->bindParam(':id', $_GET['id']);
@@ -40,9 +48,23 @@ $activity_owner_id = $activity_owner->fetchColumn();
 <link rel="stylesheet" href="../css/view_petition.css">
 <link rel="stylesheet" href="../css/benevoles_team.css">
 
+<?php
+
+if($activity_event_date <= $today){
+    echo "
+    
+    <div class='team_header warning'>
+       <p>Cette activité est passée ou a lieu aujourd'hui, l'inscription est donc impossible.</p>
+    </div>
+    
+    ";
+}
+
+?>
+
 <div class="team_header">
     <h1><?=$activity_name?></h1>
-    <p><?=$team?></p>
+    <p><?= nl2br(html_entity_decode($team))?></p>
     <hr class="line_header">
     <div class="btn_container">
     
@@ -73,22 +95,34 @@ $activity_owner_id = $activity_owner->fetchColumn();
             $already_subscribed = $check_if_already_subscribed->fetchColumn();
 
             echo '<div class="void">&nbsp;</div>';
+            echo "<a href='team.php?id=$team_id' class='quick mobile_ver'><img src='/Resources/img/ui_icons/back.png' alt='leader' class='btn_img'></a>";
 
-            if($activity_event_date > $today){
-                if($already_subscribed == 0) {
-                echo '<a href="Processus/inscription_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;S\'inscrire</a>';
-            } else {
-                echo '<a href="Processus/unsubscribe_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Se désinscrire</a>';
+            if($get_user_id == $activity_owner_id){
+                echo '<a class="quick disabled_action" title="Vous êtes l\'organisateur de cette activité."><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Inscription Impossible</a>';
             }
-            } else {
-                echo '<a class="quick disabled_action" title="L\'activité est passée ou a lieu aujourd\'hui."><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Inscription Impossible</a>';
+            else{
+                if($activity_event_date > $today){
+                    if($already_subscribed == 0) {
+                    echo '<a href="Processus/inscription_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img">&nbsp;&nbsp;S\'inscrire</a>';
+                    echo '<a href="Processus/inscription_activity.php?id='.$_GET['id'].'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/plus.png" alt="leader" class="btn_img"></a>';
+                } else {
+                    echo '<a href="Processus/unsubscribe_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Se désinscrire</a>';
+                    echo '<a href="Processus/unsubscribe_activity.php?id='.$_GET['id'].'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img"></a>';
+                }
+                } else {
+                    echo '<a class="quick disabled_action" title="L\'activité est passée ou a lieu aujourd\'hui."><img src="/Resources/img/ui_icons/ban.png" alt="leader" class="btn_img">&nbsp;&nbsp;Inscription Impossible</a>';
+                }
             }
 
         }
 
         if($get_user_id == $activity_owner_id || $is_admin == 1){
             echo '<div class="void">&nbsp;</div>';
+            echo '<a href="modify_activity_form.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/crayon.png" alt="leader" class="btn_img">&nbsp;&nbsp;Modifier</a>';
+            echo '<a href="modify_activity_form.php?id='.$_GET['id'].'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/crayon.png" alt="leader" class="btn_img"></a>';
+            echo '<div class="void">&nbsp;</div>';
             echo '<a href="Processus/delete_activity.php?id='.$_GET['id'].'" class="quick"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img">&nbsp;&nbsp;Supprimer</a>';
+            echo '<a href="Processus/delete_activity.php?id='.$_GET['id'].'" class="quick mobile_ver"><img src="/Resources/img/ui_icons/trash.png" alt="leader" class="btn_img"></a>';
         }
 
         $utilisateur_inscrit = $pdo->prepare("SELECT COUNT(*) FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id AND id_user = :user_id");
@@ -150,6 +184,10 @@ $activity_owner_id = $activity_owner->fetchColumn();
 
         if ($activity_date != null) {
             echo "<p class='date'>Date de l'activité : $formatted_date</p>";
+            echo "<a class='maps-link' onclick='showCalendarPopup()'>
+            <img src='/Resources/img/ui_icons/calendar.png' alt='calendar'>
+            Ajouter au calendrier
+          </a>";
         } else {
             echo '<div class="msg">
                     <img src="/Resources/img/ui_icons/empty.png"  alt="empty">
@@ -172,6 +210,12 @@ $activity_owner_id = $activity_owner->fetchColumn();
             echo "<hr class='line left_line'>";
             echo "<p class='max_participants'>$current_participants_count / $max_participants participants autorisés</p>";
             if($current_participants_count > 0){
+                echo "<a onclick='showSignaturePopup()' class='maps-link see-parts'>
+<img src='/Resources/img/ui_icons/eye.png' alt='participants'>
+Voir les participants
+</a>";
+          
+          echo "<p class='void_text'>&nbsp;</p>";
                 echo "<a href='Processus/download_list.php?id=". $_GET['id'] ."' target='_blank' class='maps-link'>
             <img src='/Resources/img/ui_icons/download.png' alt='map'>
             Télécharger la liste
@@ -290,12 +334,12 @@ $activity_owner_id = $activity_owner->fetchColumn();
                     $check_if_user_already_reported_this_comment->execute();
                     $already_reported = $check_if_user_already_reported_this_comment->fetchColumn();
 
-                    if($already_reported == 0){
+                    if($already_reported == 0 && ($comment['id_user'] != $get_user_id || $is_admin == 1)){
 
                         echo '
-                        <a href="/Sources/Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
+                        <a onclick="return confirmSignalement();" href="/Sources/Processus/report.php?id='.$comment['id'].'&type=3" class="quick2">
                         <img src="/Resources/img/ui_icons/red-flag.png" alt=""></a>';
-                    }else{
+                    }else if($already_reported > 0 && ($comment['id_user'] != $get_user_id || $is_admin == 1)) {
                         echo '
                         <a class="quick2 disabled_action">
                         <img src="/Resources/img/ui_icons/red-flag.png" alt=""></a>';
@@ -312,4 +356,164 @@ $activity_owner_id = $activity_owner->fetchColumn();
     </div>
 </div>
 
+<div class="signers-popup-overlay" id="signersPopupOverlay">
+    <div class="signers-popup" onclick="event.stopPropagation()">
+        <div class="signers-popup-header">
+            <h2 class="pop_title">Participants</h2>
+            <button class="close-popup" onclick="hideSignersPopup()" title="Fermer">
+                <img src="/Resources/img/ui_icons/plus.png" alt="Fermer">
+            </button>
+        </div>
+        <hr  class="line_header">
+        <div class="signers-list">
+            <?php
+            $participants_stmt = $pdo->prepare('
+                SELECT username, id FROM USER WHERE id IN (
+                    SELECT id_user FROM ACTIVITY_INSCRIPTION WHERE id_activity = :id
+                ) ORDER BY username
+            ');
+            $participants_stmt->bindParam(':id', $_GET['id']);
+            $participants_stmt->execute();
+            $participants = $participants_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($participants as $participant) {
+                echo '<div class="signer-item" onclick="window.location.href=\'/Sources/view_profile.php?id='.$participant['id'].'\'">
+                        <div class="signer_username">
+                            <img src="/Resources/img/ui_icons/unlogged_user.png" alt="">
+                        </div>
+                        <div class="signer-info" onclick="window.location.href=\'/Sources/view_profile.php?id='.$participant['id'].'\'">
+                            <a href="/Sources/view_profile.php?id='.$participant['id'].'" class="signer-name">'.$participant['username'].'</a>
+                        </div>
+                ';
+
+                if($is_admin == 1 || $participant['id'] == $get_user_id ||  $activity_owner_id == $get_user_id){
+                    echo '<div class="signer-actions">
+                            <a href="Processus/delete_participant.php?id='.$participant['id'].'&activity_id='.$_GET['id'].'" class="remove-participant" title="Retirer le participant">
+                                <img src="/Resources/img/ui_icons/cross.png" alt="Retirer">
+                            </a>
+                          </div>';
+                }
+
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+<script>
+function showSignaturePopup() {
+    const overlay = document.getElementById('signersPopupOverlay');
+    if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.offsetHeight;
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideSignersPopup() {
+    const overlay = document.getElementById('signersPopupOverlay');
+    if (overlay) {
+        overlay.classList.remove('show');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 300);
+    }
+}
+</script>
+
+<?php
+
+$event_date_y_m_d_format = date('Y-m-d', strtotime($activity_event_date));
+
+$eventTitle = $activity_name;
+$eventDescription = $team;
+$eventStart = $event_date_y_m_d_format;
+$eventEnd = $event_date_y_m_d_format;
+
+if($activity_location['city'] != null && $activity_location['postal_code'] != null && $activity_location['rue'] != null && $activity_location['num'] != null) {
+    $eventLocation = $activity_location['num'] . ' ' . html_entity_decode($activity_location['rue']) . ', ' . $activity_location['postal_code'] . ' ' . $activity_location['city'] . ', France';
+} else {
+    $eventLocation = '';
+}
+
+$event = new CalendarEvent($eventTitle, $eventDescription, $eventStart, $eventEnd, $eventLocation, true);
+
+?>
+
+<div class="calends-popup-overlay" id="calendsPopupOverlay">
+    <div class="calends-popup" onclick="event.stopPropagation()">
+        <div class="signers-popup-header">
+            <h2 class="pop_title">Ajouter au calendrier</h2>
+            <button class="close-popup" onclick="hideCalendarPopup()" title="Fermer">
+                <img src="/Resources/img/ui_icons/plus.png" alt="Fermer">
+            </button>
+        </div>
+        <hr  class="line_header">
+        <div class="signers-list">
+            
+            <div class="calendar-buttons">
+                <a href="?action=download&title=<?php echo $eventTitle; ?>&description=<?php echo urlencode(nl2br(html_entity_decode($eventDescription))); ?>&start=<?php echo $eventStart; ?>&end=<?php echo $eventEnd; ?>&location=<?php echo urlencode($eventLocation); ?>" 
+                class="calendar-btn ics-btn">
+                    Télécharger le fichier ICS
+                </a>
+                
+                <a href="<?php echo $event->getGoogleCalendarUrl(); ?>" 
+                target="_blank" 
+                class="calendar-btn google-btn">
+                    Google
+                </a>
+                
+                <a href="<?php echo $event->getOutlookUrl(); ?>" 
+                target="_blank" 
+                class="calendar-btn outlook-btn">
+                    Outlook
+                </a>
+                
+                <a href="<?php echo $event->getYahooUrl(); ?>" 
+                target="_blank" 
+                class="calendar-btn yahoo-btn">
+                    Yahoo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showCalendarPopup() {
+    const overlay = document.getElementById('calendsPopupOverlay');
+    if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.offsetHeight;
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+    function hideCalendarPopup() {
+        const overlay = document.getElementById('calendsPopupOverlay');
+        if (overlay) {
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    }
+</script>
+
+<script>
+    function confirmSignalement() {
+        return confirm("Êtes-vous sûr de vouloir signaler ce contenu ? Tout signalement abusif sera sanctionné.");
+    }
+
+</script>
+
 <script src="../js/count_characters.js"></script>
+
+<?php
+include_once 'footer.php';
+?>

@@ -297,7 +297,7 @@ $pending_requests_count = $count_pending_requests->fetchColumn();
                 if($already_reported <= 0){
                     echo "
                     <div class='report'>
-                        <a href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
+                        <a onclick='return confirmSignalement();' href='Processus/report.php?id=". $_GET['id'] ."&type=1' class='report_btn' id='report'><img src='/Resources/img/ui_icons/red-flag.png' alt=''></a>
                     </div>
                     ";
                     echo "
@@ -502,6 +502,15 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
 <?php if($user_id == $_GET['id']): ?>
 
 <button type="button" class="custom-button loginbtn logout_desk" onclick="window.location.href='logout.php';">Déconnexion</button>
+<button type="button" class="custom-button loginbtn logout_desk" onclick="AskConfirm();">Supprimer mon compte</button>
+
+<script>
+    AskConfirm = () => {
+        if(confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+            window.location.href = "Processus/delete_account.php?user_action=delete_account&id=<?=$_GET['id']?>";
+        }
+    }
+</script>
 
 <div class="status_update_popup" id="statusUpdatePopup" onclick="closeStatusPopup()">
     <div class="popup_content" onclick="event.stopPropagation()">
@@ -532,6 +541,14 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
         toggle.classList.toggle('active');
     }
 </script>
+
+<script>
+    function confirmSignalement() {
+        return confirm("Êtes-vous sûr de vouloir signaler cet utilisateur ? Tout signalement abusif sera sanctionné.");
+    }
+
+</script>
+
 <?php
 include_once 'footer.php'
 ?>

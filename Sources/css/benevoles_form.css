@@ -22,7 +22,7 @@ body::after {
     position: absolute;
     z-index: -1;
     width: 100vw;
-    height: 105vh;
+    height: 165vh;
 }
 
 body::before{
@@ -32,7 +32,7 @@ body::before{
 }
 
 .login_form {
-    width: 30%;
+    width: 50%;
     margin: 50px auto;
     padding: 20px;
     border-radius: 10px;
@@ -146,4 +146,15 @@ input[type="number"] {
     margin: 0 auto;
     text-align: center;
     margin-top: 25px;
+}
+
+.textarea_label{
+    margin-top: 98px;
+}
+
+@media screen and (max-width: 480px) {
+    .textarea_label {
+        margin-top:75px;
+    }
+    
 }

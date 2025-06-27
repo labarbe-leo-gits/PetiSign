@@ -187,6 +187,11 @@ hr {
     display: block;
 }
 
+.content p,
+.content .description {
+    line-height: 1.2;
+}
+
 .action_btn > img {
     width: 15px;
     filter: invert(19%) sepia(25%) saturate(1249%) hue-rotate(149deg) brightness(92%) contrast(87%);
