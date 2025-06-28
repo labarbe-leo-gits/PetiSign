@@ -13,7 +13,11 @@ $error_details = $error_manager[$insertVal];
 
 if(isset($_SESSION['mail'])){
     //header('Location: profile.php');
-    echo "<script>window.location.href = 'profile.php';</script>";
+    $get_id_from_email = $pdo->prepare("SELECT id FROM USER WHERE email = :email");
+    $get_id_from_email->bindParam(':email', $_SESSION['mail']);
+    $get_id_from_email->execute();
+    $user_id = $get_id_from_email->fetchColumn();
+    echo "<script>window.location.href = 'view_profile.php?id=". $user_id ."';</script>";
     exit();
 }
 
@@ -24,7 +28,7 @@ if(isset($_SESSION['mail'])){
 
 <?php
 
-if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'login') && $_GET['error'] != '' && $_GET['referer'] != ''){
+if(isset($_GET['error'])){
     echo '
     <div class="error">
         <div class="error_message">
@@ -53,7 +57,7 @@ if(isset($_GET['error']) && isset($_GET['referer']) && ($_GET['referer'] == 'log
         <button class="custom-button loginbtn" type="submit">Se Connecter</button>
     </form>
     <hr id="loginhr2">
-    <p class="smallTxt">Pas encore membre ? <a href="register.php">S'inscrire</a></p>
+    <p class="smallTxt">Pas encore membre ? <a href="register.php">S'inscrire</a> &#x25CF; <a href="reset.php">Mot de passe oublié ?</a></p>
 </div>
 
 <?php

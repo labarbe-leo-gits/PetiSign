@@ -24,7 +24,7 @@ if(!isset($_SESSION['mail'])){
 <div class="login_form" id="login_form">
     <h1 id="loginhigh" class="highlighted-text">Changement de mot de passe</h1>
     <hr id="loginhr">
-    <form method="post" class="login" action="Processus/change_pswd.php"> <!-- à changer action -->
+    <form method="post" class="login" action="Processus/change_pswd.php">
         <div class="entries">
             <div class="entries">
                 <input name="old" id="old" type="password" required placeholder=" ">

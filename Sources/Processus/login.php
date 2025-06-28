@@ -130,7 +130,7 @@ if ($hashedPassword && password_verify($password, $hashedPassword)) {
 } else {
     //header('Location: ../login.php?error=WrongCreds&referer=login');
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../login.php';
-    echo "<script>window.location.href = '$referer?error=WrongCreds';</script>";
+    echo "<script>window.location.href = '../login.php?error=WrongCreds';</script>";
     exit;
 }
 ?>
