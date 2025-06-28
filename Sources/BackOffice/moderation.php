@@ -149,11 +149,11 @@ $admin_key = $env['CrontabKey'] ?? null;
                         echo "<a href='/Sources/". $go_to_target_link ."' class='action' target='blank_'><img src='../../Resources/img/ui_icons/eye.png' alt='Modify'></a>";
                         echo "<a href='' class='void'>&nbsp;</a>";
                     }
-                    echo "<a href='Processus/delete_report.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>"; 
+                    echo "<a onclick='return AskConfirmDel();' href='Processus/delete_report.php?id=" . htmlspecialchars($new['id'], ENT_QUOTES, 'UTF-8') . "' class='action'><img src='../../Resources/img/ui_icons/trash.png' alt='Delete'></a>"; 
                     
                     if($new['current_status'] == 'OPEN' && ($target != "Cible supprimée") && ($is_banned <= 0)){
                         echo "<a href='' class='void'>&nbsp;</a>";
-                        echo "<a href='" . $action_link . "' class='action' title='". $target_title ."'><img src='../../Resources/img/ui_icons/targets.png' alt='Delete'></a>";  
+                        echo "<a onclick='return AskConfirmAction();' href='" . $action_link . "' class='action' title='". $target_title ."'><img src='../../Resources/img/ui_icons/targets.png' alt='Delete'></a>";  
                     }
                     echo "</td>";
                     echo "</tr>";
@@ -174,5 +174,13 @@ $admin_key = $env['CrontabKey'] ?? null;
 </div>
 </div>
 
+<script>
+    function AskConfirmDel() {
+        return confirm("Êtes-vous sûr de vouloir supprimer ce signalemnet ?");
+    }
+    function AskConfirmAction() {
+        return confirm("Êtes-vous sûr de vouloir effectuer cette action ?");
+    }
+</script>
 
 <?php include_once "footer.php"; ?>

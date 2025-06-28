@@ -1,4 +1,9 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 include_once '../loading.php';
 session_start();
 
@@ -12,69 +17,77 @@ include_once '../database/database.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' || (isset($_GET['create_direct_feed']) && isset($_GET['target_user_id']))) {
 
-    $user_to_contact_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+    try {    
+        
+        $user_to_contact_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+        
+        if(isset($_GET['target_user_id'])) {
+            $user_to_contact_id = filter_input(INPUT_GET, 'target_user_id', FILTER_SANITIZE_NUMBER_INT);
+        }
+        
+        $verify_if_user_exist = $pdo->prepare("SELECT COUNT(*) FROM USER WHERE id = :user_id");
+        $verify_if_user_exist->bindParam(':user_id', $user_to_contact_id);
+        $verify_if_user_exist->execute();
+        $user = $verify_if_user_exist->fetchColumn();
 
-    if(isset($_GET['target_user_id'])) {
-        $user_to_contact_id = filter_input(INPUT_GET, 'target_user_id', FILTER_SANITIZE_NUMBER_INT);
-    }
-    
-    $verify_if_user_exist = $pdo->prepare("SELECT COUNT(*) FROM USER WHERE id = :user_id");
-    $verify_if_user_exist->bindParam(':user_id', $user_to_contact_id);
-    $verify_if_user_exist->execute();
-    $user = $verify_if_user_exist->fetchColumn();
+        if($user != 1) {
+            //header('Location: ../error.php?code=333');
+            echo "<script>window.location.href = '../error.php?code=333';</script>";
+            exit();
+        }
 
-    if($user != 1) {
-        //header('Location: ../error.php?code=333');
-        echo "<script>window.location.href = '../error.php?code=333';</script>";
-        exit();
-    }
+        $current_user_mail = $_SESSION['mail'];
+        $mail_to_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
+        $mail_to_id->bindParam(':mail', $current_user_mail);
+        $mail_to_id->execute();
+        $user_id = $mail_to_id->fetchColumn();
 
-    $current_user_mail = $_SESSION['mail'];
-    $mail_to_id = $pdo->prepare("SELECT id FROM USER WHERE email = :mail");
-    $mail_to_id->bindParam(':mail', $current_user_mail);
-    $mail_to_id->execute();
-    $user_id = $mail_to_id->fetchColumn();
-
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM DISCUSSION WHERE (id_user = :user_id AND id_second_user = :second_user_id) OR (id_user = :second_user_id AND id_second_user = :user_id)");
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':second_user_id', $user_to_contact_id);
-    $stmt->execute();
-    $discussion_exists = $stmt->fetchColumn();
-
-    if($discussion_exists != 0) {
-
-        $stmt = $pdo->prepare("SELECT id FROM DISCUSSION WHERE (id_user = :user_id AND id_second_user = :second_user_id) OR (id_user = :second_user_id AND id_second_user = :user_id)");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM DISCUSSION WHERE (id_user = :user_id AND id_second_user = :second_user_id) OR (id_user = :second_user_id AND id_second_user = :user_id)");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':second_user_id', $user_to_contact_id);
         $stmt->execute();
-        $discussion_id = $stmt->fetchColumn();
+        $discussion_exists = $stmt->fetchColumn();
+
+        if($discussion_exists != 0) {
+
+            $stmt = $pdo->prepare("SELECT id FROM DISCUSSION WHERE (id_user = :user_id AND id_second_user = :second_user_id) OR (id_user = :second_user_id AND id_second_user = :user_id)");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':second_user_id', $user_to_contact_id);
+            $stmt->execute();
+            $discussion_id = $stmt->fetchColumn();
+            //header('Location: ../chat.php?discussion_id=' . $discussion_id);
+            echo "<script>window.location.href = '../chat.php?discussion_id=" . $discussion_id . "'</script>";
+            exit();
+        }
+
+        $check_if_i_have_been_blocked = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :user_id AND id_blocked_user = :second_user_id");
+        $check_if_i_have_been_blocked->bindParam(':user_id', $user_to_contact_id);
+        $check_if_i_have_been_blocked->bindParam(':second_user_id', $user_id);
+        $check_if_i_have_been_blocked->execute();
+        $blocked = $check_if_i_have_been_blocked->fetchColumn();
+
+        if($blocked != 0) {
+            //header('Location: ../error.php?code=069');
+            echo "<script>window.location.href = '../error.php?code=069';</script>";
+            exit();
+        }
+        
+        $insertion = $pdo->prepare("INSERT INTO DISCUSSION (id_user, id_second_user) VALUES (:user_id, :second_user_id)");
+        $insertion->bindParam(':user_id', $user_id);
+        $insertion->bindParam(':second_user_id', $user_to_contact_id);
+        $insertion->execute();
+
+        $discussion_id = $pdo->lastInsertId();
+
         //header('Location: ../chat.php?discussion_id=' . $discussion_id);
         echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
         exit();
-    }
-
-    $check_if_i_have_been_blocked = $pdo->prepare("SELECT COUNT(*) FROM BLOCKED_USER WHERE id_user = :user_id AND id_blocked_user = :second_user_id");
-    $check_if_i_have_been_blocked->bindParam(':user_id', $user_to_contact_id);
-    $check_if_i_have_been_blocked->bindParam(':second_user_id', $user_id);
-    $check_if_i_have_been_blocked->execute();
-    $blocked = $check_if_i_have_been_blocked->fetchColumn();
-
-    if($blocked != 0) {
-        //header('Location: ../error.php?code=069');
-        echo "<script>window.location.href = '../error.php?code=069';</script>";
+    
+    } catch (PDOException $e) {
+        //header('Location: ../error.php?code=500');
+        echo "Error: " . $e->getMessage();
         exit();
     }
-    
-    $insertion = $pdo->prepare("INSERT INTO DISCUSSION (id_user, id_second_user) VALUES (:user_id, :second_user_id)");
-    $insertion->bindParam(':user_id', $user_id);
-    $insertion->bindParam(':second_user_id', $user_to_contact_id);
-    $insertion->execute();
-
-    $discussion_id = $pdo->lastInsertId();
-
-    header('Location: ../chat.php?discussion_id=' . $discussion_id);
-    echo "<script>window.location.href = '../chat.php?discussion_id=' . $discussion_id;</script>";
-    exit();
 
 } else {
     //header('Location: '. $_SERVER['HTTP_REFERER']);

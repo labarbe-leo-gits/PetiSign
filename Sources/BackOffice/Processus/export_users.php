@@ -13,7 +13,7 @@ if ($is_admin != 0) {
     $user_stmt->execute();
     $user = $user_stmt->fetchColumn();
 
-    $date = date("d/m/Y à H:i") . ' UTC ';
+    $date = mb_convert_encoding(date("d/m/Y à H:i"), 'ISO-8859-1', 'UTF-8') . ' UTC ';
 
     $query = "
         SELECT 
@@ -96,10 +96,10 @@ if ($is_admin != 0) {
 
         $pdf->SetFillColor(...($fill ? $row_odd : $row_even));
         $pdf->Cell($col_widths[0], 10, $u['id'], 1, 0, 'C', true);
-        $pdf->Cell($col_widths[1], 10, $u['nom'], 1, 0, 'L', true);
-        $pdf->Cell($col_widths[2], 10, $u['email'], 1, 0, 'L', true);
-        $pdf->Cell($col_widths[3], 10, $role, 1, 0, 'C', true);
-        $pdf->Cell($col_widths[4], 10, $u['bloque'], 1, 0, 'C', true);
+        $pdf->Cell($col_widths[1], 10, mb_convert_encoding($u['nom'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+        $pdf->Cell($col_widths[2], 10, mb_convert_encoding($u['email'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+        $pdf->Cell($col_widths[3], 10, mb_convert_encoding($role, 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
+        $pdf->Cell($col_widths[4], 10, mb_convert_encoding($u['bloque'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
         $pdf->Cell($col_widths[5], 10, $u['nb_petitions'], 1, 0, 'C', true);
         $pdf->Cell($col_widths[6], 10, $u['nb_signatures'], 1, 1, 'C', true);
         $fill = !$fill;

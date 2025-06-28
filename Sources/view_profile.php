@@ -425,7 +425,7 @@ if($user_daily_status && $user_daily_status != "" && $user_daily_status != NULL)
             <hr class="profile_hr" id="second">
         </div>
         <div class="stat_container">
-    <p class="stat_value_container"><?=$number_of_petitions?> Pétitions crées</p>
+    <p class="stat_value_container"><?=$number_of_petitions?> Pétitions créées</p>
     <p class="stat_value_container second_stat"><?=$number_of_signature?> Signatures</p>
 </div>
 

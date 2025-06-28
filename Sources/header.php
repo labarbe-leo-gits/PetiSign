@@ -54,7 +54,6 @@ if($number_of_users > 99){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
     
-    <meta name="description" content="Créez un compte ou connectez-vous à PétiSign. Changez le monde de demain.">
     <meta name="keywords" content="pétition, petition online, plateforme pétition, PétiSign, causes, mobilisation">
     <link rel="canonical" href="https://www.petisign.cloud">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
